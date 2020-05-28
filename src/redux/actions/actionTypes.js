@@ -1,0 +1,35 @@
+export const CREATE_OVERDUB = "CREATE_OVERDUB";
+export const LOAD_OVERDUBS_SUCCESS = "LOAD_OVERDUBS_SUCCESS";
+export const LOAD_USERS_SUCCESS = "LOAD_USERS_SUCCESS";
+export const UPDATE_OVERDUB_SUCCESS = "UPDATE_OVERDUB_SUCCESS";
+export const CREATE_OVERDUB_SUCCESS = "CREATE_OVERDUB_SUCCESS";
+export const NUDGE_OVERDUB = "NUDGE_OVERDUB"
+export const SET_OVERDUB_BUFFERS = "SET_OVERDUB_BUFFERS"
+
+export const BEGIN_API_CALL = "BEGIN_API_CALL";
+export const API_CALL_ERROR = "API_CALL_ERROR";
+
+// By convention, actions that end in "_SUCCESS" are assumed to have been the result of a completed
+// API call. But since we're doing an optimistic delete, we're hiding loading state.
+// So this action name deliberately omits the "_SUCCESS" suffix.
+// If it had one, our apiCallsInProgress counter would be decremented below zero
+// because we're not incrementing the number of apiCallInProgress when the delete request begins.
+export const DELETE_OVERDUB_OPTIMISTIC = "DELETE_OVERDUB_OPTIMISTIC";
+
+export const SET_VIDEO_SYNC = "SET_VIDEO_SYNC";
+export const ADD_SYNC_CHILDREN = "ADD_SYNC_CHILDREN";
+export const OFFSET_SCORE = "OFFSET_SCORE";
+
+export const SET_OVERDUB_BLOB = "SET_OVERDUB_BLOB";
+export const NUDGE_NEW_OVERDUB = "NUDGE_NEW_OVERDUB";
+export const SET_NEW_OVERDUB_BUFFER = "SET_NEW_OVERDUB_BUFFER";
+
+export const PROCESS_OVERDUBS_COMPLETE = "PROCESS_OVERDUBS_COMPLETE"
+export const PROCESS_NEW_OVERDUB_COMPLETE = "PROCESS_NEW_OVERDUB_COMPLETE"
+export const PROCESS_BACKINGTRACK_COMPLETE = "PROCESS_BACKINGTRACK_COMPLETE"
+export const PROCESS_OVERDUBS = "PROCESS_OVERDUBS"
+export const PROCESS_BACKINGTRACK = "PROCESS_BACKINGTRACK"
+export const PROCESS_NEW_OVERDUB = "PROCESS_NEW_OVERDUB"
+
+export const ALL_MEDIA_PLAYING = "ALL_MEDIA_PLAYING"
+export const RECORD_OVERDUB = "RECORD_OVERDUB"
