@@ -8,8 +8,7 @@
     "start:server": "node server/index.js",
     "clean:build": "rimraf ./build && mkdir build",
     "prebuild": "run-p clean:build",
-    "build": "webpack --config webpack.config.prod.js",
-    "postbuild": "run-p start:server"
+    "build": "webpack --config webpack.config.prod.js"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
