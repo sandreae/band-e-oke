@@ -1,5 +1,5 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = process.env.API_URL + "/overdubs/";
+const baseUrl = process.env.API_URL + "overdubs/";
 
 export function getOverdubs() {
   return fetch(baseUrl)

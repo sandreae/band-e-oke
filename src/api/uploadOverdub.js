@@ -1,10 +1,11 @@
 import axios from 'axios'
+const baseUrl = process.env.API_URL
 
 export default function uploadOverdub(file, nudge) {
   let fileName = new Date()
   let fileType = 'webm'
   // dispatch is uploading
-  axios.post(process.env.API_URL + '/sign_s3',{
+  axios.post(baseUrl + 'sign_s3',{
     fileName : fileName,
     fileType : fileType
   })
@@ -23,7 +24,7 @@ export default function uploadOverdub(file, nudge) {
           // dispatch upload success => this.setState({success: true})
           const postData = async () => {
             try {
-              const response = await axios.post(process.env.API_URL + '/overdubs', {
+              const response = await axios.post(baseUrl + 'overdubs', {
                 url: url,
                 nudge: nudge,
               })

@@ -34,10 +34,11 @@ app.post('/overdubs', db.createOverdub)
 app.put('/overdubs/:id', db.updateOverdub)
 app.delete('/overdubs/:id', db.deleteOverdub)
 
+
 if (isProduction) {
-  app.use(express.static(path.join(__dirname, 'build')))
-  app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build/index.html'))
+  app.use(express.static(path.join(__dirname, '../build')))
+  app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '../build/index.html'))
   })
 }
 
