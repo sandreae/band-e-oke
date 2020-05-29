@@ -117,6 +117,8 @@ class Bandeoke extends React.Component {
           <div className='flex'>
             {this.renderMediaRecorder()}
             <OverdubVideo />
+          </div>
+          <div>
             {this.renderVideoGrid()}
           </div>
           <div>
