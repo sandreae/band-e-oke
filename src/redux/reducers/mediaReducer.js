@@ -29,6 +29,10 @@ export default function mediaReducer(state = initialState.media, action) {
       return Object.assign({}, state, {
          scoreOffset: action.scoreOffset
       })
+    case types.SCORE_STATUS:
+      return Object.assign({}, state, {
+         scoreStatus: action.scoreStatus
+      })
     default:
       return state;
   }

@@ -16,6 +16,7 @@ class OpenSheetMusicDisplay extends Component {
     }
 
     setupOsmd() {
+      this.props.actions.scoreLoading('loading')
       const options = {
         autoResize: false,
         renderSingleHorizontalStaffline: true,
@@ -25,8 +26,8 @@ class OpenSheetMusicDisplay extends Component {
       }
       this.osmd = new OSMD(this.divRef.current, options);
       this.osmd.load(this.props.file).then(() => {
-        toast.success("Score loaded!");
         this.osmd.render()
+        this.props.actions.scoreLoading('ready')
       });
     }
 
@@ -96,7 +97,8 @@ class OpenSheetMusicDisplay extends Component {
   function mapDispatchToProps(dispatch) {
     return {
       actions: {
-        offsetScore: bindActionCreators(mediaActions.offsetScore, dispatch)
+        offsetScore: bindActionCreators(mediaActions.offsetScore, dispatch),
+        scoreLoading: bindActionCreators(mediaActions.scoreLoading, dispatch)
       }
     }
   }
