@@ -1,7 +1,11 @@
 // File holds all of the item action creators
 import * as types from "./actionTypes";
 import * as audioActions from "./audioActions";
-import uploadOverdub from "../../api/uploadOverdub";
+import * as overdubActions from "./overdubActions";
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
+import axios from 'axios'
+import { toast } from "react-toastify";
+const baseUrl = process.env.API_URL
 
 export function setOverdubBlob(url) {
   return { type: types.SET_OVERDUB_BLOB, url };
@@ -14,6 +18,47 @@ export function nudgeNewOverdub(overdub) {
 export function setOverdubBuffer(overdub) {
   return { type: types.SET_NEW_OVERDUB_BUFFER, overdub };
 }
+
+export function uploadOverdub(file, nudge) {
+  return dispatch => {
+    let fileName = new Date()
+    let fileType = 'webm'
+    // dispatch is uploading
+    return axios.post(baseUrl + 'sign_s3',{
+        fileName : fileName,
+        fileType : fileType
+      })
+      .then(response => {
+        var returnData = response.data.data.returnData
+        var signedRequest = returnData.signedRequest
+        var url = returnData.url
+        // dispatch set overdub url
+        var options = {
+          headers: {
+            'Content-Type': fileType
+          }
+        }
+        axios.put(signedRequest,file,options)
+        .then(result => {
+          const postData = async () => {
+            try {
+              const response = await axios.post(baseUrl + 'overdubs', {
+                url: url,
+                nudge: nudge,
+              })
+              dispatch(uploadSuccess())
+            } catch (error) {
+              dispatch(hideLoading())
+            }
+          }
+          postData()
+        })
+      })
+      .catch(error => {
+        dispatch(uploadFailed(error))
+      })
+    }
+  }
 
 async function processAudio(audioContext, file) {
   const response = await fetch(file)
@@ -39,9 +84,27 @@ export function processNewOverdub(audioContext, overdub) {
 }
 
 export function upload(overdub){
-  return function(){
+  return function(dispatch){
+    toast.success("Overdub uploading....");
+    dispatch(showLoading())
     fetchBlob(overdub.url).then((blob) => {
-      uploadOverdub(blob, overdub.nudge)
+      dispatch(uploadOverdub(blob, overdub.nudge))
     })
+  }
+}
+
+export function uploadSuccess() {
+  return function(dispatch) {
+    toast.success("Overdub uploaded.");
+    dispatch(hideLoading())
+    dispatch(setOverdubBlob(undefined))
+    dispatch(overdubActions.loadOverdubs())
+  }
+}
+
+export function uploadFailed(error) {
+  return function(dispatch) {
+    toast.error("Uploading failed. " + error.message, { autoClose: false });
+    dispatch(hideLoading())
   }
 }
