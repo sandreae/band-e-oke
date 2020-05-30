@@ -3,9 +3,15 @@ import { Route, Switch } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 // eslint-disable-next-line import/no-named-as-default
 import Bandeoke from "./bandeoke/Bandeoke";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, cssTransition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+
+const Simple = cssTransition({
+  enter: 'enter',
+  exit: 'exit',
+  collapse: false,
+});
 
 function App() {
   return (
@@ -14,7 +20,7 @@ function App() {
         <Route path="/" component={Bandeoke} />
         <Route component={PageNotFound} />
       </Switch>
-      <ToastContainer autoClose={3000} hideProgressBar />
+      <ToastContainer transition={Simple} hideProgressBar />
     </div>
   );
 }

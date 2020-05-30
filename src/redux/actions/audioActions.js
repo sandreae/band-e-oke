@@ -1,4 +1,6 @@
 import * as types from "./actionTypes";
+import { toast } from "react-toastify";
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 export function processOverdubsComplete(result) {
   return { type: types.PROCESS_OVERDUBS_COMPLETE, result };
@@ -33,10 +35,13 @@ async function processAudio(audioContext, file) {
 
 export function processBackingTrack(audioContext, backingTrack) {
   return function(dispatch) {
+    dispatch(showLoading())
     dispatch(processingBackingTrack())
     const audio = processAudio(audioContext, backingTrack)
       .then((audio) => {
         dispatch(processBackingTrackComplete())
+        toast.success("Backing track audio ready. ");
+        dispatch(hideLoading())
         return audio
       }
     )

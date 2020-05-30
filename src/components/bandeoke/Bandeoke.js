@@ -15,6 +15,7 @@ import Score from "./Score";
 import track from '../../../public/Possession-full.mp3'
 import score from '../../../public/Possession-Flute.musicxml'
 import ReactMediaRecorder from "./MediaRecorder";
+import LoadingBar from 'react-redux-loading-bar'
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const syncRef = React.createRef()
@@ -110,6 +111,7 @@ class Bandeoke extends React.Component {
   render() {
     return (
       <div width='100%'>
+      <LoadingBar />
         <div className="flex-column" width='1200px'>
           <div>
             {this.renderBackingTrack()}

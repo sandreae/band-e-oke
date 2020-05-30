@@ -137,6 +137,7 @@ class ReactMediaRecorder extends React.Component {
       );
       return stream;
     } catch (error) {
+      console.log(error)
       this.setState({ status: errors[error.name] });
     }
   };

@@ -44,11 +44,11 @@ class VideoGrid extends React.Component {
   }
 
   handleDeleteOverdub = async overdub => {
-    toast.success("Overdub Deleted.");
+    toast.success("Overdub Deleted");
     try {
       this.props.actions.deleteOverdub(overdub);
     } catch (error) {
-      toast.error("Delete Failed. " + error.message, { autoClose: false });
+      toast.error("Delete Failed " + error.message, { autoClose: false });
     }
   };
 

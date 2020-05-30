@@ -16,7 +16,7 @@ class OverdubVideo extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.newOverdub.url !== prevProps.newOverdub.url){
+    if(this.props.newOverdub.url && (this.props.newOverdub.url !== prevProps.newOverdub.url)){
       this.props.actions.addVideoSyncChildren([this.myRef.current])
     }
   }

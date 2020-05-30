@@ -3,6 +3,8 @@ import * as types from "./actionTypes";
 import * as overdubApi from "../../api/overdubApi";
 import * as audioActions from "./audioActions";
 import { beginApiCall, apiCallError } from "./apiStatusActions";
+import { toast } from "react-toastify";
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 export function loadOverdubsSuccess(overdubs) {
   return { type: types.LOAD_OVERDUBS_SUCCESS, overdubs };
@@ -50,10 +52,12 @@ const fetchAudio = async (audioContext, fetchedOverdubs) => {
 
 export function processOverdubs(audioContext, fetchedOverdubs) {
   return function(dispatch){
+    dispatch(showLoading())
     dispatch(audioActions.processingOverdubs())
     fetchAudio(audioContext, fetchedOverdubs).then((overdubsWithBuffers) => {
       dispatch(setOverdubBuffers(overdubsWithBuffers))
-      dispatch(audioActions.processOverdubsComplete())
+      dispatch(audioActions.processOverdubsComplete(true))
+      dispatch(hideLoading())
     })
   }
 }
@@ -62,14 +66,19 @@ export function processOverdubs(audioContext, fetchedOverdubs) {
 export function loadOverdubs() {
   return function(dispatch) {
     dispatch(beginApiCall());
+    dispatch(showLoading())
     return overdubApi
       .getOverdubs()
       .then(overdubs => {
         dispatch(loadOverdubsSuccess(overdubs));
+        dispatch(audioActions.processOverdubsComplete(false))
+        toast.success("Overdubs loaded.");
+        dispatch(hideLoading())
         return overdubs
       })
       .catch(error => {
         dispatch(apiCallError(error));
+        toast.error("Fetching overdubs failed. " + error.message, { autoClose: false });
         throw error;
       });
   };

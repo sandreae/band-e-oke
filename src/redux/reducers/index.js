@@ -6,8 +6,10 @@ import audio from "./audioReducer";
 import sync from "./syncReducer";
 import users from "./userReducer";
 import player from "./playerReducer";
+import { loadingBarReducer } from 'react-redux-loading-bar'
 
 const rootReducer = combineReducers({
+  loadingBar: loadingBarReducer,
   apiCallsInProgress: apiCallsInProgress,
   newOverdub: newOverdub,
   overdubs: overdubs,

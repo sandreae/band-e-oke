@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import OpenSheetMusicDisplay from './OpenSheetMusicDisplay'
 import Button from './Button'
 import { PropTypes } from "prop-types";
+import { toast } from "react-toastify";
 
 class Score extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class Score extends Component {
   }
 
   handleClick() {
+    toast.success("Score loading.....");
     this.setState(state => state.load = true);
   }
 

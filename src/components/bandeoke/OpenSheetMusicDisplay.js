@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import * as syncActions from "../../redux/actions/syncActions";
 import { bindActionCreators } from "redux";
+import { toast } from "react-toastify";
 
 class OpenSheetMusicDisplay extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class OpenSheetMusicDisplay extends Component {
       }
       this.osmd = new OSMD(this.divRef.current, options);
       this.osmd.load(this.props.file).then(() => {
+        toast.success("Score loaded!");
         this.osmd.render()
       });
     }
