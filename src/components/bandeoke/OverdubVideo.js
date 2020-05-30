@@ -37,7 +37,7 @@ class OverdubVideo extends Component {
           <video muted src={this.props.newOverdub.url} ref={this.myRef}/>
           <input type="range" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
           <input type="number" min="-1" max="1" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
-          <Button name={'UPLOAD'} onClick={this.onUploadClick} />
+          <Button disabled={this.props.playing} name={'UPLOAD'} onClick={this.onUploadClick} />
         </div>
       )
     }
@@ -54,12 +54,14 @@ class OverdubVideo extends Component {
 OverdubVideo.propTypes = {
   newOverdub: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  playing: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     newOverdub: state.newOverdub,
     actions: state.actions,
+    playing: state.player.playing,
   };
 }
 

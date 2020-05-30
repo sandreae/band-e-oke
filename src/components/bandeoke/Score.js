@@ -44,7 +44,7 @@ class Score extends Component {
     }
     return (
       <div className="Score">
-        <Button name="load score" onClick={this.handleClick} />
+        <Button disabled={this.props.playing} name="load score" onClick={this.handleClick} />
       </div>
     )
   }
@@ -55,11 +55,13 @@ Score.propTypes = {
   score: PropTypes.string.isRequired,
   tempo: PropTypes.string.isRequired,
   media: PropTypes.object.isRequired,
+  playing: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     media: state.media,
+    playing: state.player.playing,
   };
 }
 

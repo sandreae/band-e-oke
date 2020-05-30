@@ -10,7 +10,6 @@ import "./App.css";
 const Simple = cssTransition({
   enter: 'enter',
   exit: 'exit',
-  collapse: false,
 });
 
 function App() {

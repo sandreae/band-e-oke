@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import * as mediaActions from "../../redux/actions/mediaActions";
 import { bindActionCreators } from "redux";
-import { toast } from "react-toastify";
 
 class OpenSheetMusicDisplay extends Component {
     constructor(props) {
@@ -25,6 +24,7 @@ class OpenSheetMusicDisplay extends Component {
         disableCursor: false,
       }
       this.osmd = new OSMD(this.divRef.current, options);
+
       setTimeout(() => this.osmd.load(this.props.file).then(() => {
         this.osmd.render()
         this.props.actions.scoreLoading('ready')
@@ -50,6 +50,7 @@ class OpenSheetMusicDisplay extends Component {
             window.clearInterval(playId);
             cursor.reset()
             this.props.actions.offsetScore(-20)
+            audioContext.close()
           }
 
           if (thisTempo !== nextTempo) {
