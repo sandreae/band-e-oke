@@ -13,6 +13,7 @@ const isSyncSet = (currentSync, syncerEl) => {
 }
 
 const addChildren = (syncer, children) => {
+  console.log(syncer)
   children.forEach((child) => {
     syncer.current.addChild(child)
   })

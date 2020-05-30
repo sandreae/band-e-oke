@@ -23,6 +23,12 @@ class VideoGrid extends React.Component {
     this.configBackingTrack()
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.overdubs.length > prevProps.overdubs.length){
+      this.configBackingTrack()
+    }
+  }
+
   renderVideoGrid(){
     if (this.props.overdubs.length === 0){
       return null
