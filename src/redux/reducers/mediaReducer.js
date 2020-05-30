@@ -7,7 +7,7 @@ import { MediaElementSyncer } from 'media-element-syncer'
 const isSyncSet = (currentSync, syncerEl) => {
   const newSyncer = new MediaElementSyncer(syncerEl)
   return Object.assign({}, currentSync, {
-    set: true,
+    videoSyncSet: true,
     current: newSyncer
   })
 }
@@ -19,7 +19,7 @@ const addChildren = (syncer, children) => {
   return syncer
 }
 
-export default function videoSyncReducer(state = initialState.videoSync, action) {
+export default function mediaReducer(state = initialState.media, action) {
   switch (action.type) {
     case types.SET_VIDEO_SYNC:
       return isSyncSet(state, action.syncerEl)

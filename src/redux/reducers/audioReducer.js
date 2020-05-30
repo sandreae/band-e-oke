@@ -22,7 +22,7 @@ export default function overdubsAudioReducer(state = initialState.audio, action)
     })
     case types.PROCESS_OVERDUBS_COMPLETE:
       return Object.assign({}, state, {
-        overdubsComplete: true,
+        overdubsComplete: action.result,
         overdubsProcessing: false,
       })
     case types.PROCESS_BACKINGTRACK_COMPLETE:

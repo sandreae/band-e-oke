@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay';
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
-import * as syncActions from "../../redux/actions/syncActions";
+import * as mediaActions from "../../redux/actions/mediaActions";
 import { bindActionCreators } from "redux";
 import { toast } from "react-toastify";
 
@@ -96,7 +96,7 @@ class OpenSheetMusicDisplay extends Component {
   function mapDispatchToProps(dispatch) {
     return {
       actions: {
-        offsetScore: bindActionCreators(syncActions.offsetScore, dispatch)
+        offsetScore: bindActionCreators(mediaActions.offsetScore, dispatch)
       }
     }
   }

@@ -14,8 +14,8 @@ export default {
     newOverdubComplete: false,
   },
   users: [],
-  videoSync: {
-    set: false,
+  media: {
+    videoSyncSet: false,
     scoreOffset: -20,
   },
   player: {

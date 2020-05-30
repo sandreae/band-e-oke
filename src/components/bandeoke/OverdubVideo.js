@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as syncActions from "../../redux/actions/syncActions";
+import * as mediaActions from "../../redux/actions/mediaActions";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import { bindActionCreators } from "redux";
 import Button from "./Button";
@@ -66,7 +66,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      addVideoSyncChildren: bindActionCreators(syncActions.addVideoSyncChildren, dispatch),
+      addVideoSyncChildren: bindActionCreators(mediaActions.addVideoSyncChildren, dispatch),
       nudgeNewOverdub: bindActionCreators(newOverdubActions.nudgeNewOverdub, dispatch),
       upload: bindActionCreators(newOverdubActions.upload, dispatch),
     }

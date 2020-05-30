@@ -5,7 +5,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import * as overdubActions from "../../redux/actions/overdubActions";
-import * as syncActions from "../../redux/actions/syncActions";
+import * as mediaActions from "../../redux/actions/mediaActions";
 import { bindActionCreators } from "redux";
 import { toast } from "react-toastify";
 
@@ -58,7 +58,7 @@ class VideoGrid extends React.Component {
   }
 
   configBackingTrack = () => {
-    if(this.props.videoSync.set && this.refsArray.length !== 0){
+    if(this.props.media.videoSyncSet && this.refsArray.length !== 0){
       this.props.actions.addVideoSyncChildren(this.refsArray)
     }
   }
@@ -78,7 +78,7 @@ class VideoGrid extends React.Component {
 
 VideoGrid.propTypes = {
   overdubs: PropTypes.array.isRequired,
-  videoSync: PropTypes.object.isRequired,
+  media: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
 };
 
@@ -87,7 +87,7 @@ function mapDispatchToProps(dispatch) {
     actions: {
       deleteOverdub: bindActionCreators(overdubActions.deleteOverdub, dispatch),
       nudgeOverdub: bindActionCreators(overdubActions.nudgeOverdub, dispatch),
-      addVideoSyncChildren: bindActionCreators(syncActions.addVideoSyncChildren, dispatch)
+      addVideoSyncChildren: bindActionCreators(mediaActions.addVideoSyncChildren, dispatch)
     }
   }
 }
