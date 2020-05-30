@@ -33,6 +33,15 @@ export default function mediaReducer(state = initialState.media, action) {
       return Object.assign({}, state, {
          scoreStatus: action.scoreStatus
       })
+    case types.STREAM_STATUS:
+      return Object.assign({}, state, {
+         streamStatus: action.streamStatus
+      })
+    case types.VIDEO_STREAM:
+      return Object.assign({}, state, {
+         videoStream: action.videoStream,
+         streamStatus: ''
+      })
     default:
       return state;
   }

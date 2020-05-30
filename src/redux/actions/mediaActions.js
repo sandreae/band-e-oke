@@ -1,7 +1,6 @@
 // File holds all of the item action creators
 import * as types from "./actionTypes";
 import { toast } from "react-toastify";
-import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 export function setVideoSync(syncerEl) {
   return { type: types.SET_VIDEO_SYNC, syncerEl };
@@ -17,6 +16,14 @@ export function offsetScore(scoreOffset) {
 
 export function scoreStatus(scoreStatus) {
   return { type: types.SCORE_STATUS, scoreStatus };
+}
+
+export function streamStatus(streamStatus) {
+  return { type: types.STREAM_STATUS, streamStatus };
+}
+
+export function videoStream(videoStream) {
+  return { type: types.VIDEO_STREAM, videoStream };
 }
 
 export function scoreLoading(status) {

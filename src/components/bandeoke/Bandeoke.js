@@ -29,6 +29,7 @@ class Bandeoke extends React.Component {
     this.onPlayClick = this.onPlayClick.bind(this);
     this.onStopClick = this.onStopClick.bind(this);
     this.onRecordClick = this.onRecordClick.bind(this);
+    this.onChangeStreamClick = this.onChangeStreamClick.bind(this);
   }
 
   componentDidMount() {
@@ -76,6 +77,10 @@ class Bandeoke extends React.Component {
     actions.play(true)
   }
 
+  onChangeStreamClick(){
+    this.props.actions.videoStream(false)
+  }
+
   renderVideoGrid() {
     if (this.props.overdubs.length === 0) {
       return null
@@ -98,9 +103,13 @@ class Bandeoke extends React.Component {
   }
 
   renderMediaRecorder(){
+    if (this.props.media.streamStatus === "NotFoundError"){
+      return <div className='media-error'>Sorry, could not detect camera, try with just audio? <Button name='YES' onClick={this.onChangeStreamClick} /></div>
+    }
     return (
       <ReactMediaRecorder
-        video
+        audio
+        video={this.props.media.videoStream}
         streamRef={streamRef}
         recording={this.props.recording}
         muted={false}
@@ -174,6 +183,7 @@ function mapDispatchToProps(dispatch) {
       play: bindActionCreators(playerActions.play, dispatch),
       record: bindActionCreators(playerActions.record, dispatch),
       setVideoSync: bindActionCreators(mediaActions.setVideoSync, dispatch),
+      videoStream: bindActionCreators(mediaActions.videoStream, dispatch),
     }
   };
 }

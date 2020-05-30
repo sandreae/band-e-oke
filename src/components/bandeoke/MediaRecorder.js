@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
+import * as mediaActions from "../../redux/actions/mediaActions";
 import { bindActionCreators } from "redux";
+import Button from "./Button";
 
 function checkMediaConstraint(mediaConstraint) {
   let mediaType = Object.keys(mediaConstraint)[0];
@@ -137,7 +139,7 @@ class ReactMediaRecorder extends React.Component {
       );
       return stream;
     } catch (error) {
-      console.log(error)
+      this.props.actions.streamStatus(error.name)
       this.setState({ status: errors[error.name] });
     }
   };
@@ -209,7 +211,7 @@ class ReactMediaRecorder extends React.Component {
   render(){
     return (
       <div className='flex-column'>
-        <video muted autoPlay ref={this.props.streamRef} controls />
+        <video muted autoPlay ref={this.props.streamRef} />
         <p>{status}</p>
       </div>
     )
@@ -238,6 +240,7 @@ ReactMediaRecorder.propTypes = {
   streamRef: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   recording: PropTypes.bool.isRequired,
+  streamStatus: PropTypes.string.isRequired,
 };
 
 ReactMediaRecorder.defaultProps = {
@@ -248,12 +251,19 @@ ReactMediaRecorder.defaultProps = {
   whenStopped: () => null
 };
 
+function mapStateToProps(state) {
+  return {
+    streamStatus: state.media.streamStatus
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
       setOverdubBlob: bindActionCreators(newOverdubActions.setOverdubBlob, dispatch),
+      streamStatus: bindActionCreators(mediaActions.streamStatus, dispatch),
     }
   }
 }
 
-export default connect(null, mapDispatchToProps)(ReactMediaRecorder);
+export default connect(mapStateToProps, mapDispatchToProps)(ReactMediaRecorder);
