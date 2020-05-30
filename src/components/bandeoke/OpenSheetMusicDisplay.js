@@ -25,10 +25,10 @@ class OpenSheetMusicDisplay extends Component {
         disableCursor: false,
       }
       this.osmd = new OSMD(this.divRef.current, options);
-      this.osmd.load(this.props.file).then(() => {
+      setTimeout(() => this.osmd.load(this.props.file).then(() => {
         this.osmd.render()
         this.props.actions.scoreLoading('ready')
-      });
+      }), 500);
     }
 
     componentDidUpdate(){
