@@ -17,6 +17,7 @@ export default {
   media: {
     videoSyncSet: false,
     scoreOffset: -20,
+    scoreStatus: 'false'
   },
   player: {
     playing: false,
