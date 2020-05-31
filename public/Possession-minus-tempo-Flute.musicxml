@@ -8,7 +8,7 @@
     <creator type="composer">Les Baxter</creator>
     <encoding>
       <software>MuseScore 3.4.2</software>
-      <encoding-date>2020-05-28</encoding-date>
+      <encoding-date>2020-05-30</encoding-date>
       <supports element="accidental" type="yes"/>
       <supports element="beam" type="yes"/>
       <supports element="print" attribute="new-page" type="yes" value="yes"/>
@@ -92,13 +92,9 @@
         </attributes>
       <direction placement="above">
         <direction-type>
-          <metronome parentheses="no" default-x="-35.96" relative-y="20.00">
-            <beat-unit>quarter</beat-unit>
-            <per-minute>140</per-minute>
-            </metronome>
-          </direction-type>
-        <direction-type>
-          <words default-x="-35.96" relative-y="20.00" font-weight="bold" font-size="12">
+          <words default-x="-35.96" default-y="17.40" relative-y="20.00" font-weight="bold" font-size="12"> 
+</words>
+          <words> 
 </words>
           </direction-type>
         <sound tempo="140"/>
@@ -2065,10 +2061,7 @@
         </attributes>
       <direction placement="above">
         <direction-type>
-          <metronome parentheses="no" default-x="-27.96" default-y="0.40" relative-y="20.00">
-            <beat-unit>quarter</beat-unit>
-            <per-minute>80</per-minute>
-            </metronome>
+          <words default-x="-27.96" relative-y="20.00" font-weight="bold" font-size="12">  </words>
           </direction-type>
         <sound tempo="79.9998"/>
         </direction>
@@ -2342,13 +2335,7 @@
     <measure number="59" width="116.49">
       <direction placement="above">
         <direction-type>
-          <metronome parentheses="no" relative-y="20.00">
-            <beat-unit>quarter</beat-unit>
-            <per-minute>140</per-minute>
-            </metronome>
-          </direction-type>
-        <direction-type>
-          <words relative-y="20.00" font-weight="bold" font-size="12">
+          <words relative-y="20.00" font-weight="bold" font-size="12">   
 </words>
           </direction-type>
         <sound tempo="140"/>
@@ -4324,10 +4311,7 @@
         </attributes>
       <direction placement="above">
         <direction-type>
-          <metronome parentheses="no" default-x="-27.96" default-y="0.40" relative-y="20.00">
-            <beat-unit>quarter</beat-unit>
-            <per-minute>80</per-minute>
-            </metronome>
+          <words default-x="-27.96" relative-y="20.00" font-weight="bold" font-size="12">   </words>
           </direction-type>
         <sound tempo="79.9998"/>
         </direction>
@@ -4669,10 +4653,7 @@
     <measure number="118" width="55.72">
       <direction placement="above">
         <direction-type>
-          <metronome parentheses="no" default-y="12.73" relative-y="20.00">
-            <beat-unit>quarter</beat-unit>
-            <per-minute>160</per-minute>
-            </metronome>
+          <words default-y="10.45" relative-y="20.00" font-weight="bold" font-size="12">   </words>
           </direction-type>
         <sound tempo="160"/>
         </direction>
@@ -5593,10 +5574,7 @@
     <measure number="140" width="74.31">
       <direction placement="above">
         <direction-type>
-          <metronome parentheses="no" relative-y="20.00">
-            <beat-unit>quarter</beat-unit>
-            <per-minute>80</per-minute>
-            </metronome>
+          <words relative-y="20.00" font-weight="bold" font-size="12">   </words>
           </direction-type>
         <sound tempo="79.9998"/>
         </direction>
@@ -5628,10 +5606,7 @@
     <measure number="142" width="97.60">
       <direction placement="above">
         <direction-type>
-          <metronome parentheses="no" relative-y="20.00">
-            <beat-unit>quarter</beat-unit>
-            <per-minute>160</per-minute>
-            </metronome>
+          <words relative-y="20.00" font-weight="bold" font-size="12">   </words>
           </direction-type>
         <sound tempo="160"/>
         </direction>
