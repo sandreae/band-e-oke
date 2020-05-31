@@ -72,7 +72,11 @@ class ReactMediaRecorder extends React.Component {
 
   componentDidMount = async () => {
     const stream = await this.getMediaStream();
-
+    await stream.getVideoTracks()[0].applyConstraints({
+      width: {exact: 200},
+      height: {exact: 150},
+      frameRate: {ideal: 2, max: 5}
+    })
     if (stream) {
       stream
         .getAudioTracks()
@@ -159,7 +163,12 @@ class ReactMediaRecorder extends React.Component {
   };
 
   initMediaRecorder = stream => {
-    const mediaRecorder = new MediaRecorder(stream);
+    var options = {
+      audioBitsPerSecond : 128000,
+      videoBitsPerSecond : 50000,
+    }
+
+    const mediaRecorder = new MediaRecorder(stream, options);
     mediaRecorder.ondataavailable = this.onRecordingActive;
     mediaRecorder.onstop = this.onRecordingStop;
     mediaRecorder.onerror = () => this.setState({ status: "recorder_error" });
@@ -169,6 +178,7 @@ class ReactMediaRecorder extends React.Component {
   startRecording = async () => {
     if (!this.stream || (this.stream && !this.stream.active)) {
       const stream = await this.getMediaStream();
+
       if (stream) {
         this.stream = stream;
       } else {

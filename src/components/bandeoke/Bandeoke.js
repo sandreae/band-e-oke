@@ -13,7 +13,7 @@ import Button from "./Button";
 import OverdubVideo from "./OverdubVideo";
 import Score from "./Score";
 import track from '../../../public/Possession-full.mp3'
-import score from '../../../public/Possession-Flute.musicxml'
+import score from '../../../public/Possession-minus-tempo-Flute.musicxml'
 import ReactMediaRecorder from "./MediaRecorder";
 import LoadingBar from 'react-redux-loading-bar'
 
