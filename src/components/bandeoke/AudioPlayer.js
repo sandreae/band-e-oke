@@ -32,7 +32,8 @@ class AudioPlayer extends React.Component {
 
     let {playing, audioContext, overdubs, audio, newOverdub, backingTrack, actions} = this.props
 
-    if (overdubs.length !== 0 && !audio.overdubsComplete && !audio.overdubsProcessing){
+    if (overdubs.length !== 0 && !audio.overdubsProcessing && !audio.overdubsComplete){
+      console.log(overdubs)
       actions.processOverdubs(audioContext, overdubs)
     }
     if (newOverdub.url && newOverdub !== prevProps.newOverdub){

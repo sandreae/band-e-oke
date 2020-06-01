@@ -19,6 +19,10 @@ export function setOverdubBuffer(overdub) {
   return { type: types.SET_NEW_OVERDUB_BUFFER, overdub };
 }
 
+export function removeNewOverdub() {
+  return { type: types.REMOVE_NEW_OVERDUB };
+}
+
 export function uploadOverdub(file, nudge) {
   return dispatch => {
     let fileName = new Date()
@@ -96,9 +100,9 @@ export function upload(overdub){
 export function uploadSuccess() {
   return function(dispatch) {
     toast.success("Overdub uploaded.");
-    dispatch(hideLoading())
-    dispatch(setOverdubBlob(undefined))
+    dispatch(removeNewOverdub())
     dispatch(overdubActions.loadOverdubs())
+    dispatch(hideLoading())
   }
 }
 

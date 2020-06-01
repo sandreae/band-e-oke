@@ -12,8 +12,8 @@ import BackingTrack from "./BackingTrack";
 import Button from "./Button";
 import OverdubVideo from "./OverdubVideo";
 import Score from "./Score";
-import track from '../../../public/Possession-full.mp3'
-import score from '../../../public/Possession-minus-tempo-Flute.musicxml'
+import track from '../../../public/legal.mp3'
+import score from '../../../public/legal-Eb.musicxml'
 import ReactMediaRecorder from "./MediaRecorder";
 import LoadingBar from 'react-redux-loading-bar'
 
@@ -97,7 +97,7 @@ class Bandeoke extends React.Component {
       <BackingTrack playing={this.props.playing} track={track} ref={syncRef} media={this.props.media} />
       <Button disabled={this.props.playing} name={'PLAY'} onClick={this.onPlayClick} />
       <Button disabled={!this.props.playing} name={'STOP'} onClick={this.onStopClick} />
-      <Button disabled={this.props.playing} name={'RECORD'} onClick={this.onRecordClick} />
+      <Button disabled={this.props.playing || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} />
       </div>
     )
   }
@@ -130,6 +130,14 @@ class Bandeoke extends React.Component {
             {this.renderMediaRecorder()}
             <OverdubVideo />
           </div>
+          <div className='score-wrapper'>
+            <Score
+            scoreOffset={this.props.scoreOffset}
+            playing={this.props.playing}
+            score={score}
+            tempo={tempo}
+            />
+          </div>
           <div>
             {this.renderVideoGrid()}
           </div>
@@ -138,14 +146,6 @@ class Bandeoke extends React.Component {
             backingTrack={track}
             audioContext={audioContext}
             playing={this.props.playing}
-            />
-          </div>
-          <div className='score-wrapper'>
-            <Score
-            scoreOffset={this.props.scoreOffset}
-            playing={this.props.playing}
-            score={score}
-            tempo={tempo}
             />
           </div>
         </div>
@@ -163,6 +163,7 @@ Bandeoke.propTypes = {
   media: PropTypes.object.isRequired,
   player: PropTypes.object.isRequired,
   scoreOffset: PropTypes.number.isRequired,
+  newOverdub: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -174,6 +175,7 @@ function mapStateToProps(state) {
     media: state.media,
     player: state.player,
     scoreOffset: state.media.scoreOffset,
+    newOverdub: state.newOverdub,
   };
 }
 

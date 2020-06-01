@@ -13,6 +13,7 @@ class OverdubVideo extends Component {
     this.myRef = React.createRef()
 
     this.handleNudgeOverdub = this.handleNudgeOverdub.bind(this);
+    this.handleDeleteOverdub = this.handleDeleteOverdub.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -30,11 +31,16 @@ class OverdubVideo extends Component {
     this.props.actions.upload(this.props.newOverdub)
   }
 
+  handleDeleteOverdub = () => {
+    this.props.actions.removeNewOverdub();
+  };
+
   renderVideo(){
     if (this.props.newOverdub.url) {
       return (
-        <div className='flex-column'>
+        <div className='flex-column videoGridItem'>
           <video muted src={this.props.newOverdub.url} ref={this.myRef}/>
+          <div className='delete-button' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub()}>x</div>
           <input type="range" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
           <input type="number" min="-1" max="1" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
           <Button disabled={this.props.playing} name={'UPLOAD'} onClick={this.onUploadClick} />
@@ -71,6 +77,7 @@ function mapDispatchToProps(dispatch) {
       addVideoSyncChildren: bindActionCreators(mediaActions.addVideoSyncChildren, dispatch),
       nudgeNewOverdub: bindActionCreators(newOverdubActions.nudgeNewOverdub, dispatch),
       upload: bindActionCreators(newOverdubActions.upload, dispatch),
+      removeNewOverdub: bindActionCreators(newOverdubActions.removeNewOverdub, dispatch),
     }
   }
 }

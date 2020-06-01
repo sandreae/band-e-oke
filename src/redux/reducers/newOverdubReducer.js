@@ -17,6 +17,11 @@ export default function newOverdubReducer(state = initialState.newOverdub, actio
       return Object.assign({}, state, {
         buffer: action.overdub.buffer,
       })
+    case types.REMOVE_NEW_OVERDUB:
+      return Object.assign({}, state, {
+        buffer: null,
+        url: null,
+      })
     default:
       return state;
   }

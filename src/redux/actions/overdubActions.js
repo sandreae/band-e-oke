@@ -52,6 +52,7 @@ const fetchAudio = async (audioContext, fetchedOverdubs) => {
 
 export function processOverdubs(audioContext, fetchedOverdubs) {
   return function(dispatch){
+    dispatch(audioActions.processingOverdubs())
     dispatch(showLoading())
     fetchAudio(audioContext, fetchedOverdubs).then((overdubsWithBuffers) => {
       dispatch(audioActions.processOverdubsComplete(true))
@@ -69,10 +70,10 @@ export function loadOverdubs() {
     return overdubApi
       .getOverdubs()
       .then(overdubs => {
-        dispatch(audioActions.processingOverdubs())
         dispatch(loadOverdubsSuccess(overdubs));
         toast.success("Overdubs loaded.");
         dispatch(hideLoading())
+        dispatch(audioActions.processOverdubsComplete(false))
         return overdubs
       })
       .catch(error => {
