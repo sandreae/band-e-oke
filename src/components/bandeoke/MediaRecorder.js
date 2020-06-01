@@ -154,8 +154,8 @@ class ReactMediaRecorder extends React.Component {
     if (this.props.whenStopped) {
       this.props.whenStopped(blob, url);
     }
-    this.setState({ mediaBlob: blob, mediaUrl: url, status: "stopped" });
     this.props.actions.setOverdubBlob(url)
+    this.setState({ mediaBlob: blob, mediaUrl: url, status: "stopped" });
   };
 
   onRecordingActive = ({ data }) => {

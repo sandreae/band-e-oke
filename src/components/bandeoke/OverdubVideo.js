@@ -31,16 +31,16 @@ class OverdubVideo extends Component {
     this.props.actions.upload(this.props.newOverdub)
   }
 
-  handleDeleteOverdub = () => {
-    this.props.actions.removeNewOverdub();
+  handleDeleteOverdub = (url) => {
+    this.props.actions.removeNewOverdub(url);
   };
 
   renderVideo(){
     if (this.props.newOverdub.url) {
       return (
-        <div className='flex-column videoGridItem'>
+        <div className='flex-column new-overdub-wrapper'>
           <video muted src={this.props.newOverdub.url} ref={this.myRef}/>
-          <div className='delete-button' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub()}>x</div>
+          <div className='delete-button' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub(this.props.newOverdub.url)}>x</div>
           <input type="range" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
           <input type="number" min="-1" max="1" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
           <Button disabled={this.props.playing} name={'UPLOAD'} onClick={this.onUploadClick} />

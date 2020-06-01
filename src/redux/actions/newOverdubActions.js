@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 const baseUrl = process.env.API_URL
 
 export function setOverdubBlob(url) {
+  console.log(url)
+  console.log('set overdub blob')
   return { type: types.SET_OVERDUB_BLOB, url };
 }
 
@@ -19,7 +21,8 @@ export function setOverdubBuffer(overdub) {
   return { type: types.SET_NEW_OVERDUB_BUFFER, overdub };
 }
 
-export function removeNewOverdub() {
+export function removeNewOverdub(url) {
+  window.URL.revokeObjectURL(url)
   return { type: types.REMOVE_NEW_OVERDUB };
 }
 
