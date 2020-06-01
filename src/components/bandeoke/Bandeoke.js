@@ -22,7 +22,6 @@ const syncRef = React.createRef()
 const streamRef = React.createRef()
 const tempo = '140'
 
-
 class Bandeoke extends React.Component {
   constructor(props) {
     super(props);
@@ -30,10 +29,12 @@ class Bandeoke extends React.Component {
     this.onStopClick = this.onStopClick.bind(this);
     this.onRecordClick = this.onRecordClick.bind(this);
     this.onChangeStreamClick = this.onChangeStreamClick.bind(this);
+    this.keyboardFunction = this.keyboardFunction.bind(this);
   }
 
   componentDidMount() {
     const { overdubs, actions } = this.props;
+    document.addEventListener("keydown", this.keyboardFunction, false);
 
     if (overdubs.length === 0) {
       actions.loadOverdubs().catch(error => {
@@ -45,6 +46,21 @@ class Bandeoke extends React.Component {
   componentDidUpdate() {
     if ((this.props.media.videoSyncSet === false) && syncRef.current) {
       this.props.actions.setVideoSync(syncRef.current)
+    }
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener("keydown", this.keyboardFunction, false);
+  }
+
+  keyboardFunction(){
+    if(event.keyCode === 82) {
+      console.log('space')
+      this.props.player.playing ? this.onStopClick() : this.onRecordClick()
+    }
+    if(event.keyCode === 32) {
+      console.log('space')
+      this.props.player.playing ? this.onStopClick() : this.onPlayClick()
     }
   }
 
@@ -91,9 +107,9 @@ class Bandeoke extends React.Component {
     return null
   }
 
-  renderBackingTrack() {
+  renderButtons() {
     return (
-      <div>
+      <div className='controls-wrapper'>
       <BackingTrack playing={this.props.playing} track={track} ref={syncRef} media={this.props.media} />
       <Button disabled={this.props.playing} name={'PLAY'} onClick={this.onPlayClick} />
       <Button disabled={!this.props.playing} name={'STOP'} onClick={this.onStopClick} />
@@ -123,12 +139,13 @@ class Bandeoke extends React.Component {
       <div id='score-loading-overlay' style={{display: this.props.media.scoreStatus === 'loading' ? 'block' : 'none'}}>S</div>
       <LoadingBar />
         <div className="flex-column" width='1200px'>
-          <div>
-            {this.renderBackingTrack()}
-          </div>
           <div className='flex'>
+            {this.renderButtons()}
             {this.renderMediaRecorder()}
             <OverdubVideo />
+            <div>
+              {this.renderVideoGrid()}
+            </div>
           </div>
           <div className='score-wrapper'>
             <Score
@@ -137,9 +154,6 @@ class Bandeoke extends React.Component {
             score={score}
             tempo={tempo}
             />
-          </div>
-          <div>
-            {this.renderVideoGrid()}
           </div>
           <div>
             <AudioPlayer

@@ -37,7 +37,7 @@ class OpenSheetMusicDisplay extends Component {
         const cursor = this.osmd.cursor
         cursor.reset()
         cursor.show()
-        // cursor.updateStyle(0, '#41e9f2')
+        cursor.updateStyle(0, '#41e9f2')
         // let x = 0
         const audioContext = new AudioContext()
         let startTempo = cursor.iterator.currentMeasure.tempoInBPM

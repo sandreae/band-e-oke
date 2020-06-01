@@ -36,13 +36,13 @@ class VideoGrid extends React.Component {
     return (
       this.props.overdubs.map((overdub, i) => {
         return (
-          <div className='flex-column' key={i}>
-            <div className='flex videoGridItem'>
+          <div className='flex-column video-grid-item-wrapper' key={i}>
+            <div className='flex video-grid-item'>
               <video key={i} muted src={overdub.url} ref={ref => { this.refsArray[i] = ref}} />
               <div className='delete-button' type='button' id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
             </div>
-            <input type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} />
-            <input type="number" min="-1" max="1" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} />
+            <input className='nudge-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} />
+            <input className='nudge-input' type="number" min="-1" max="1" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} />
           </div>
         )
       })
@@ -75,7 +75,7 @@ class VideoGrid extends React.Component {
       return null
     }
     return (
-      <div className='flex' wrap='true'>
+      <div className='video-grid-wrapper' wrap='true'>
         {this.renderVideoGrid()}
       </div>
     )
