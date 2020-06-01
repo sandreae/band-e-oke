@@ -45,7 +45,7 @@ class AudioPlayer extends React.Component {
       actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
         const newBackingTrack = Object.assign({}, this.state.backingTrack);
         newBackingTrack.buffer = buffer
-        newBackingTrack.gain = 0.6
+        newBackingTrack.gain = 0.5
         this.setState({backingTrack: newBackingTrack});
       })
     }
