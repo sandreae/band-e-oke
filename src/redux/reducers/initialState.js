@@ -3,6 +3,7 @@ export default {
   newOverdub: {
     nudge: 0,
     url: null,
+    gain: 1,
   },
   overdubs: [],
   audio: {

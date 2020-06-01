@@ -19,6 +19,10 @@ export default function overdubReducer(state = initialState.overdubs, action) {
       return state.map(overdub =>
         overdub.id === action.overdub.id ? action.overdub : overdub
       );
+    case types.GAIN_OVERDUB:
+      return state.map(overdub =>
+        overdub.id === action.overdub.id ? action.overdub : overdub
+      );
     case types.SET_OVERDUB_BUFFERS:
       return action.overdubs
     default:

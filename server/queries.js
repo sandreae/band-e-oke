@@ -24,10 +24,9 @@ const getOverdubById = (request, response) => {
 }
 
 const createOverdub = (request, response) => {
-  const { url, nudge } = request.body
-  console.log(url, nudge)
+  const { url, nudge, gain } = request.body
 
-  pool.query('INSERT INTO overdubs (url, nudge) VALUES ($1, $2)', [url, nudge], error => {
+  pool.query('INSERT INTO overdubs (url, nudge, gain) VALUES ($1, $2, $3)', [url, nudge, gain], error => {
     if (error) {
       throw error
     }
@@ -37,11 +36,10 @@ const createOverdub = (request, response) => {
 
 const updateOverdub = (request, response) => {
   const id = parseInt(request.params.id)
-  const { url, nudge } = request.body
-
+  const { url, nudge, gain } = request.body
   pool.query(
-    'UPDATE overdub SET (url, nudge) = ($1, $2) WHERE id = $3',
-    [url, nudge, id],
+    'UPDATE overdubs SET (url, nudge, gain) = ($1, $2, $3) WHERE id = $4',
+    [url, nudge, gain, id],
     (error, results) => {
       if (error) {
         throw error

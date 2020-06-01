@@ -13,8 +13,6 @@ export function saveOverdub(overdub) {
     headers: { "content-type": "application/json" },
     body: JSON.stringify(overdub)
   })
-    .then(handleResponse)
-    .catch(handleError);
 }
 
 export function deleteOverdub(overdubId) {

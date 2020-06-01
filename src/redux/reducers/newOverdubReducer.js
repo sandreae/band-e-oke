@@ -22,6 +22,10 @@ export default function newOverdubReducer(state = initialState.newOverdub, actio
         buffer: null,
         url: null,
       })
+    case types.GAIN_NEW_OVERDUB:
+      return Object.assign({}, state, {
+        gain: action.overdub.gain,
+      })
     default:
       return state;
   }

@@ -14,6 +14,7 @@ class OverdubVideo extends Component {
 
     this.handleNudgeOverdub = this.handleNudgeOverdub.bind(this);
     this.handleDeleteOverdub = this.handleDeleteOverdub.bind(this);
+    this.handleGainOverdub = this.handleGainOverdub.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -35,14 +36,20 @@ class OverdubVideo extends Component {
     this.props.actions.removeNewOverdub(url);
   };
 
+  handleGainOverdub = (overdub, e) => {
+    overdub.gain = parseFloat(e.target.value)
+    this.props.actions.gainNewOverdub(overdub);
+  };
+
   renderVideo(){
     if (this.props.newOverdub.url) {
       return (
         <div className='flex-column new-overdub-wrapper'>
           <video muted src={this.props.newOverdub.url} ref={this.myRef}/>
           <div className='delete-button' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub(this.props.newOverdub.url)}>x</div>
-          <input type="range" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
-          <input type="number" min="-1" max="1" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
+          <input className='video-range' type="range" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
+          <input className='video-input' type="number" min="-1" max="1" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
+          <input className='video-range' type="range" min="0" max="3" step="0.01" value={this.props.newOverdub.gain} onChange={(e) => this.handleGainOverdub(this.props.newOverdub, e)} />
           <Button disabled={this.props.playing} name={'UPLOAD'} onClick={this.onUploadClick} />
         </div>
       )
@@ -78,6 +85,7 @@ function mapDispatchToProps(dispatch) {
       nudgeNewOverdub: bindActionCreators(newOverdubActions.nudgeNewOverdub, dispatch),
       upload: bindActionCreators(newOverdubActions.upload, dispatch),
       removeNewOverdub: bindActionCreators(newOverdubActions.removeNewOverdub, dispatch),
+      gainNewOverdub: bindActionCreators(newOverdubActions.gainNewOverdub, dispatch),
     }
   }
 }

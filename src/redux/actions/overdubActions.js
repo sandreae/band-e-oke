@@ -26,6 +26,10 @@ export function nudgeOverdub(overdub) {
   return { type: types.NUDGE_OVERDUB, overdub };
 }
 
+export function gainOverdub(overdub) {
+  return { type: types.GAIN_OVERDUB, overdub };
+}
+
 export function setOverdubBuffers(overdubs) {
   return { type: types.SET_OVERDUB_BUFFERS, overdubs };
 }
@@ -84,11 +88,12 @@ export function loadOverdubs() {
   };
 }
 
-export function saveOverdub(overdub) {
+export function saveOverdubs(overdubs) {
   // eslint-disable-next-line no-unused-vars
   return function(dispatch, getState) {
     dispatch(beginApiCall());
-    return overdubApi
+    overdubs.forEach((overdub) => {
+      overdubApi
       .saveOverdub(overdub)
       .then(savedOverdub => {
         overdub.id
@@ -99,6 +104,7 @@ export function saveOverdub(overdub) {
         dispatch(apiCallError(error));
         throw error;
       });
+    });
   };
 }
 
@@ -107,6 +113,7 @@ export function deleteOverdub(overdub) {
     // Doing optimistic delete, so not dispatching begin/end api call
     // actions, or apiCallError action since we're not showing the loading status for this.
     dispatch(deleteOverdubOptimistic(overdub));
+    dispatch(loadOverdubs())
     return overdubApi.deleteOverdub(overdub.id);
   };
 }

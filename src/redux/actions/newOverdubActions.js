@@ -26,7 +26,12 @@ export function removeNewOverdub(url) {
   return { type: types.REMOVE_NEW_OVERDUB };
 }
 
-export function uploadOverdub(file, nudge) {
+export function gainNewOverdub(overdub) {
+  return { type: types.GAIN_NEW_OVERDUB, overdub };
+}
+
+export function uploadOverdub(file, overdub) {
+  const {nudge, gain} = overdub
   return dispatch => {
     let fileName = new Date()
     let fileType = 'webm'
@@ -47,11 +52,13 @@ export function uploadOverdub(file, nudge) {
         }
         axios.put(signedRequest,file,options)
         .then(result => {
+          console.log(gain)
           const postData = async () => {
             try {
               const response = await axios.post(baseUrl + 'overdubs', {
                 url: url,
                 nudge: nudge,
+                gain: gain,
               })
               dispatch(uploadSuccess())
             } catch (error) {
@@ -95,7 +102,7 @@ export function upload(overdub){
     toast.success("Overdub uploading....");
     dispatch(showLoading())
     fetchBlob(overdub.url).then((blob) => {
-      dispatch(uploadOverdub(blob, overdub.nudge))
+      dispatch(uploadOverdub(blob, overdub))
     })
   }
 }

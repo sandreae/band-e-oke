@@ -17,6 +17,7 @@ class VideoGrid extends React.Component {
 
     this.handleDeleteOverdub = this.handleDeleteOverdub.bind(this);
     this.handleNudgeOverdub = this.handleNudgeOverdub.bind(this);
+    this.handleGainOverdub = this.handleGainOverdub.bind(this);
   }
 
   componentDidMount() {
@@ -41,8 +42,15 @@ class VideoGrid extends React.Component {
               <video key={i} muted src={overdub.url} ref={ref => { this.refsArray[i] = ref}} />
               <div className='delete-button' type='button' id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
             </div>
-            <input className='nudge-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} />
-            <input className='nudge-input' type="number" min="-1" max="1" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} />
+            <div className='flex overdub-controls-wrapper'>
+              <div className='overdub-controls-item'>nudge</div>
+              <div className='overdub-controls-item'><input className='video-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
+              <div className='overdub-controls-item'><input className='video-number' type="number" min="-1" max="1" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
+            </div>
+            <div className='flex overdub-controls-wrapper'>
+              <div className='overdub-controls-item'>gain</div>
+              <div className='overdub-controls-item'><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)} /></div>
+            </div>
           </div>
         )
       })
@@ -69,6 +77,10 @@ class VideoGrid extends React.Component {
     }
   }
 
+  handleGainOverdub = (overdub, e) => {
+    overdub.gain = parseFloat(e.target.value)
+    this.props.actions.gainOverdub(overdub);
+  };
 
   render() {
     if (this.props.overdubs.length === 0) {
@@ -93,7 +105,8 @@ function mapDispatchToProps(dispatch) {
     actions: {
       deleteOverdub: bindActionCreators(overdubActions.deleteOverdub, dispatch),
       nudgeOverdub: bindActionCreators(overdubActions.nudgeOverdub, dispatch),
-      addVideoSyncChildren: bindActionCreators(mediaActions.addVideoSyncChildren, dispatch)
+      addVideoSyncChildren: bindActionCreators(mediaActions.addVideoSyncChildren, dispatch),
+      gainOverdub: bindActionCreators(overdubActions.gainOverdub, dispatch)
     }
   }
 }

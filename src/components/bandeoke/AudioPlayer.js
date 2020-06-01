@@ -45,6 +45,7 @@ class AudioPlayer extends React.Component {
       actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
         const newBackingTrack = Object.assign({}, this.state.backingTrack);
         newBackingTrack.buffer = buffer
+        newBackingTrack.gain = 0.6
         this.setState({backingTrack: newBackingTrack});
       })
     }
@@ -65,10 +66,14 @@ class AudioPlayer extends React.Component {
     this.playOverdubs(overdubs, playing, count)
   }
 
-  playBuffer(buffer, startTime){
+  playBuffer(buffer, startTime, gain){
     let source  = this.props.audioContext.createBufferSource()
+    var gainNode = this.props.audioContext.createGain();
+    console.log(gain)
+    gainNode.gain.setValueAtTime(gain, this.props.audioContext.currentTime);
     source.buffer = buffer
-    source.connect(this.props.audioContext.destination)
+    source.connect(gainNode)
+    gainNode.connect(this.props.audioContext.destination)
     source.start(startTime)
     return source
   }
@@ -77,7 +82,7 @@ class AudioPlayer extends React.Component {
     if (toggle === true) {
       overdubs.map((overdub) => {
         let offset = count + overdub.nudge
-        let source = this.playBuffer(overdub.buffer, offset)
+        let source = this.playBuffer(overdub.buffer, offset, overdub.gain)
         overdub.current = source
         return overdub
       })
@@ -96,7 +101,7 @@ class AudioPlayer extends React.Component {
   playAudio = (audio, key, toggle, count) => {
     if (toggle === true) {
 
-      let source = this.playBuffer(audio.buffer, count + audio.nudge)
+      let source = this.playBuffer(audio.buffer, count + audio.nudge, audio.gain)
 
       const newAudio = Object.assign({}, audio);
       newAudio.current = source

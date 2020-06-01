@@ -1,3 +1,15 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 video {
   width: 200px;
   height: 150px;
@@ -70,12 +82,21 @@ video {
   height: 150px;
 }
 
-.nudge-input {
-  width: 80px;
+.overdub-controls-wrapper {
+  width: 200px;
 }
 
-.nudge-range {
-  width: 200px;
+.overdub-controls-item {
+  margin-right: 3px;
+  flex-basis: 1 auto;
+}
+
+.video-input {
+  width: 100%;
+}
+
+.video-range {
+  width: 100%;
 }
 
 .new-overdub-wrapper {

@@ -28,6 +28,7 @@ class Bandeoke extends React.Component {
     this.onPlayClick = this.onPlayClick.bind(this);
     this.onStopClick = this.onStopClick.bind(this);
     this.onRecordClick = this.onRecordClick.bind(this);
+    this.onSaveClick = this.onSaveClick.bind(this);
     this.onChangeStreamClick = this.onChangeStreamClick.bind(this);
     this.keyboardFunction = this.keyboardFunction.bind(this);
   }
@@ -76,6 +77,10 @@ class Bandeoke extends React.Component {
     syncRef.current.currentTime = 0
   }
 
+  onSaveClick() {
+    this.props.actions.saveOverdubs(this.props.overdubs)
+  }
+
   onRecordClick() {
     let count = 0.5
     let time = audioContext.currentTime
@@ -114,6 +119,7 @@ class Bandeoke extends React.Component {
       <Button disabled={this.props.playing} name={'PLAY'} onClick={this.onPlayClick} />
       <Button disabled={!this.props.playing} name={'STOP'} onClick={this.onStopClick} />
       <Button disabled={this.props.playing || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} />
+      <Button disabled={this.props.playing} name={'SAVE'} onClick={this.onSaveClick} />
       </div>
     )
   }
@@ -197,6 +203,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       loadOverdubs: bindActionCreators(overdubActions.loadOverdubs, dispatch),
+      saveOverdubs: bindActionCreators(overdubActions.saveOverdubs, dispatch),
       play: bindActionCreators(playerActions.play, dispatch),
       record: bindActionCreators(playerActions.record, dispatch),
       setVideoSync: bindActionCreators(mediaActions.setVideoSync, dispatch),
