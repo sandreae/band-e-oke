@@ -73,9 +73,9 @@ class ReactMediaRecorder extends React.Component {
   componentDidMount = async () => {
     const stream = await this.getMediaStream();
     await stream.getVideoTracks()[0].applyConstraints({
-      width: {exact: 200},
-      height: {exact: 150},
-      frameRate: {ideal: 2, max: 5}
+      width: { min: 200, ideal: 200, max: 800 },
+      height: { min: 150, ideal: 150, max: 600 },
+      frameRate: {ideal: 5, max: 20}
     })
     if (stream) {
       stream
@@ -165,7 +165,7 @@ class ReactMediaRecorder extends React.Component {
   initMediaRecorder = stream => {
     var options = {
       audioBitsPerSecond : 128000,
-      videoBitsPerSecond : 50000,
+      videoBitsPerSecond : 100000,
     }
 
     const mediaRecorder = new MediaRecorder(stream, options);
