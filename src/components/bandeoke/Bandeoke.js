@@ -142,7 +142,7 @@ class Bandeoke extends React.Component {
   render() {
     return (
       <div width='100%'>
-      <div id='score-loading-overlay' style={{display: this.props.media.scoreStatus === 'loading' ? 'block' : 'none'}}>S</div>
+      <div id='score-loading-overlay' style={{display: this.props.media.scoreStatus === 'loading' ? 'block' : 'none'}}></div>
       <LoadingBar />
         <div className="flex-column" width='1200px'>
           <div className='flex'>

@@ -45,7 +45,7 @@ class VideoGrid extends React.Component {
             <div className='flex overdub-controls-wrapper'>
               <div className='overdub-controls-item'>nudge</div>
               <div className='overdub-controls-item'><input className='video-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
-              <div className='overdub-controls-item'><input className='video-number' type="number" min="-1" max="1" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
+              <div className='overdub-controls-item'><input className='video-number' type="number" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
             </div>
             <div className='flex overdub-controls-wrapper'>
               <div className='overdub-controls-item'>gain</div>
@@ -87,7 +87,7 @@ class VideoGrid extends React.Component {
       return null
     }
     return (
-      <div className='video-grid-wrapper' wrap='true'>
+      <div className='video-grid-wrapper flex' wrap='true'>
         {this.renderVideoGrid()}
       </div>
     )

@@ -46,6 +46,9 @@ video {
 
 .flex-column {
   display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -55,10 +58,12 @@ video {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
 }
 
 .video-grid-wrapper {
-  display: flex;
   flex-direction: row;
   align-items: flex-end;
 }
@@ -91,8 +96,8 @@ video {
   flex-basis: 1 auto;
 }
 
-.video-input {
-  width: 100%;
+.video-number {
+  width: 35px;
 }
 
 .video-range {
