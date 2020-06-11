@@ -102,24 +102,25 @@ class Bandeoke extends React.Component {
     this.props.actions.videoStream(false)
   }
 
-  renderVideoGrid() {
+  renderVideoGrid(disabled) {
     if (this.props.overdubs.length === 0) {
       return null
     }
     if (this.props.media.videoSyncSet) {
-      return <VideoGrid overdubs={this.props.overdubs} media={this.props.media}/>
+      return <VideoGrid disabled={disabled} overdubs={this.props.overdubs} media={this.props.media}/>
     }
     return null
   }
 
-  renderButtons() {
+  renderButtons(disabled) {
+    const playing = this.props.playing
     return (
       <div className='controls-wrapper'>
-      <BackingTrack playing={this.props.playing} track={track} ref={syncRef} media={this.props.media} />
-      <Button disabled={this.props.playing} name={'PLAY'} onClick={this.onPlayClick} />
-      <Button disabled={!this.props.playing} name={'STOP'} onClick={this.onStopClick} />
-      <Button disabled={this.props.playing || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} />
-      <Button disabled={this.props.playing} name={'SAVE'} onClick={this.onSaveClick} />
+      <BackingTrack playing={playing} track={track} ref={syncRef} media={this.props.media} />
+      <Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} />
+      <Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} />
+      <Button disabled={disabled || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} />
+      <Button disabled={disabled} name={'SAVE'} onClick={this.onSaveClick} />
       </div>
     )
   }
@@ -140,17 +141,21 @@ class Bandeoke extends React.Component {
   }
 
   render() {
+    const disabled = this.props.playing || !this.props.audio.overdubsComplete || !this.props.audio.backingTrackComplete
+    const loading = this.props.media.scoreStatus === 'loading' || !this.props.audio.overdubsComplete || !this.props.audio.backingTrackComplete
     return (
       <div width='100%'>
-      <div id='score-loading-overlay' style={{display: this.props.media.scoreStatus === 'loading' ? 'block' : 'none'}}></div>
+      <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
       <LoadingBar />
         <div className="flex-column" width='1200px'>
           <div className='flex'>
-            {this.renderButtons()}
+            {this.renderButtons(disabled)}
             {this.renderMediaRecorder()}
-            <OverdubVideo />
+            <OverdubVideo
+              disabled={disabled}
+            />
             <div>
-              {this.renderVideoGrid()}
+              {this.renderVideoGrid(disabled)}
             </div>
           </div>
           <div className='score-wrapper'>
@@ -184,6 +189,7 @@ Bandeoke.propTypes = {
   player: PropTypes.object.isRequired,
   scoreOffset: PropTypes.number.isRequired,
   newOverdub: PropTypes.object.isRequired,
+  audio: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -196,6 +202,7 @@ function mapStateToProps(state) {
     player: state.player,
     scoreOffset: state.media.scoreOffset,
     newOverdub: state.newOverdub,
+    audio: state.audio,
   };
 }
 
