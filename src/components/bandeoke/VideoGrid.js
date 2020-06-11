@@ -28,9 +28,11 @@ class VideoGrid extends React.Component {
     if(this.props.overdubs.length > prevProps.overdubs.length){
       this.configBackingTrack()
     }
+    console.log(this.props.disabled)
   }
 
   renderVideoGrid(){
+    const disabled = this.props.disabled ? 'disabled' : ''
     if (this.props.overdubs.length === 0){
       return null
     }
@@ -40,16 +42,16 @@ class VideoGrid extends React.Component {
           <div className='flex-column video-grid-item-wrapper' key={i}>
             <div className='flex video-grid-item'>
               <video key={i} muted src={overdub.url} ref={ref => { this.refsArray[i] = ref}} />
-              <div className='delete-button' type='button' id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
+              <div className={ `delete-button ${disabled}` } id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
             </div>
             <div className='flex overdub-controls-wrapper'>
-              <div className='overdub-controls-item'>nudge</div>
-              <div className='overdub-controls-item'><input className='video-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
-              <div className='overdub-controls-item'><input className='video-number' type="number" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
+              <div className={ `overdub-controls-item ${disabled}` }>nudge</div>
+              <div className={ `overdub-controls-item ${disabled}` }><input className='video-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
+              <div className={ `overdub-controls-item ${disabled}` }><input className='video-number' type="number" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
             </div>
             <div className='flex overdub-controls-wrapper'>
-              <div className='overdub-controls-item'>gain</div>
-              <div className='overdub-controls-item'><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)} /></div>
+              <div className={ `overdub-controls-item ${disabled}` }>gain</div>
+              <div className={ `overdub-controls-item ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)} /></div>
             </div>
           </div>
         )
@@ -98,7 +100,14 @@ VideoGrid.propTypes = {
   overdubs: PropTypes.array.isRequired,
   media: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
+
+function mapStateToProps(state) {
+  return {
+    disabled: state.player.playing,
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -111,4 +120,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(VideoGrid);
+export default connect(mapStateToProps, mapDispatchToProps)(VideoGrid);

@@ -43,18 +43,19 @@ class OverdubVideo extends Component {
 
   renderVideo(){
     if (this.props.newOverdub.url) {
+      const disabled = this.props.playing ? 'disabled' : ''
       return (
         <div className='flex-column new-overdub-wrapper'>
           <video muted src={this.props.newOverdub.url} ref={this.myRef}/>
           <div className='delete-button' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub(this.props.newOverdub.url)}>x</div>
           <div className='flex overdub-controls-wrapper'>
-            <div className='overdub-controls-item'>nudge</div>
-            <div className='overdub-controls-item'><input className='video-range' type="range" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
-            <div className='overdub-controls-item'><input className='video-number' type="number" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
+            <div className={ `overdub-controls-item ${disabled}` }>nudge</div>
+            <div className={ `overdub-controls-item ${disabled}` }><input className='video-range' type="range" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
+            <div className={ `overdub-controls-item ${disabled}` }><input className='video-number' type="number" min="-1" max="1" step="0.01" npvalue={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
           </div>
           <div className='flex overdub-controls-wrapper'>
-            <div className='overdub-controls-item'>gain</div>
-            <div className='overdub-controls-item'><input className='video-range' type="range" min="0" max="3" step="0.01" value={this.props.newOverdub.gain} onChange={(e) => this.handleGainOverdub(this.props.newOverdub, e)} /></div>
+            <div className={ `overdub-controls-item ${disabled}` }>gain</div>
+            <div className={ `overdub-controls-item ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={this.props.newOverdub.gain} onChange={(e) => this.handleGainOverdub(this.props.newOverdub, e)} /></div>
           </div>
           <Button disabled={this.props.playing} name={'UPLOAD'} onClick={this.onUploadClick} />
         </div>
