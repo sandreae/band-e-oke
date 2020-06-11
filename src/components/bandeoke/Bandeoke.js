@@ -12,8 +12,6 @@ import BackingTrack from "./BackingTrack";
 import Button from "./Button";
 import OverdubVideo from "./OverdubVideo";
 import Score from "./Score";
-import track from '../../../public/legal.mp3'
-import score from '../../../public/legal-Eb.musicxml'
 import ReactMediaRecorder from "./MediaRecorder";
 import LoadingBar from 'react-redux-loading-bar'
 
@@ -116,7 +114,7 @@ class Bandeoke extends React.Component {
     const playing = this.props.playing
     return (
       <div className='controls-wrapper'>
-      <BackingTrack playing={playing} track={track} ref={syncRef} media={this.props.media} />
+      <BackingTrack playing={playing} track={this.props.track} ref={syncRef} media={this.props.media} />
       <Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} />
       <Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} />
       <Button disabled={disabled || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} />
@@ -162,13 +160,13 @@ class Bandeoke extends React.Component {
             <Score
             scoreOffset={this.props.scoreOffset}
             playing={this.props.playing}
-            score={score}
+            score={this.props.score}
             tempo={tempo}
             />
           </div>
           <div>
             <AudioPlayer
-            backingTrack={track}
+            backingTrack={this.props.track}
             audioContext={audioContext}
             playing={this.props.playing}
             />
@@ -190,6 +188,8 @@ Bandeoke.propTypes = {
   scoreOffset: PropTypes.number.isRequired,
   newOverdub: PropTypes.object.isRequired,
   audio: PropTypes.object.isRequired,
+  score: PropTypes.string.isRequired,
+  track: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
