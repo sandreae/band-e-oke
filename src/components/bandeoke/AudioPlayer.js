@@ -33,7 +33,6 @@ class AudioPlayer extends React.Component {
     let {playing, audioContext, overdubs, audio, newOverdub, backingTrack, actions} = this.props
 
     if (overdubs.length !== 0 && !audio.overdubsProcessing && !audio.overdubsComplete){
-      console.log(overdubs)
       actions.processOverdubs(audioContext, overdubs)
     }
     if (newOverdub.url && newOverdub !== prevProps.newOverdub){
@@ -69,7 +68,6 @@ class AudioPlayer extends React.Component {
   playBuffer(buffer, startTime, gain){
     let source  = this.props.audioContext.createBufferSource()
     var gainNode = this.props.audioContext.createGain();
-    console.log(gain)
     gainNode.gain.setValueAtTime(gain, this.props.audioContext.currentTime);
     source.buffer = buffer
     source.connect(gainNode)

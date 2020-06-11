@@ -8,8 +8,6 @@ import { toast } from "react-toastify";
 const baseUrl = process.env.API_URL
 
 export function setOverdubBlob(url) {
-  console.log(url)
-  console.log('set overdub blob')
   return { type: types.SET_OVERDUB_BLOB, url };
 }
 
@@ -30,7 +28,7 @@ export function gainNewOverdub(overdub) {
   return { type: types.GAIN_NEW_OVERDUB, overdub };
 }
 
-export function uploadOverdub(file, overdub) {
+export function uploadOverdub(file, overdub, title) {
   const {nudge, gain} = overdub
   return dispatch => {
     let fileName = new Date()
@@ -52,13 +50,13 @@ export function uploadOverdub(file, overdub) {
         }
         axios.put(signedRequest,file,options)
         .then(result => {
-          console.log(gain)
           const postData = async () => {
             try {
               const response = await axios.post(baseUrl + 'overdubs', {
                 url: url,
                 nudge: nudge,
                 gain: gain,
+                title: title,
               })
               dispatch(uploadSuccess())
             } catch (error) {
@@ -98,11 +96,12 @@ export function processNewOverdub(audioContext, overdub) {
 }
 
 export function upload(overdub){
-  return function(dispatch){
+  return function(dispatch, getState){
+    const { meta } = getState()
     toast.success("Overdub uploading....");
     dispatch(showLoading())
     fetchBlob(overdub.url).then((blob) => {
-      dispatch(uploadOverdub(blob, overdub))
+      dispatch(uploadOverdub(blob, overdub, meta.title))
     })
   }
 }

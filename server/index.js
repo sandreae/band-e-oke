@@ -30,6 +30,7 @@ app.use('/sign_s3', sign_s3.sign_s3)
 
 app.get('/overdubs', db.getOverdubs)
 app.get('/overdubs/:id', db.getOverdubById)
+app.get('/overdubs/title/:title', db.getOverdubsByTitle)
 app.post('/overdubs', db.createOverdub)
 app.put('/overdubs/:id', db.updateOverdub)
 app.delete('/overdubs/:id', db.deleteOverdub)

@@ -68,16 +68,21 @@ export function processOverdubs(audioContext, fetchedOverdubs) {
 
 //Thunks are defined below.  Used for async calls to the api.
 export function loadOverdubs() {
-  return function(dispatch) {
+  return function(dispatch, getState) {
+    const { meta } = getState();
     dispatch(beginApiCall());
     dispatch(showLoading())
     return overdubApi
-      .getOverdubs()
+      .getOverdubsByTitle(meta.title)
       .then(overdubs => {
         dispatch(loadOverdubsSuccess(overdubs));
         toast.success("Overdubs loaded.");
         dispatch(hideLoading())
-        dispatch(audioActions.processOverdubsComplete(false))
+        if (overdubs.length === 0){
+          dispatch(audioActions.processOverdubsComplete(true))
+        } else {
+          dispatch(audioActions.processOverdubsComplete(false))
+        }
         return overdubs
       })
       .catch(error => {

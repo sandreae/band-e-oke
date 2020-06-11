@@ -7,8 +7,10 @@ import HomePage from "./home/HomePage";
 import { ToastContainer, cssTransition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import track from '../../public/legal.mp3'
-import score from '../../public/legal-Eb.musicxml'
+import legalIllegalTrack from '../../public/legal.mp3'
+import legalIllegalScore from '../../public/legal-Eb.musicxml'
+import possessionTrack from '../../public/Possession-full.mp3'
+import possessionScore from '../../public/Possession-minus-tempo-Flute.musicxml'
 
 const Simple = cssTransition({
   enter: 'enter',
@@ -19,9 +21,12 @@ function App() {
   return (
     <div className="container-fluid">
       <Switch>
-        <Route path="/bandeoke"
-        render={(props) => <Bandeoke {...props} track={track} score={score} />}
-         />
+        <Route path="/legal-illegal"
+          render={(props) => <Bandeoke {...props} track={legalIllegalTrack} score={legalIllegalScore} title={'legal-illegal'}/>}
+        />
+        <Route path="/possession"
+          render={(props) => <Bandeoke {...props} track={possessionTrack} score={possessionScore} title={'possession'}/>}
+        />
         <Route path="/" component={HomePage} />
         <Route component={PageNotFound} />
       </Switch>

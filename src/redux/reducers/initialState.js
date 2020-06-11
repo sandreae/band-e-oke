@@ -26,32 +26,7 @@ export default {
     playing: false,
     recording: false,
   },
+  meta:{
+    title: ''
+  }
 };
-
-
-// audio {
-//   backingTrack
-//   backingTrackBuffer
-//   fetchedOverdubs
-//   fetchedOverdubsBuffer
-//   newOverdub
-//   newOverdubBuffer
-// }
-//
-// newOverdub{
-//   blob
-//   url
-// }
-
-// appReady
-// backingTrackPlaying
-// dataChange
-// isRecording
-// isUploading
-// mediaReady
-// mixPlaying
-// overdubPresent
-// recordingOverdub
-// recordingUrl
-// showVideo
-// streamReady

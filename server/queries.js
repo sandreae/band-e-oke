@@ -12,6 +12,17 @@ const getOverdubs = (request, response) => {
   })
 }
 
+const getOverdubsByTitle = (request, response) => {
+  const title = request.params.title
+
+  pool.query('SELECT * FROM overdubs WHERE title = $1', [title], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 const getOverdubById = (request, response) => {
   const id = parseInt(request.params.id)
 
@@ -24,9 +35,9 @@ const getOverdubById = (request, response) => {
 }
 
 const createOverdub = (request, response) => {
-  const { url, nudge, gain } = request.body
+  const { url, nudge, gain, title } = request.body
 
-  pool.query('INSERT INTO overdubs (url, nudge, gain) VALUES ($1, $2, $3)', [url, nudge, gain], error => {
+  pool.query('INSERT INTO overdubs (url, nudge, gain, title) VALUES ($1, $2, $3, $4)', [url, nudge, gain, title], error => {
     if (error) {
       throw error
     }
@@ -36,10 +47,10 @@ const createOverdub = (request, response) => {
 
 const updateOverdub = (request, response) => {
   const id = parseInt(request.params.id)
-  const { url, nudge, gain } = request.body
+  const { url, nudge, gain, title } = request.body
   pool.query(
-    'UPDATE overdubs SET (url, nudge, gain) = ($1, $2, $3) WHERE id = $4',
-    [url, nudge, gain, id],
+    'UPDATE overdubs SET (url, nudge, gain, title) = ($1, $2, $3, $4) WHERE id = $5',
+    [url, nudge, gain, title, id],
     (error, results) => {
       if (error) {
         throw error
@@ -63,6 +74,7 @@ const deleteOverdub = (request, response) => {
 module.exports = {
   getOverdubs,
   getOverdubById,
+  getOverdubsByTitle,
   createOverdub,
   updateOverdub,
   deleteOverdub,

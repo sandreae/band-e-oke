@@ -141,7 +141,6 @@ class ReactMediaRecorder extends React.Component {
       const stream = await window.navigator.mediaDevices.getUserMedia(
         this.requiredMedia
       );
-      console.log('media stream ready')
       return stream;
     } catch (error) {
       this.props.actions.streamStatus(error.name)

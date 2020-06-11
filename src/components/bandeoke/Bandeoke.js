@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import * as overdubActions from "../../redux/actions/overdubActions";
 import * as mediaActions from "../../redux/actions/mediaActions";
+import * as metaActions from "../../redux/actions/metaActions";
 import * as playerActions from "../../redux/actions/playerActions";
 import { bindActionCreators } from "redux";
 import VideoGrid from "./VideoGrid";
@@ -32,11 +33,13 @@ class Bandeoke extends React.Component {
   }
 
   componentDidMount() {
-    const { overdubs, actions } = this.props;
+    const { overdubs, actions, title } = this.props;
     document.addEventListener("keydown", this.keyboardFunction, false);
 
+    actions.setTitle(title)
+
     if (overdubs.length === 0) {
-      actions.loadOverdubs().catch(error => {
+      actions.loadOverdubs(this.props.title).catch(error => {
         alert("Loading overdubs failed: " + error);
       })
     }
@@ -54,11 +57,9 @@ class Bandeoke extends React.Component {
 
   keyboardFunction(){
     if(event.keyCode === 82) {
-      console.log('space')
       this.props.player.playing ? this.onStopClick() : this.onRecordClick()
     }
     if(event.keyCode === 32) {
-      console.log('space')
       this.props.player.playing ? this.onStopClick() : this.onPlayClick()
     }
   }
@@ -190,6 +191,7 @@ Bandeoke.propTypes = {
   audio: PropTypes.object.isRequired,
   score: PropTypes.string.isRequired,
   track: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -215,6 +217,7 @@ function mapDispatchToProps(dispatch) {
       record: bindActionCreators(playerActions.record, dispatch),
       setVideoSync: bindActionCreators(mediaActions.setVideoSync, dispatch),
       videoStream: bindActionCreators(mediaActions.videoStream, dispatch),
+      setTitle: bindActionCreators(metaActions.setTitle, dispatch),
     }
   };
 }
