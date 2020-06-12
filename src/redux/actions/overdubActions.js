@@ -118,7 +118,9 @@ export function deleteOverdub(overdub) {
     // Doing optimistic delete, so not dispatching begin/end api call
     // actions, or apiCallError action since we're not showing the loading status for this.
     dispatch(deleteOverdubOptimistic(overdub));
-    dispatch(loadOverdubs())
-    return overdubApi.deleteOverdub(overdub.id);
+    return overdubApi.deleteOverdub(overdub.id)
+      .then(() => {
+        dispatch(loadOverdubs())
+      });
   };
 }
