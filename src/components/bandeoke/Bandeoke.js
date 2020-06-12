@@ -40,13 +40,13 @@ class Bandeoke extends React.Component {
   }
 
   componentDidMount() {
-    const { overdubs, actions, title } = this.props;
+    const { overdubs, actions, songId } = this.props;
     document.addEventListener("keydown", this.keyboardFunction, false);
 
-    actions.setTitle(title)
+    actions.setTitle(songId)
 
     if (overdubs.length === 0) {
-      actions.loadOverdubs(this.props.title).catch(error => {
+      actions.loadOverdubs(this.props.songId).catch(error => {
         alert("Loading overdubs failed: " + error);
       })
     }
@@ -184,6 +184,7 @@ class Bandeoke extends React.Component {
       <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
       <LoadingBar />
         <div className="flex-column" width='1200px'>
+          <div><h2>{this.props.title}</h2></div>
           <div className='flex top-panel-wrapper'>
             <div className='flex-column top-panel-wrapper-left'>
               <div className='flex'>
@@ -231,6 +232,7 @@ Bandeoke.propTypes = {
   audio: PropTypes.object.isRequired,
   scores: PropTypes.object.isRequired,
   track: PropTypes.string.isRequired,
+  songId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
 

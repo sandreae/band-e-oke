@@ -7,8 +7,7 @@ const divStyle = {
 
 const HomePage = () => (
   <div className="" style={divStyle}>
-    <h1>Home Page</h1>
-    <p>Welcome to the Home Page. Go ahead and make this your own...</p>
+    <h1>Band-e-oke</h1>
   </div>
 );
 
