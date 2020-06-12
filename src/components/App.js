@@ -14,8 +14,16 @@ import legalIllegalC from '../../public/legal-illegal-C.musicxml'
 import possessionTrack from '../../public/Possession-full.mp3'
 import possessionScore from '../../public/Possession-minus-tempo-Flute.musicxml'
 
-const legalIllegalScores = {Eb: legalIllegalEb, Bb: legalIllegalBb, C: legalIllegalC}
-console.log(legalIllegalScores)
+const legalIllegalScores = [{
+    score: legalIllegalEb,
+    name: 'Eb',
+  }, {
+    score: legalIllegalBb,
+    name: 'Bb',
+  }, {
+    score: legalIllegalC,
+    name: 'C',
+}]
 
 const Simple = cssTransition({
   enter: 'enter',

@@ -24,12 +24,19 @@ const tempo = '140'
 class Bandeoke extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      loadScore: false,
+      score: '',
+    };
+
     this.onPlayClick = this.onPlayClick.bind(this);
     this.onStopClick = this.onStopClick.bind(this);
     this.onRecordClick = this.onRecordClick.bind(this);
     this.onSaveClick = this.onSaveClick.bind(this);
     this.onChangeStreamClick = this.onChangeStreamClick.bind(this);
     this.keyboardFunction = this.keyboardFunction.bind(this);
+    this.onLoadScoreClick = this.onLoadScoreClick.bind(this);
   }
 
   componentDidMount() {
@@ -101,6 +108,12 @@ class Bandeoke extends React.Component {
     this.props.actions.videoStream(false)
   }
 
+  onLoadScoreClick(score) {
+    this.setState(state => state.loadScore = false);
+    this.setState(state => state.score = score);
+    this.setState(state => state.loadScore = true);
+  }
+
   renderVideoGrid(disabled) {
     if (this.props.overdubs.length === 0) {
       return null
@@ -114,7 +127,7 @@ class Bandeoke extends React.Component {
   renderButtons(disabled) {
     const playing = this.props.playing
     return (
-      <div className='controls-wrapper'>
+      <div className='controls-wrapper flex-column'>
       <BackingTrack playing={playing} track={this.props.track} ref={syncRef} media={this.props.media} />
       <Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} />
       <Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} />
@@ -139,6 +152,30 @@ class Bandeoke extends React.Component {
     )
   }
 
+  renderScore(){
+    console.log(this.state.score)
+    if (this.state.loadScore){
+      return (
+        <Score
+        scoreOffset={this.props.scoreOffset}
+        score={this.state.score}
+        tempo={tempo}
+        />
+      )
+    }
+  }
+
+  renderScoreButtons(){
+    console.log(this.props.scores)
+    console.log('hello')
+    if (this.props.scores){
+      const scoreButtons = this.props.scores.map((item, i) => {
+        return <Button key={i} disabled={this.props.playing} name={item.name} onClick={() => this.onLoadScoreClick(item.score)} />
+      });
+      return scoreButtons
+    }
+  }
+
   render() {
     const disabled = this.props.playing || !this.props.audio.overdubsComplete || !this.props.audio.backingTrackComplete
     const loading = this.props.media.scoreStatus === 'loading' || !this.props.audio.overdubsComplete || !this.props.audio.backingTrackComplete
@@ -147,23 +184,26 @@ class Bandeoke extends React.Component {
       <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
       <LoadingBar />
         <div className="flex-column" width='1200px'>
-          <div className='flex'>
-            {this.renderButtons(disabled)}
-            {this.renderMediaRecorder()}
-            <OverdubVideo
-              disabled={disabled}
-            />
-            <div>
-              {this.renderVideoGrid(disabled)}
+          <div className='flex top-panel-wrapper'>
+            <div className='flex-column top-panel-wrapper-left'>
+              <div className='flex'>
+                {this.renderButtons(disabled)}
+                {this.renderMediaRecorder()}
+                <OverdubVideo
+                  disabled={disabled}
+                />
+              </div>
+              <div className="flex-column">
+                <div>load score</div>
+                <div className="scores flex">
+                  {this.renderScoreButtons()}
+                </div>
+              </div>
             </div>
+            {this.renderVideoGrid(disabled)}
           </div>
           <div className='score-wrapper'>
-            <Score
-            scoreOffset={this.props.scoreOffset}
-            playing={this.props.playing}
-            scores={this.props.scores}
-            tempo={tempo}
-            />
+            {this.renderScore()}
           </div>
           <div>
             <AudioPlayer

@@ -220,7 +220,7 @@ class ReactMediaRecorder extends React.Component {
 
   render(){
     return (
-      <div className='flex-column'>
+      <div className='flex-column media-stream-wrapper'>
         <video muted autoPlay ref={this.props.streamRef} />
         <p>{status}</p>
       </div>

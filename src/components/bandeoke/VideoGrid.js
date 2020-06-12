@@ -44,13 +44,13 @@ class VideoGrid extends React.Component {
               <div className={ `delete-button ${disabled}` } id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
             </div>
             <div className='flex overdub-controls-wrapper'>
-              <div className={ `overdub-controls-item ${disabled}` }>nudge</div>
-              <div className={ `overdub-controls-item ${disabled}` }><input className='video-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
-              <div className={ `overdub-controls-item ${disabled}` }><input className='video-number' type="number" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
+              <div className={ `overdub-controls-item nudge ${disabled}` }>nudge</div>
+              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
+              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-number' type="number" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
             </div>
             <div className='flex overdub-controls-wrapper'>
-              <div className={ `overdub-controls-item ${disabled}` }>gain</div>
-              <div className={ `overdub-controls-item ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)} /></div>
+              <div className={ `overdub-controls-item gain ${disabled}` }>gain</div>
+              <div className={ `overdub-controls-item gain ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)} /></div>
             </div>
           </div>
         )
