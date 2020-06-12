@@ -12,7 +12,7 @@ import legalIllegalEb from '../../public/legal-illegal-Eb.musicxml'
 import legalIllegalBb from '../../public/legal-illegal-Bb.musicxml'
 import legalIllegalC from '../../public/legal-illegal-C.musicxml'
 import possessionTrack from '../../public/Possession-full.mp3'
-import possessionScore from '../../public/Possession-minus-tempo-Flute.musicxml'
+import possessionC from '../../public/Possession-minus-tempo-Flute.musicxml'
 
 const legalIllegalScores = [{
     score: legalIllegalEb,
@@ -23,6 +23,11 @@ const legalIllegalScores = [{
   }, {
     score: legalIllegalC,
     name: 'C',
+}]
+
+const possessionScores = [{
+    score: possessionC,
+    name: 'C'
 }]
 
 const Simple = cssTransition({
@@ -36,6 +41,9 @@ function App() {
       <Switch>
         <Route path="/legal-illegal"
           render={(props) => <Bandeoke {...props} track={legalIllegalTrack} scores={legalIllegalScores} title={'legal-illegal'}/>}
+        />
+        <Route path="/possession"
+          render={(props) => <Bandeoke {...props} track={possessionTrack} scores={possessionScores} title={'possession'}/>}
         />
         <Route path="/" component={HomePage} />
         <Route component={PageNotFound} />
