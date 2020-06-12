@@ -18,8 +18,12 @@ class OverdubVideo extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.newOverdub.url && (this.props.newOverdub.url !== prevProps.newOverdub.url)){
-      this.props.actions.addVideoSyncChildren([this.myRef.current])
+    if(this.props.newOverdub.url && this.props.playing){
+      this.myRef.current.play()
+    }
+    if(this.props.newOverdub.url && !this.props.playing){
+      this.myRef.current.pause()
+      this.myRef.current.currentTime = 0
     }
   }
 
@@ -88,7 +92,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      addVideoSyncChildren: bindActionCreators(mediaActions.addVideoSyncChildren, dispatch),
       nudgeNewOverdub: bindActionCreators(newOverdubActions.nudgeNewOverdub, dispatch),
       upload: bindActionCreators(newOverdubActions.upload, dispatch),
       removeNewOverdub: bindActionCreators(newOverdubActions.removeNewOverdub, dispatch),

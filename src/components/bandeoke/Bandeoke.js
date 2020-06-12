@@ -166,8 +166,6 @@ class Bandeoke extends React.Component {
   }
 
   renderScoreButtons(){
-    console.log(this.props.scores)
-    console.log('hello')
     if (this.props.scores){
       const scoreButtons = this.props.scores.map((item, i) => {
         return <Button key={i} disabled={this.props.playing} name={item.name} onClick={() => this.onLoadScoreClick(item.score)} />
@@ -192,6 +190,7 @@ class Bandeoke extends React.Component {
                 {this.renderMediaRecorder()}
                 <OverdubVideo
                   disabled={disabled}
+                  playing={this.props.playing}
                 />
               </div>
               <div className="flex-column">
