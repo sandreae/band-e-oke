@@ -11,13 +11,15 @@ class Score extends Component {
     super(props);
     // Don't call this.setState() here!
     this.state = {
-      load: false
+      load: false,
+      score: '',
     };
 
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick() {
+  handleClick(score) {
+    this.setState(state => state.score = score);
     this.setState(state => state.load = true);
   }
 
@@ -29,7 +31,8 @@ class Score extends Component {
   }
 
   renderScore() {
-    return <OpenSheetMusicDisplay file={this.props.score} tempo={this.props.tempo}/>
+    console.log(this.props.scores.Eb)
+    return <OpenSheetMusicDisplay file={this.state.score} tempo={this.props.tempo}/>
   }
 
   render() {
@@ -43,8 +46,10 @@ class Score extends Component {
       )
     }
     return (
-      <div className="Score">
-        <Button disabled={this.props.playing} name="load score" onClick={this.handleClick} />
+      <div className="scores flex">
+        <Button className="score-botton" disabled={this.props.playing} name="Eb" onClick={() => this.handleClick(this.props.scores.Eb)} />
+        <Button className="score-botton" disabled={this.props.playing} name="Bb" onClick={() => this.handleClick(this.props.scores.Bb)} />
+        <Button className="score-botton" disabled={this.props.playing} name="C" onClick={() => this.handleClick(this.props.scores.C)} />
       </div>
     )
   }
@@ -52,7 +57,7 @@ class Score extends Component {
 
 Score.propTypes = {
   scoreOffset: PropTypes.number.isRequired,
-  score: PropTypes.string.isRequired,
+  scores: PropTypes.object.isRequired,
   tempo: PropTypes.string.isRequired,
   media: PropTypes.object.isRequired,
   playing: PropTypes.bool.isRequired,

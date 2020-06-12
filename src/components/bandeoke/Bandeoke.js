@@ -161,7 +161,7 @@ class Bandeoke extends React.Component {
             <Score
             scoreOffset={this.props.scoreOffset}
             playing={this.props.playing}
-            score={this.props.score}
+            scores={this.props.scores}
             tempo={tempo}
             />
           </div>
@@ -189,7 +189,7 @@ Bandeoke.propTypes = {
   scoreOffset: PropTypes.number.isRequired,
   newOverdub: PropTypes.object.isRequired,
   audio: PropTypes.object.isRequired,
-  score: PropTypes.string.isRequired,
+  scores: PropTypes.object.isRequired,
   track: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
