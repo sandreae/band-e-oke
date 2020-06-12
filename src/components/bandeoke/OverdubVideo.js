@@ -55,7 +55,7 @@ class OverdubVideo extends Component {
           <div className='flex overdub-controls-wrapper'>
             <div className={ `overdub-controls-item ${disabled}` }>nudge</div>
             <div className={ `overdub-controls-item ${disabled}` }><input className='video-range' type="range" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
-            <div className={ `overdub-controls-item ${disabled}` }><input className='video-number' type="number" min="-1" max="1" step="0.01" npvalue={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
+            <div className={ `overdub-controls-item ${disabled}` }><input className='video-number' type="number" min="-1" max="1" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
           </div>
           <div className='flex overdub-controls-wrapper'>
             <div className={ `overdub-controls-item ${disabled}` }>gain</div>

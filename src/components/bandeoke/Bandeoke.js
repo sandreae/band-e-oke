@@ -185,21 +185,23 @@ class Bandeoke extends React.Component {
           <div><h2>{this.props.title}</h2></div>
           <div className='flex top-panel-wrapper'>
             <div className='flex-column top-panel-wrapper-left'>
-              <div className='flex'>
-                {this.renderButtons(disabled)}
-                {this.renderMediaRecorder()}
-                <OverdubVideo
-                  disabled={disabled}
-                  playing={this.props.playing}
-                />
-              </div>
               <div className="flex-column">
-                <div>load score</div>
-                <div className="scores flex">
-                  {this.renderScoreButtons()}
+                <div className='flex'>
+                  {this.renderButtons(disabled)}
+                  {this.renderMediaRecorder()}
+                </div>
+                <div className="flex-column">
+                  <div>load score</div>
+                  <div className="scores flex">
+                    {this.renderScoreButtons()}
+                  </div>
                 </div>
               </div>
             </div>
+            <OverdubVideo
+              disabled={disabled}
+              playing={this.props.playing}
+            />
             {this.renderVideoGrid(disabled)}
           </div>
           <div className='score-wrapper'>

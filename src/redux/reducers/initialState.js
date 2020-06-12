@@ -1,7 +1,7 @@
 export default {
   apiCallsInProgress: 0,
   newOverdub: {
-    nudge: 0,
+    nudge: -0.18,
     url: null,
     gain: 1,
   },
