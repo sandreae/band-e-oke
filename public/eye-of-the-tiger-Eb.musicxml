@@ -9,7 +9,7 @@
     <creator type="lyricist">Frankie Suulivan III &amp; Jim Peterik</creator>
     <encoding>
       <software>MuseScore 3.4.2</software>
-      <encoding-date>2020-06-12</encoding-date>
+      <encoding-date>2020-06-18</encoding-date>
       <supports element="accidental" type="yes"/>
       <supports element="beam" type="yes"/>
       <supports element="print" attribute="new-page" type="yes" value="yes"/>
@@ -2164,7 +2164,7 @@
         </print>
       <direction placement="above">
         <direction-type>
-          <words default-y="40.09" relative-y="20.00">Moderate Rock(y)</words>
+          <words default-y="25.67" relative-y="20.00">Moderate Rock(y)</words>
           </direction-type>
         </direction>
       <note default-x="94.59" default-y="15.00">

@@ -81,6 +81,26 @@ h2 {
    overflow: hidden;
 }
 
+.pdf-link p {
+  margin-right: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  background-color: yellow;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.pdf-link-text p {
+  margin-right: 5px;
+  font-size: 1em;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
 .video-grid-item-wrapper {
   width: 200px;
 }

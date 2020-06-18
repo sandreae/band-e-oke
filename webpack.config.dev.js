@@ -33,7 +33,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(musicxml|mp3|wav|png|jpe?g|gif)$/i,
+        test: /\.(pdf|musicxml|mp3|wav|png|jpe?g|gif)$/i,
         use: [
           {
             loader: 'file-loader',

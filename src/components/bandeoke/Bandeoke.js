@@ -13,6 +13,7 @@ import BackingTrack from "./BackingTrack";
 import Button from "./Button";
 import OverdubVideo from "./OverdubVideo";
 import Score from "./Score";
+import PdfViewer from "./PdfViewer";
 import ReactMediaRecorder from "./MediaRecorder";
 import LoadingBar from 'react-redux-loading-bar'
 
@@ -215,6 +216,7 @@ class Bandeoke extends React.Component {
             />
           </div>
         </div>
+        <div className="footer flex"><PdfViewer scores={this.props.scores} /></div>
       </div>
     );
   }

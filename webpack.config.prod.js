@@ -44,7 +44,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(musicxml|mp3|wav|png|jpe?g|gif)$/i,
+        test: /\.(pdf|musicxml|mp3|wav|png|jpe?g|gif)$/i,
         use: [
           {
             loader: 'file-loader',
@@ -80,5 +80,15 @@ module.exports = {
         use: 'raw-loader',
       }
     ]
+  },
+    node : {
+    module: 'empty',
+    dgram: 'empty',
+    dns: 'mock',
+    fs: 'empty',
+    http2: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty',
   }
 };

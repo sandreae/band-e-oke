@@ -20,6 +20,9 @@ import eyeOfTheTigerTrack from '../../public/eye-of-the-tiger.mp3'
 import eyeOfTheTigerEb from '../../public/eye-of-the-tiger-Eb.musicxml'
 import eyeOfTheTigerBb from '../../public/eye-of-the-tiger-Bb.musicxml'
 import eyeOfTheTigerC from '../../public/eye-of-the-tiger-C.musicxml'
+import eyeOfTheTigerEbPdf from '../../public/eye-of-the-tiger-Eb.pdf'
+import eyeOfTheTigerBbPdf from '../../public/eye-of-the-tiger-Bb.pdf'
+import eyeOfTheTigerCPdf from '../../public/eye-of-the-tiger-C.pdf'
 import possessionTrack from '../../public/Possession-full.mp3'
 import possessionC from '../../public/Possession-minus-tempo-Flute.musicxml'
 
@@ -47,12 +50,15 @@ const iNeedYouScores = [{
 
 const eyeOfTheTigerScores = [{
     score: eyeOfTheTigerEb,
+    pdf: eyeOfTheTigerEbPdf,
     name: 'Eb',
   }, {
     score: eyeOfTheTigerBb,
+    pdf: eyeOfTheTigerBbPdf,
     name: 'Bb',
   }, {
     score: eyeOfTheTigerC,
+    pdf: eyeOfTheTigerCPdf,
     name: 'C',
 }]
 

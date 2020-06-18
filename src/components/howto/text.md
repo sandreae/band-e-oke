@@ -14,9 +14,11 @@ this will use a lot of data....
 # <span className=highlight> How to do it?</span>
 
 press the <span className=highlight>**PLAY**</span> button to listen to the backing track as well as any recorded
-overdubs
+overdubs - ***pressing SPACE BAR*** also starts playing
 
-press the <span className=highlight>**RECORD**</span> button to start recording your overdub
+press the <span className=highlight>**Eb, Bb or C**</span> buttons to load the appropriate score - when you press **PLAY** or **RECORD** this will start the score scrolling - *alternatively click one of the links at the bottom to open the scores as a pdf in a new window where they can be downloaded*
+
+press the <span className=highlight>**RECORD**</span> button to start recording your overdub - pressing ***r key*** on your keyboard also starts recording
 
 press <span className=highlight>**UPLOAD**</span> when you are happy with your overdub and want to save it to the
 track (this means others visiting the page can see it)
