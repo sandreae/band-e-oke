@@ -4,6 +4,7 @@ import PageNotFound from "./PageNotFound";
 // eslint-disable-next-line import/no-named-as-default
 import Bandeoke from "./bandeoke/Bandeoke";
 import HomePage from "./home/HomePage";
+import HowToPage from "./howto/HowToPage";
 import { ToastContainer, cssTransition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -81,6 +82,7 @@ function App() {
         <Route path="/eye-of-the-tiger"
           render={(props) => <Bandeoke {...props} track={eyeOfTheTigerTrack} scores={eyeOfTheTigerScores} title={'Eye Of The Tiger'} songId={'eye-of-the-tiger'}/>}
         />
+        <Route path="/how-to" component={HowToPage} />
         <Route path="/" component={HomePage} />
         <Route component={PageNotFound} />
       </Switch>
