@@ -1,5 +1,5 @@
 import React from "react";
-const ReactMarkdown = require('react-markdown')
+const ReactMarkdown = require('react-markdown/with-html')
 import text from "./text.md"
 
 const divStyle = {
@@ -9,7 +9,7 @@ const divStyle = {
 
 const HowToPage = () => (
   <div className="" style={divStyle}>
-    <ReactMarkdown source={text} />
+    <ReactMarkdown escapeHtml={false} source={text} />
   </div>
 );
 

@@ -31,6 +31,10 @@ h2 {
   font-family: "Courier New", Courier, monospace;
 }
 
+.highlight {
+  background-color: yellow;
+}
+
 #score-loading-overlay {
   position: fixed;
   display: none;
