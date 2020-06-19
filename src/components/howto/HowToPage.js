@@ -8,7 +8,7 @@ const divStyle = {
 };
 
 const HowToPage = () => (
-  <div className="" style={divStyle}>
+  <div className="how-to" style={divStyle}>
     <ReactMarkdown escapeHtml={false} source={text} />
   </div>
 );

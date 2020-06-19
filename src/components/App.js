@@ -74,7 +74,7 @@ const Simple = cssTransition({
 
 function App() {
   return (
-    <div className="container-fluid">
+    <div className="app">
       <Switch>
         <Route path="/legal-illegal"
           render={(props) => <Bandeoke {...props} track={legalIllegalTrack} scores={legalIllegalScores} title={'Legal Illegal - Peggy Seeger & Ewan MacColl'} songId={'legal-illegal'}/>}
