@@ -12,19 +12,58 @@ import legalIllegalTrack from '../../public/legal-illegal.mp3'
 import legalIllegalEb from '../../public/legal-illegal-Eb.musicxml'
 import legalIllegalBb from '../../public/legal-illegal-Bb.musicxml'
 import legalIllegalC from '../../public/legal-illegal-C.musicxml'
-import iNeedYouTrack from '../../public/I_NEED_U.mp3'
-import iNeedYouEb from '../../public/I_NEED_U-Eb.musicxml'
-import iNeedYouBb from '../../public/I_NEED_U-Bb.musicxml'
-import iNeedYouC from '../../public/I_NEED_U-C.musicxml'
-import eyeOfTheTigerTrack from '../../public/eye-of-the-tiger.mp3'
-import eyeOfTheTigerEb from '../../public/eye-of-the-tiger-Eb.musicxml'
-import eyeOfTheTigerBb from '../../public/eye-of-the-tiger-Bb.musicxml'
-import eyeOfTheTigerC from '../../public/eye-of-the-tiger-C.musicxml'
-import eyeOfTheTigerEbPdf from '../../public/eye-of-the-tiger-Eb.pdf'
-import eyeOfTheTigerBbPdf from '../../public/eye-of-the-tiger-Bb.pdf'
-import eyeOfTheTigerCPdf from '../../public/eye-of-the-tiger-C.pdf'
-import possessionTrack from '../../public/Possession-full.mp3'
-import possessionC from '../../public/Possession-minus-tempo-Flute.musicxml'
+import iNeedYouTrack from '../../public/scores/i-need-you/i-need-you.mp3'
+import iNeedYouEb from '../../public/scores/i-need-you/i-need-you-Eb.musicxml'
+import iNeedYouBb from '../../public/scores/i-need-you/i-need-you-Bb.musicxml'
+import iNeedYouC from '../../public/scores/i-need-you/i-need-you-C.musicxml'
+import iNeedYouEbPdf from '../../public/scores/i-need-you/i-need-you-Eb.pdf'
+import iNeedYouBbPdf from '../../public/scores/i-need-you/i-need-you-Bb.pdf'
+import iNeedYouCPdf from '../../public/scores/i-need-you/i-need-you-C.pdf'
+import eyeOfTheTigerTrack from '../../public/scores/eye-of-the-tiger/eye-of-the-tiger.mp3'
+import eyeOfTheTigerEb from '../../public/scores/eye-of-the-tiger/eye-of-the-tiger-Eb.musicxml'
+import eyeOfTheTigerBb from '../../public/scores/eye-of-the-tiger/eye-of-the-tiger-Bb.musicxml'
+import eyeOfTheTigerC from '../../public/scores/eye-of-the-tiger/eye-of-the-tiger-C.musicxml'
+import eyeOfTheTigerEbPdf from '../../public/scores/eye-of-the-tiger/eye-of-the-tiger-Eb.pdf'
+import eyeOfTheTigerBbPdf from '../../public/scores/eye-of-the-tiger/eye-of-the-tiger-Bb.pdf'
+import eyeOfTheTigerCPdf from '../../public/scores/eye-of-the-tiger/eye-of-the-tiger-C.pdf'
+import madWorldTrack from '../../public/scores/mad-world/mad-world.mp3'
+import madWorldEb from '../../public/scores/mad-world/mad-world-Eb.musicxml'
+import madWorldBb from '../../public/scores/mad-world/mad-world-Bb.musicxml'
+import madWorldC from '../../public/scores/mad-world/mad-world-C.musicxml'
+import madWorldEbPdf from '../../public/scores/mad-world/mad-world-Eb.pdf'
+import madWorldBbPdf from '../../public/scores/mad-world/mad-world-Bb.pdf'
+import madWorldCPdf from '../../public/scores/mad-world/mad-world-C.pdf'
+import pinkPantherTrack from '../../public/scores/pink-panther/pink-panther.mp3'
+import pinkPantherEb from '../../public/scores/pink-panther/pink-panther-Eb.musicxml'
+import pinkPantherBb from '../../public/scores/pink-panther/pink-panther-Bb.musicxml'
+import pinkPantherC from '../../public/scores/pink-panther/pink-panther-C.musicxml'
+import pinkPantherEbPdf from '../../public/scores/pink-panther/pink-panther-Eb.pdf'
+import pinkPantherBbPdf from '../../public/scores/pink-panther/pink-panther-Bb.pdf'
+import pinkPantherCPdf from '../../public/scores/pink-panther/pink-panther-C.pdf'
+import godsPlanTrack from '../../public/scores/gods-plan/gods-plan.mp3'
+import godsPlanEb from '../../public/scores/gods-plan/gods-plan-Eb.musicxml'
+import godsPlanBb from '../../public/scores/gods-plan/gods-plan-Bb.musicxml'
+import godsPlanC from '../../public/scores/gods-plan/gods-plan-C.musicxml'
+import godsPlanEbPdf from '../../public/scores/gods-plan/gods-plan-Eb.pdf'
+import godsPlanBbPdf from '../../public/scores/gods-plan/gods-plan-Bb.pdf'
+import godsPlanCPdf from '../../public/scores/gods-plan/gods-plan-C.pdf'
+import happierTrack from '../../public/scores/happier/happier.mp3'
+import happierEb from '../../public/scores/happier/happier-Eb.musicxml'
+import happierBb from '../../public/scores/happier/happier-Bb.musicxml'
+import happierC from '../../public/scores/happier/happier-C.musicxml'
+import happierEbPdf from '../../public/scores/happier/happier-Eb.pdf'
+import happierBbPdf from '../../public/scores/happier/happier-Bb.pdf'
+import happierCPdf from '../../public/scores/happier/happier-C.pdf'
+import filterTrack from '../../public/scores/filter/filter.mp3'
+import filterEb from '../../public/scores/filter/filter-Eb.musicxml'
+import filterBb from '../../public/scores/filter/filter-Bb.musicxml'
+import filterC from '../../public/scores/filter/filter-C.musicxml'
+import filterEbPdf from '../../public/scores/filter/filter-Eb.pdf'
+import filterBbPdf from '../../public/scores/filter/filter-Bb.pdf'
+import filterCPdf from '../../public/scores/filter/filter-C.pdf'
+import possessionTrack from '../../public/scores/possession/possession.mp3'
+import possessionC from '../../public/scores/possession/possession-C.musicxml'
+import possessionCPdf from '../../public/scores/possession/possession-C.pdf'
 
 const legalIllegalScores = [{
     score: legalIllegalEb,
@@ -39,12 +78,15 @@ const legalIllegalScores = [{
 
 const iNeedYouScores = [{
     score: iNeedYouEb,
+    pdf: iNeedYouEbPdf,
     name: 'Eb',
   }, {
     score: iNeedYouBb,
+    pdf: iNeedYouBbPdf,
     name: 'Bb',
   }, {
     score: iNeedYouC,
+    pdf: iNeedYouCPdf,
     name: 'C',
 }]
 
@@ -62,8 +104,79 @@ const eyeOfTheTigerScores = [{
     name: 'C',
 }]
 
+const madWorldScores = [{
+    score: madWorldEb,
+    pdf: madWorldEbPdf,
+    name: 'Eb',
+  }, {
+    score: madWorldBb,
+    pdf: madWorldBbPdf,
+    name: 'Bb',
+  }, {
+    score: madWorldC,
+    pdf: madWorldCPdf,
+    name: 'C',
+}]
+
+const pinkPantherScores = [{
+    score: pinkPantherEb,
+    pdf: pinkPantherEbPdf,
+    name: 'Eb',
+  }, {
+    score: pinkPantherBb,
+    pdf: pinkPantherBbPdf,
+    name: 'Bb',
+  }, {
+    score: pinkPantherC,
+    pdf: pinkPantherCPdf,
+    name: 'C',
+}]
+
+const happierScores = [{
+    score: happierEb,
+    pdf: happierEbPdf,
+    name: 'Eb',
+  }, {
+    score: happierBb,
+    pdf: happierBbPdf,
+    name: 'Bb',
+  }, {
+    score: happierC,
+    pdf: happierCPdf,
+    name: 'C',
+}]
+
+const filterScores = [{
+    score: filterEb,
+    pdf: filterEbPdf,
+    name: 'Eb',
+  }, {
+    score: filterBb,
+    pdf: filterBbPdf,
+    name: 'Bb',
+  }, {
+    score: filterC,
+    pdf: filterCPdf,
+    name: 'C',
+}]
+
+const godsPlanScores = [{
+    score: godsPlanEb,
+    pdf: godsPlanEbPdf,
+    name: 'Eb',
+  }, {
+    score: godsPlanBb,
+    pdf: godsPlanBbPdf,
+    name: 'Bb',
+  }, {
+    score: godsPlanC,
+    pdf: godsPlanCPdf,
+    name: 'C',
+}]
+
 const possessionScores = [{
     score: possessionC,
+    pdf: possessionCPdf,
     name: 'C'
 }]
 
@@ -87,6 +200,21 @@ function App() {
         />
         <Route path="/eye-of-the-tiger"
           render={(props) => <Bandeoke {...props} track={eyeOfTheTigerTrack} scores={eyeOfTheTigerScores} title={'Eye Of The Tiger'} songId={'eye-of-the-tiger'}/>}
+        />
+        <Route path="/mad-world"
+          render={(props) => <Bandeoke {...props} track={madWorldTrack} scores={madWorldScores} title={'Mad World'} songId={'mad-world'}/>}
+        />
+        <Route path="/pink-panther"
+          render={(props) => <Bandeoke {...props} track={pinkPantherTrack} scores={pinkPantherScores} title={'Pink Panther'} songId={'pink-panther'}/>}
+        />
+        <Route path="/happier"
+          render={(props) => <Bandeoke {...props} track={happierTrack} scores={happierScores} title={'Happier'} songId={'happier'}/>}
+        />
+        <Route path="/filter"
+          render={(props) => <Bandeoke {...props} track={filterTrack} scores={filterScores} title={'Filter'} songId={'filter'}/>}
+        />
+        <Route path="/gods-plan"
+          render={(props) => <Bandeoke {...props} track={godsPlanTrack} scores={godsPlanScores} title={'God\'s Plan'} songId={'gods-plan'}/>}
         />
         <Route path="/how-to" component={HowToPage} />
         <Route path="/" component={HomePage} />
