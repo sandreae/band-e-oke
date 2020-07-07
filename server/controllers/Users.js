@@ -32,9 +32,11 @@ const Users = {
     try {
       const { rows } = await db.query(createQuery, values);
       const token = Helper.generateToken(rows[0].id);
-      console.log(db)
-      console.log(token)
-      return res.status(201).send({ token });
+
+      return res.status(201).send({
+        username: req.body.username ,
+        token: token
+      });
     } catch(error) {
       console.log(error)
       if (error.routine === '_bt_check_unique') {
@@ -63,7 +65,10 @@ const Users = {
         return res.status(400).send({ 'message': 'The credentials you provided is incorrect' });
       }
       const token = Helper.generateToken(rows[0].id);
-      return res.status(200).send({ token });
+      return res.status(201).send({
+        username: req.body.username ,
+        token: token
+      });
     } catch(error) {
       return res.status(400).send(error)
     }
@@ -82,6 +87,26 @@ const Users = {
         return res.status(404).send({'message': 'user not found'});
       }
       return res.status(204).send({ 'message': 'deleted' });
+    } catch(error) {
+      return res.status(400).send(error);
+    }
+  },
+  /**
+   * Delete A User
+   * @param {object} req
+   * @param {object} res
+   * @returns {void} return status code 204
+   */
+  async get(req, res) {
+    const getQuery = 'SELECT * FROM users WHERE id=$1';
+    try {
+      const { rows } = await db.query(getQuery, [req.user.id]);
+      if(!rows[0]) {
+        return res.status(404).send({'message': 'user not found'});
+      }
+      return res.status(201).send({
+        username: rows[0].username ,
+      });
     } catch(error) {
       return res.status(400).send(error);
     }

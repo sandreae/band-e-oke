@@ -34,12 +34,13 @@ app.use('/sign_s3', sign_s3.sign_s3)
 app.post('/overdubs', Auth.verifyToken, Overdubs.create);
 app.get('/overdubs', Auth.verifyToken, Overdubs.getAll);
 app.get('/overdubs/:id', Auth.verifyToken, Overdubs.getOne);
-app.get('/overdubs/title/:title', Overdubs.getByTitle)
+app.get('/overdubs/title/:title', Auth.verifyToken, Overdubs.getByTitle)
 app.put('/overdubs/:id', Auth.verifyToken, Overdubs.update);
 app.delete('/overdubs/:id', Auth.verifyToken, Overdubs.delete);
 app.post('/users', Users.create);
 app.post('/users/login',Users.login);
-app.delete('/users/me', Auth.verifyToken, Users.delete);
+app.delete('/users/delete', Auth.verifyToken, Users.delete);
+app.get('/users/get', Auth.verifyToken, Users.get);
 
 if (isProduction) {
   app.use(express.static(path.join(__dirname, '../build')))

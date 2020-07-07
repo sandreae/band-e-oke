@@ -41,8 +41,8 @@ const Overdubs = {
   async getAll(req, res) {
     const findAllQuery = 'SELECT * FROM overdubs where owner_id = $1';
     try {
-      const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]);
-      return res.status(200).send({ rows, rowCount });
+      const { rows } = await db.query(findAllQuery, [req.user.id]);
+      return res.status(200).send(rows);
     } catch(error) {
       return res.status(400).send(error);
     }
@@ -74,8 +74,8 @@ const Overdubs = {
   async getByTitle(req, res) {
     const findAllQuery = 'SELECT * FROM overdubs where owner_id = $1 AND title = $2';
     try {
-      const { rows, rowCount } = await db.query(findAllQuery, [req.user.id, req.params.title]);
-      return res.status(200).send({ rows, rowCount });
+      const { rows } = await db.query(findAllQuery, [req.user.id, req.params.title]);
+      return res.status(200).send(rows);
     } catch(error) {
       return res.status(400).send(error);
     }
