@@ -2,13 +2,19 @@ import { handleResponse, handleError } from "./apiUtils";
 const baseUrl = process.env.API_URL + "overdubs/";
 
 export function getOverdubs() {
-  return fetch(baseUrl)
+  const token = localStorage.token;
+  return fetch(baseUrl, {
+    headers: { "x-access-token": token },
+  })
     .then(handleResponse)
     .catch(handleError);
 }
 
 export function getOverdubsByTitle(title) {
-  return fetch(baseUrl + 'title/' + title)
+  const token = localStorage.token;
+  return fetch(baseUrl + 'title/' + title, {
+    headers: { "x-access-token": token },
+  })
     .then(handleResponse)
     .catch(handleError);
 }
@@ -22,7 +28,11 @@ export function saveOverdub(overdub) {
 }
 
 export function deleteOverdub(overdubId) {
-  return fetch(baseUrl + overdubId, { method: "DELETE" })
+  const token = localStorage.token;
+  return fetch(baseUrl + overdubId, {
+    method: "DELETE",
+    headers: { "x-access-token": token },
+ })
     .then(handleResponse)
     .catch(handleError);
 }

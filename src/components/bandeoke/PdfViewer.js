@@ -28,7 +28,7 @@ class PdfViewer extends Component {
 }
 
 PdfViewer.propTypes = {
-  scores: PropTypes.object.isRequired,
+  scores: PropTypes.array.isRequired,
 };
 
 export default PdfViewer

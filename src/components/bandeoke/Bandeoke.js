@@ -233,7 +233,7 @@ Bandeoke.propTypes = {
   scoreOffset: PropTypes.number.isRequired,
   newOverdub: PropTypes.object.isRequired,
   audio: PropTypes.object.isRequired,
-  scores: PropTypes.object.isRequired,
+  scores: PropTypes.array.isRequired,
   track: PropTypes.string.isRequired,
   songId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,

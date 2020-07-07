@@ -1,10 +1,14 @@
-import React from "react";
+import React, {Component} from "react";
 import { Route, Switch } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import {getProfileFetch, logoutUser} from '../redux/actions/userActions';
 import PageNotFound from "./PageNotFound";
-// eslint-disable-next-line import/no-named-as-default
 import Bandeoke from "./bandeoke/Bandeoke";
 import HomePage from "./home/HomePage";
 import HowToPage from "./howto/HowToPage";
+import Signup from "./users/Signup";
+import Login from "./users/Login";
 import { ToastContainer, cssTransition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -185,44 +189,79 @@ const Simple = cssTransition({
   exit: 'exit',
 });
 
-function App() {
-  return (
-    <div className="app">
-      <Switch>
-        <Route path="/legal-illegal"
-          render={(props) => <Bandeoke {...props} track={legalIllegalTrack} scores={legalIllegalScores} title={'Legal Illegal - Peggy Seeger & Ewan MacColl'} songId={'legal-illegal'}/>}
-        />
-        <Route path="/possession"
-          render={(props) => <Bandeoke {...props} track={possessionTrack} scores={possessionScores} title={'Possesion - Les Baxter'} songId={'possession'}/>}
-        />
-        <Route path="/i-need-you"
-          render={(props) => <Bandeoke {...props} track={iNeedYouTrack} scores={iNeedYouScores} title={'I Need You - BTS'} songId={'i-need-you'}/>}
-        />
-        <Route path="/eye-of-the-tiger"
-          render={(props) => <Bandeoke {...props} track={eyeOfTheTigerTrack} scores={eyeOfTheTigerScores} title={'Eye Of The Tiger'} songId={'eye-of-the-tiger'}/>}
-        />
-        <Route path="/mad-world"
-          render={(props) => <Bandeoke {...props} track={madWorldTrack} scores={madWorldScores} title={'Mad World'} songId={'mad-world'}/>}
-        />
-        <Route path="/pink-panther"
-          render={(props) => <Bandeoke {...props} track={pinkPantherTrack} scores={pinkPantherScores} title={'Pink Panther'} songId={'pink-panther'}/>}
-        />
-        <Route path="/happier"
-          render={(props) => <Bandeoke {...props} track={happierTrack} scores={happierScores} title={'Happier'} songId={'happier'}/>}
-        />
-        <Route path="/filter"
-          render={(props) => <Bandeoke {...props} track={filterTrack} scores={filterScores} title={'Filter'} songId={'filter'}/>}
-        />
-        <Route path="/gods-plan"
-          render={(props) => <Bandeoke {...props} track={godsPlanTrack} scores={godsPlanScores} title={'God\'s Plan'} songId={'gods-plan'}/>}
-        />
-        <Route path="/how-to" component={HowToPage} />
-        <Route path="/" component={HomePage} />
-        <Route component={PageNotFound} />
-      </Switch>
-      <ToastContainer transition={Simple} hideProgressBar />
-    </div>
-  );
+class App extends Component {
+  componentDidMount = () => {
+    this.props.getProfileFetch()
+  }
+
+  handleClick = event => {
+    event.preventDefault()
+    // Remove the token from localStorage
+    localStorage.removeItem("token")
+    // Remove the user object from the Redux store
+    this.props.logoutUser()
+  }
+
+  render() {
+    return (
+      <div className="app">
+        <Switch>
+          <Route path="/legal-illegal"
+            render={(props) => <Bandeoke {...props} track={legalIllegalTrack} scores={legalIllegalScores} title={'Legal Illegal - Peggy Seeger & Ewan MacColl'} songId={'legal-illegal'}/>}
+          />
+          <Route path="/possession"
+            render={(props) => <Bandeoke {...props} track={possessionTrack} scores={possessionScores} title={'Possesion - Les Baxter'} songId={'possession'}/>}
+          />
+          <Route path="/i-need-you"
+            render={(props) => <Bandeoke {...props} track={iNeedYouTrack} scores={iNeedYouScores} title={'I Need You - BTS'} songId={'i-need-you'}/>}
+          />
+          <Route path="/eye-of-the-tiger"
+            render={(props) => <Bandeoke {...props} track={eyeOfTheTigerTrack} scores={eyeOfTheTigerScores} title={'Eye Of The Tiger'} songId={'eye-of-the-tiger'}/>}
+          />
+          <Route path="/mad-world"
+            render={(props) => <Bandeoke {...props} track={madWorldTrack} scores={madWorldScores} title={'Mad World'} songId={'mad-world'}/>}
+          />
+          <Route path="/pink-panther"
+            render={(props) => <Bandeoke {...props} track={pinkPantherTrack} scores={pinkPantherScores} title={'Pink Panther'} songId={'pink-panther'}/>}
+          />
+          <Route path="/happier"
+            render={(props) => <Bandeoke {...props} track={happierTrack} scores={happierScores} title={'Happier'} songId={'happier'}/>}
+          />
+          <Route path="/filter"
+            render={(props) => <Bandeoke {...props} track={filterTrack} scores={filterScores} title={'Filter'} songId={'filter'}/>}
+          />
+          <Route path="/gods-plan"
+            render={(props) => <Bandeoke {...props} track={godsPlanTrack} scores={godsPlanScores} title={'God\'s Plan'} songId={'gods-plan'}/>}
+          />
+          <Route path="/how-to" component={HowToPage} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
+          <Route path="/" component={HomePage} />
+          <Route component={PageNotFound} />
+        </Switch>
+        <ToastContainer transition={Simple} hideProgressBar />
+        {this.props.currentUser
+          ? <button onClick={this.handleClick}>Log Out</button>
+          : null
+        }
+      </div>
+    );
+  }
 }
 
-export default App;
+App.propTypes = {
+  currentUser: PropTypes.object,
+  getProfileFetch: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  currentUser: state.currentUser
+})
+
+const mapDispatchToProps = dispatch => ({
+  getProfileFetch: () => dispatch(getProfileFetch()),
+  logoutUser: () => dispatch(logoutUser())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
