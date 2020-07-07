@@ -52,12 +52,18 @@ export function uploadOverdub(file, overdub, title) {
         .then(result => {
           const postData = async () => {
             try {
+              const token = localStorage.token
+              var options = {
+                headers: {
+                  'x-access-token': token
+                }
+              }
               const response = await axios.post(baseUrl + 'overdubs', {
                 url: url,
                 nudge: nudge,
                 gain: gain,
                 title: title,
-              })
+              }, options)
               dispatch(uploadSuccess())
             } catch (error) {
               dispatch(hideLoading())

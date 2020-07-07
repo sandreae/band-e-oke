@@ -41,3 +41,6 @@ export const ALL_MEDIA_PLAYING = "ALL_MEDIA_PLAYING"
 export const RECORD_OVERDUB = "RECORD_OVERDUB"
 
 export const META_TITLE = "META_TITLE"
+
+export const USER_LOGIN = "USER_LOGIN"
+export const USER_LOGOUT = "USER_LOGIN"

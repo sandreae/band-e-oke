@@ -4,7 +4,7 @@ import newOverdub from "./newOverdubReducer";
 import overdubs from "./overdubReducer";
 import audio from "./audioReducer";
 import media from "./mediaReducer";
-import users from "./userReducer";
+import currentUser from "./userReducer";
 import player from "./playerReducer";
 import meta from "./metaReducer";
 import { loadingBarReducer } from 'react-redux-loading-bar'
@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   newOverdub: newOverdub,
   overdubs: overdubs,
   audio: audio,
-  users: users,
+  currentUser: currentUser,
   media: media,
   player: player,
   meta: meta,

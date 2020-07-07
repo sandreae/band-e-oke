@@ -3,11 +3,13 @@
 import * as types from "../actions/actionTypes";
 import initialState from "./initialState";
 
-export default function userReducer(state = initialState.users, action) {
-  switch (action.type) {
-    case types.LOAD_USERS_SUCCESS:
-      return action.users;
-    default:
-      return state;
+export default function reducer(state = initialState, action) {
+    switch (action.type) {
+      case types.USER_LOGIN:
+        return {...state, currentUser: action.payload}
+      case types.USER_LOGOUT:
+        return {...state, currentUser: null }
+      default:
+        return state;
+    }
   }
-}

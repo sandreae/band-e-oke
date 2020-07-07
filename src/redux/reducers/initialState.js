@@ -14,7 +14,6 @@ export default {
     newOverdubProcessing: false,
     newOverdubComplete: false,
   },
-  users: [],
   media: {
     videoSyncSet: false,
     scoreOffset: -20,
@@ -28,5 +27,6 @@ export default {
   },
   meta:{
     title: ''
-  }
+  },
+  currentUser: null
 };
