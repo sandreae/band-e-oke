@@ -6,9 +6,12 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const sign_s3 = require('./sign_s3')
-const db = require('./queries')
-const isProduction = process.env.NODE_ENV === 'production'
+const {Overdubs} = require('./controllers/Overdubs')
+const {Users} = require('./controllers/Users')
+const {Auth} = require('./middleware/Auth')
+require('dotenv').config()
 
+const isProduction = process.env.NODE_ENV === 'production'
 const app = express()
 
 app.use(bodyParser.json())
@@ -28,13 +31,15 @@ if(!isProduction) {
 
 app.use('/sign_s3', sign_s3.sign_s3)
 
-app.get('/overdubs', db.getOverdubs)
-app.get('/overdubs/:id', db.getOverdubById)
-app.get('/overdubs/title/:title', db.getOverdubsByTitle)
-app.post('/overdubs', db.createOverdub)
-app.put('/overdubs/:id', db.updateOverdub)
-app.delete('/overdubs/:id', db.deleteOverdub)
-
+app.post('/overdubs', Auth.verifyToken, Overdubs.create);
+app.get('/overdubs', Auth.verifyToken, Overdubs.getAll);
+app.get('/overdubs/:id', Auth.verifyToken, Overdubs.getOne);
+app.get('/overdubs/title/:title', Overdubs.getByTitle)
+app.put('/overdubs/:id', Auth.verifyToken, Overdubs.update);
+app.delete('/overdubs/:id', Auth.verifyToken, Overdubs.delete);
+app.post('/users', Users.create);
+app.post('/users/login',Users.login);
+app.delete('/users/me', Auth.verifyToken, Users.delete);
 
 if (isProduction) {
   app.use(express.static(path.join(__dirname, '../build')))

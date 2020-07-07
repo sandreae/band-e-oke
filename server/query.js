@@ -15,4 +15,26 @@ const pool = new Pool({
   }
 })
 
-module.exports = { pool }
+const db = {
+  /**
+   * DB Query
+   * @param {string} text
+   * @param {Array} params
+   * @returns {object} object
+   */
+   query(text, params){
+     return new Promise((resolve, reject) => {
+       pool.query(text, params)
+       .then((res) => {
+         resolve(res);
+       })
+       .catch((err) => {
+         reject(err);
+       })
+     })
+   }
+}
+
+module.exports = {
+  db
+};
