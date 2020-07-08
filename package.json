@@ -40,7 +40,6 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "uuid": "^8.2.0",
     "uuidv4": "^6.1.1"
   },
   "devDependencies": {
@@ -61,7 +60,6 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^3.2.0",
     "http-server": "^0.12.3",
-    "jest": "^25.1.0",
     "json-server": "^0.16.0",
     "mini-css-extract-plugin": "^0.9.0",
     "node-fetch": "^2.6.0",
