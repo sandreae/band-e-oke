@@ -40,7 +40,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "uuidv4": "^6.1.1"
+    "uuidv4": "^6.1.1",
+    "web-audio-peak-meter": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
