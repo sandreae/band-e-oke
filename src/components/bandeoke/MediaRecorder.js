@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as webAudioPeakMeter from 'web-audio-peak-meter';
+import webAudioPeakMeter from '../../scripts/WebAudioPeakMeter';
 import { connect } from "react-redux";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import * as mediaActions from "../../redux/actions/mediaActions";
@@ -88,10 +88,10 @@ class ReactMediaRecorder extends React.Component {
       this.stream = stream;
       this.props.streamRef.current.srcObject = stream
 
+      var meter1 = webAudioPeakMeter();
       var sourceNode = this.props.audioContext.createMediaStreamSource(stream);
-      var meterNode = webAudioPeakMeter.createMeterNode(sourceNode, this.props.audioContext);
-      webAudioPeakMeter.createMeter(this.meterRef.current, meterNode, {});
-      console.log(webAudioPeakMeter)
+      var meterNode = meter1.createMeterNode(sourceNode, this.props.audioContext);
+      meter1.createMeter(this.meterRef.current, meterNode, {});
     }
   };
   componentDidUpdate = prevProps => {

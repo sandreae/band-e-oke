@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types";
+import webAudioPeakMeter from '../../scripts/WebAudioPeakMeter';
 import { connect } from "react-redux";
 import * as mediaActions from "../../redux/actions/mediaActions";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
@@ -10,20 +11,32 @@ class OverdubVideo extends Component {
 
   constructor(props) {
     super(props)
-    this.myRef = React.createRef()
+    this.newOverdubRef = React.createRef()
+    this.nowOverdubMeterRef = React.createRef()
 
     this.handleNudgeOverdub = this.handleNudgeOverdub.bind(this);
     this.handleDeleteOverdub = this.handleDeleteOverdub.bind(this);
     this.handleGainOverdub = this.handleGainOverdub.bind(this);
+
+    this.state = {
+      meterRendered: false,
+    };
   }
 
   componentDidUpdate(prevProps) {
+    if(this.props.newOverdub.url && !this.state.meterRendered || this.props.newOverdub.url != prevProps.newOverdub.url && this.props.newOverdub.url){
+      var meter = webAudioPeakMeter();
+      var sourceNode = this.props.audioContext.createMediaElementSource(this.newOverdubRef.current);
+      var meterNode = meter.createMeterNode(sourceNode, this.props.audioContext);
+      meter.createMeter(this.nowOverdubMeterRef.current, meterNode, {});
+      this.setState(state => state.meterRendered = true);
+    }
     if(this.props.newOverdub.url && this.props.playing){
-      this.myRef.current.play()
+      this.newOverdubRef.current.play()
     }
     if(this.props.newOverdub.url && !this.props.playing){
-      this.myRef.current.pause()
-      this.myRef.current.currentTime = 0
+      this.newOverdubRef.current.pause()
+      this.newOverdubRef.current.currentTime = 0
     }
   }
 
@@ -45,12 +58,19 @@ class OverdubVideo extends Component {
     this.props.actions.gainNewOverdub(overdub);
   };
 
-  renderVideo(){
-    if (this.props.newOverdub.url) {
+  renderVisuals(){
+    return (
+      <span>
+        <audio src={this.props.newOverdub.url} ref={this.newOverdubRef} style={{display: "none"}}/>
+        <div ref={this.nowOverdubMeterRef} id="new-overdub-peak-meter" style={{width: "200px", height: "150px"}}></div>
+      </span>
+    )
+  }
+
+  renderControls(){
       const disabled = this.props.playing ? 'disabled' : ''
       return (
-        <div className='flex-column new-overdub-wrapper'>
-          <video muted src={this.props.newOverdub.url} ref={this.myRef}/>
+        <div className='flex-column'>
           <div className='delete-button' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub(this.props.newOverdub.url)}>x</div>
           <div className='flex overdub-controls-wrapper'>
             <div className={ `overdub-controls-item ${disabled}` }>nudge</div>
@@ -64,14 +84,18 @@ class OverdubVideo extends Component {
           <Button disabled={this.props.playing} name={'UPLOAD'} onClick={this.onUploadClick} />
         </div>
       )
-    }
-    return null
   }
 
   render() {
-    return <div className='flex' width='200px'>
-      {this.renderVideo()}
-    </div>
+    if (this.props.newOverdub.url) {
+      return (
+        <div className='flex-column new-overdub-wrapper'>
+        {this.renderVisuals()}
+        {this.renderControls()}
+        </div>
+      )
+    }
+  return null
   }
 }
 
@@ -79,6 +103,7 @@ OverdubVideo.propTypes = {
   newOverdub: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   playing: PropTypes.bool.isRequired,
+  audioContext: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

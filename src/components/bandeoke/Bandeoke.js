@@ -203,6 +203,7 @@ class Bandeoke extends React.Component {
             <OverdubVideo
               disabled={disabled}
               playing={this.props.playing}
+              audioContext={audioContext}
             />
             {this.renderVideoGrid(disabled)}
           </div>
