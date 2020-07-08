@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import * as webAudioPeakMeter from 'web-audio-peak-meter';
 import { connect } from "react-redux";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import * as mediaActions from "../../redux/actions/mediaActions";
@@ -68,21 +69,29 @@ class ReactMediaRecorder extends React.Component {
       video: typeof video === "boolean" ? !!video : video
     };
     this.blobPropertyBag = blobPropertyBag;
+    this.meterRef = React.createRef()
   }
 
   componentDidMount = async () => {
     const stream = await this.getMediaStream();
-    await stream.getVideoTracks()[0].applyConstraints({
-      width: { min: 200, ideal: 200, max: 800 },
-      height: { min: 150, ideal: 150, max: 600 },
-      frameRate: {ideal: 5, max: 20}
-    })
+    if (this.props.video) {
+      await stream.getVideoTracks()[0].applyConstraints({
+        width: { min: 200, ideal: 200, max: 800 },
+        height: { min: 150, ideal: 150, max: 600 },
+        frameRate: {ideal: 5, max: 20}
+      })
+    }
     if (stream) {
       stream
         .getAudioTracks()
         .forEach(track => (track.enabled = !this.props.muted));
       this.stream = stream;
       this.props.streamRef.current.srcObject = stream
+
+      var sourceNode = this.props.audioContext.createMediaStreamSource(stream);
+      var meterNode = webAudioPeakMeter.createMeterNode(sourceNode, this.props.audioContext);
+      webAudioPeakMeter.createMeter(this.meterRef.current, meterNode, {});
+      console.log(webAudioPeakMeter)
     }
   };
   componentDidUpdate = prevProps => {
@@ -218,10 +227,24 @@ class ReactMediaRecorder extends React.Component {
     }
   };
 
+  renderVisuals(){
+    console.log(this.props.video)
+    if (this.props.video){
+      return <video muted autoPlay ref={this.props.streamRef} />
+    } else {
+      return (
+        <span>
+          <video muted autoPlay ref={this.props.streamRef} style={{display: "none"}}/>
+          <div ref={this.meterRef} id="my-peak-meter" style={{width: "200px", height: "150px"}}></div>
+        </span>
+      )
+    }
+  }
+
   render(){
     return (
       <div className='flex-column media-stream-wrapper'>
-        <video muted autoPlay ref={this.props.streamRef} />
+        {this.renderVisuals()}
         <p>{status}</p>
       </div>
     )
@@ -247,6 +270,7 @@ ReactMediaRecorder.propTypes = {
   render: PropTypes.func.isRequired,
   blobPropertyBag: PropTypes.object,
   whenStopped: PropTypes.func,
+  audioContext: PropTypes.object.isRequired,
   streamRef: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   recording: PropTypes.bool.isRequired,

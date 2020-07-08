@@ -14,7 +14,7 @@ import Button from "./Button";
 import OverdubVideo from "./OverdubVideo";
 import Score from "./Score";
 import PdfViewer from "./PdfViewer";
-import ReactMediaRecorder from "./MediaRecorder";
+import MediaRecorder from "./MediaRecorder";
 import LoadingBar from 'react-redux-loading-bar'
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -143,12 +143,13 @@ class Bandeoke extends React.Component {
       return <div className='media-error'>Sorry, could not detect camera, try with just audio? <Button name='YES' onClick={this.onChangeStreamClick} /></div>
     }
     return (
-      <ReactMediaRecorder
+      <MediaRecorder
         audio
-        video={this.props.media.videoStream}
+        video={false}
         streamRef={streamRef}
         recording={this.props.recording}
         muted={false}
+        audioContext={audioContext}
       />
     )
   }
