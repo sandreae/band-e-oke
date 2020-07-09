@@ -75,6 +75,9 @@ import filterCPdf from '../../public/scores/filter/filter-C.pdf'
 import possessionTrack from '../../public/scores/possession/possession.mp3'
 import possessionC from '../../public/scores/possession/possession-C.musicxml'
 import possessionCPdf from '../../public/scores/possession/possession-C.pdf'
+import memeThemes1Track from '../../public/scores/meme-themes-1/meme-themes-1.mp3'
+import memeThemes1Score from '../../public/scores/meme-themes-1/meme-themes-1-score.musicxml'
+import memeThemes1ScorePdf from '../../public/scores/meme-themes-1/meme-themes-1-score.pdf'
 
 const legalIllegalScores = [{
     score: legalIllegalEb,
@@ -205,6 +208,12 @@ const possessionScores = [{
     name: 'C'
 }]
 
+const memeThemes1Scores = [{
+    score: memeThemes1Score,
+    pdf: memeThemes1ScorePdf,
+    name: 'Score'
+}]
+
 const Simple = cssTransition({
   enter: 'enter',
   exit: 'exit',
@@ -227,6 +236,11 @@ class App extends Component {
           { this.props.currentUser.currentUser &&
           <Route path="/possession"
             render={(props) => <Bandeoke {...props} track={possessionTrack} scores={possessionScores} title={'Possesion - Les Baxter'} songId={'possession'}/>}
+          />
+          }
+          { this.props.currentUser.currentUser &&
+          <Route path="/meme-themes-1"
+            render={(props) => <Bandeoke {...props} track={memeThemes1Track} scores={memeThemes1Scores} title={'Meme Themes 1'} songId={'meme-themes-1'}/>}
           />
           }
           { this.props.currentUser.currentUser &&
