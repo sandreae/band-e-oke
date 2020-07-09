@@ -61,6 +61,7 @@ h2 {
 }
 
 .home-page {
+  width: 90%;
   font-family: "Courier New", Courier, monospace;
   justify-content: space-between;
 }
@@ -167,9 +168,22 @@ h2 {
   height: 250px;
 }
 
+.login {
+  font-family: "Courier New", Courier, monospace;
+}
+.signup {
+  font-family: "Courier New", Courier, monospace;
+}
+
 .button {
   cursor: pointer;
   font-size: 2em;
+  background-color: yellow;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.button-small {
+  cursor: pointer;
   background-color: yellow;
   font-family: "Courier New", Courier, monospace;
 }

@@ -8,7 +8,7 @@ export default function reducer(state = initialState, action) {
       case types.USER_LOGIN:
         return {...state, currentUser: action.payload}
       case types.USER_LOGOUT:
-        return {...state, currentUser: null }
+        return {...state, currentUser: {currentUser: null} }
       default:
         return state;
     }

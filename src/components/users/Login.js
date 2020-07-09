@@ -22,9 +22,8 @@ class Login extends Component {
 
   render() {
     return (
+      <div className="flex-column login">
       <form onSubmit={this.handleSubmit}>
-        <h1>Login</h1>
-
         <label>Username</label>
         <input
           name='username'
@@ -42,18 +41,24 @@ class Login extends Component {
           onChange={this.handleChange}
           /><br/>
 
-        <input type='submit'/>
+        <input type='submit' name='login' value='login'/>
       </form>
+      </div>
     )
   }
 }
 
 Login.propTypes = {
   userLoginFetch: PropTypes.func.isRequired,
+  currentUser: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
   userLoginFetch: userInfo => dispatch(userLoginFetch(userInfo))
 })
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = state => ({
+  currentUser: state.currentUser
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

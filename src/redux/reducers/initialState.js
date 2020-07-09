@@ -28,5 +28,7 @@ export default {
   meta:{
     title: ''
   },
-  currentUser: null
+  currentUser: {
+    currentUser: null
+  }
 };

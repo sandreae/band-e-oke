@@ -22,8 +22,9 @@ class Signup extends Component {
 
   render() {
     return (
+      <div className="flex-column signup">
       <form onSubmit={this.handleSubmit}>
-        <h1>Sign Up For An Account</h1>
+        <h1>Create a Bandeoke Account</h1>
 
         <label>Username</label>
         <input
@@ -42,8 +43,9 @@ class Signup extends Component {
           onChange={this.handleChange}
           /><br/>
 
-        <input type='submit'/>
+        <input type='submit' value='signup'/>
       </form>
+      </div>
     )
   }
 }

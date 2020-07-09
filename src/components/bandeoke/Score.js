@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import OpenSheetMusicDisplay from './OpenSheetMusicDisplay'
-import Button from './Button'
 
 class Score extends Component {
 

@@ -194,59 +194,51 @@ class App extends Component {
     this.props.getProfileFetch()
   }
 
-  handleClick = event => {
-    event.preventDefault()
-    // Remove the token from localStorage
-    localStorage.removeItem("token")
-    // Remove the user object from the Redux store
-    this.props.logoutUser()
-  }
-
   render() {
     return (
       <div className="app">
         <Switch>
-          { this.props.currentUser &&
+          { this.props.currentUser.currentUser &&
             <Route path="/legal-illegal"
               render={(props) => <Bandeoke {...props} track={legalIllegalTrack} scores={legalIllegalScores} title={'Legal Illegal - Peggy Seeger & Ewan MacColl'} songId={'legal-illegal'}/>}
             />
           }
-          { this.props.currentUser &&
+          { this.props.currentUser.currentUser &&
           <Route path="/possession"
             render={(props) => <Bandeoke {...props} track={possessionTrack} scores={possessionScores} title={'Possesion - Les Baxter'} songId={'possession'}/>}
           />
           }
-          { this.props.currentUser &&
+          { this.props.currentUser.currentUser &&
           <Route path="/i-need-you"
             render={(props) => <Bandeoke {...props} track={iNeedYouTrack} scores={iNeedYouScores} title={'I Need You - BTS'} songId={'i-need-you'}/>}
           />
           }
-          { this.props.currentUser &&
+          { this.props.currentUser.currentUser &&
           <Route path="/eye-of-the-tiger"
             render={(props) => <Bandeoke {...props} track={eyeOfTheTigerTrack} scores={eyeOfTheTigerScores} title={'Eye Of The Tiger'} songId={'eye-of-the-tiger'}/>}
           />
           }
-          { this.props.currentUser &&
+          { this.props.currentUser.currentUser &&
           <Route path="/mad-world"
             render={(props) => <Bandeoke {...props} track={madWorldTrack} scores={madWorldScores} title={'Mad World'} songId={'mad-world'}/>}
           />
           }
-          { this.props.currentUser &&
+          { this.props.currentUser.currentUser &&
           <Route path="/pink-panther"
             render={(props) => <Bandeoke {...props} track={pinkPantherTrack} scores={pinkPantherScores} title={'Pink Panther'} songId={'pink-panther'}/>}
           />
           }
-          { this.props.currentUser &&
+          { this.props.currentUser.currentUser &&
           <Route path="/happier"
             render={(props) => <Bandeoke {...props} track={happierTrack} scores={happierScores} title={'Happier'} songId={'happier'}/>}
           />
           }
-          { this.props.currentUser &&
+          { this.props.currentUser.currentUser &&
           <Route path="/filter"
             render={(props) => <Bandeoke {...props} track={filterTrack} scores={filterScores} title={'Filter'} songId={'filter'}/>}
           />
           }
-          { this.props.currentUser &&
+          { this.props.currentUser.currentUser &&
           <Route path="/gods-plan"
             render={(props) => <Bandeoke {...props} track={godsPlanTrack} scores={godsPlanScores} title={'God\'s Plan'} songId={'gods-plan'}/>}
           />
@@ -258,10 +250,6 @@ class App extends Component {
           <Route component={PageNotFound} />
         </Switch>
         <ToastContainer transition={Simple} hideProgressBar />
-        {this.props.currentUser
-          ? <button onClick={this.handleClick}>Log Out</button>
-          : null
-        }
       </div>
     );
   }
