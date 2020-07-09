@@ -36,15 +36,15 @@ async function processAudio(audioContext, file) {
 export function processBackingTrack(audioContext, backingTrack) {
   return function(dispatch) {
     dispatch(showLoading())
-    dispatch(processingBackingTrack())
-    const audio = processAudio(audioContext, backingTrack)
-      .then((audio) => {
-        dispatch(processBackingTrackComplete())
+    dispatch(processingBackingTrack(true))
+    const audioBuffer = processAudio(audioContext, backingTrack)
+      .then((audioBuffer) => {
+        dispatch(processBackingTrackComplete(true))
         toast.success("Backing track audio ready. ");
         dispatch(hideLoading())
-        return audio
+        return audioBuffer
       }
     )
-    return audio
+    return audioBuffer
   }
 }

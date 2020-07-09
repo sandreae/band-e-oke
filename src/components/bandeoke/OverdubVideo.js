@@ -6,13 +6,14 @@ import * as mediaActions from "../../redux/actions/mediaActions";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import { bindActionCreators } from "redux";
 import Button from "./Button";
+import AudioMeter from "./AudioMeter";
 
 class OverdubVideo extends Component {
 
   constructor(props) {
     super(props)
     this.newOverdubRef = React.createRef()
-    this.nowOverdubMeterRef = React.createRef()
+    this.newOverdubMeterRef = React.createRef()
 
     this.handleNudgeOverdub = this.handleNudgeOverdub.bind(this);
     this.handleDeleteOverdub = this.handleDeleteOverdub.bind(this);
@@ -23,22 +24,22 @@ class OverdubVideo extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    if(this.props.newOverdub.url && !this.state.meterRendered || this.props.newOverdub.url != prevProps.newOverdub.url && this.props.newOverdub.url){
-      var meter = webAudioPeakMeter();
-      var sourceNode = this.props.audioContext.createMediaElementSource(this.newOverdubRef.current);
-      var meterNode = meter.createMeterNode(sourceNode, this.props.audioContext);
-      meter.createMeter(this.nowOverdubMeterRef.current, meterNode, {});
-      this.setState(state => state.meterRendered = true);
-    }
-    if(this.props.newOverdub.url && this.props.playing){
-      this.newOverdubRef.current.play()
-    }
-    if(this.props.newOverdub.url && !this.props.playing){
-      this.newOverdubRef.current.pause()
-      this.newOverdubRef.current.currentTime = 0
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if(this.props.newOverdub.url && !this.state.meterRendered || this.props.newOverdub.url != prevProps.newOverdub.url && this.props.newOverdub.url){
+  //     var meter = webAudioPeakMeter();
+  //     var sourceNode = this.props.audioContext.createMediaElementSource(this.newOverdubRef.current);
+  //     var meterNode = meter.createMeterNode(sourceNode, this.props.audioContext);
+  //     meter.createMeter(this.newOverdubMeterRef.current, meterNode, {});
+  //     this.setState(state => state.meterRendered = true);
+  //   }
+  //   if(this.props.newOverdub.url && this.props.playing){
+  //     this.newOverdubRef.current.play()
+  //   }
+  //   if(this.props.newOverdub.url && !this.props.playing){
+  //     this.newOverdubRef.current.pause()
+  //     this.newOverdubRef.current.currentTime = 0
+  //   }
+  // }
 
   handleNudgeOverdub = (overdub, e) => {
     overdub.nudge = parseFloat(e.target.value)
@@ -61,8 +62,7 @@ class OverdubVideo extends Component {
   renderVisuals(){
     return (
       <span>
-        <audio src={this.props.newOverdub.url} ref={this.newOverdubRef} style={{display: "none"}}/>
-        <div ref={this.nowOverdubMeterRef} id="new-overdub-peak-meter" style={{width: "200px", height: "150px"}}></div>
+        <AudioMeter audioUrl={this.props.newOverdub.url} playing={this.props.playing} audioContext={this.props.audioContext} isAudioUrl={true} />
       </span>
     )
   }

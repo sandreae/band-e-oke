@@ -8,7 +8,7 @@ import * as metaActions from "../../redux/actions/metaActions";
 import * as playerActions from "../../redux/actions/playerActions";
 import { bindActionCreators } from "redux";
 import VideoGrid from "./VideoGrid";
-import AudioPlayer from "./AudioPlayer";
+import AudioWrapper from "./AudioWrapper";
 import BackingTrack from "./BackingTrack";
 import Button from "./Button";
 import OverdubVideo from "./OverdubVideo";
@@ -116,11 +116,11 @@ class Bandeoke extends React.Component {
   }
 
   renderVideoGrid(disabled) {
-    if (this.props.overdubs.length === 0) {
+    if (this.props.overdubs.length === 0 || true === true) {
       return null
     }
     if (this.props.media.videoSyncSet) {
-      return <VideoGrid disabled={disabled} overdubs={this.props.overdubs} media={this.props.media}/>
+      return <VideoGrid disabled={disabled} playing={this.props.playing} overdubs={this.props.overdubs} media={this.props.media} audioContext={audioContext}/>
     }
     return null
   }
@@ -205,17 +205,20 @@ class Bandeoke extends React.Component {
               playing={this.props.playing}
               audioContext={audioContext}
             />
-            {this.renderVideoGrid(disabled)}
+            <AudioWrapper
+            backingTrack={this.props.track}
+            overdubs={this.props.overdubs}
+            newOverdub={this.props.newOverdub}
+            audio={this.props.audio}
+            audioContext={audioContext}
+            playing={this.props.playing}
+            disabled={disabled}
+            />
           </div>
           <div className='score-wrapper'>
             {this.renderScore()}
           </div>
           <div>
-            <AudioPlayer
-            backingTrack={this.props.track}
-            audioContext={audioContext}
-            playing={this.props.playing}
-            />
           </div>
         </div>
         <div className="footer flex"><PdfViewer scores={this.props.scores} /></div>

@@ -12,7 +12,7 @@ export default {
     backingTrackProcessing: false,
     backingTrackComplete: false,
     newOverdubProcessing: false,
-    newOverdubComplete: false,
+    newOverdubComplete: true,
   },
   media: {
     videoSyncSet: false,

@@ -5,9 +5,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import * as overdubActions from "../../redux/actions/overdubActions";
-import * as mediaActions from "../../redux/actions/mediaActions";
 import { bindActionCreators } from "redux";
 import { toast } from "react-toastify";
+import AudioMeter from "./AudioMeter";
 
 class VideoGrid extends React.Component {
 
@@ -20,19 +20,46 @@ class VideoGrid extends React.Component {
     this.handleGainOverdub = this.handleGainOverdub.bind(this);
   }
 
-  componentDidMount() {
-    this.configBackingTrack()
+  componentDidMount(){
+    console.log('VIDEO GRID MOUNTED')
   }
 
-  componentDidUpdate(prevProps) {
-    if(this.props.overdubs.length > prevProps.overdubs.length){
-      this.configBackingTrack()
+  componentDidUpdate(){
+    console.log('VIDEO GRID UPDATE')
+  }
+
+  handleDeleteOverdub = async overdub => {
+    toast.success("Overdub Deleted");
+    try {
+      this.props.actions.deleteOverdub(overdub);
+    } catch (error) {
+      toast.error("Delete Failed " + error.message, { autoClose: false });
+    }
+  };
+
+  handleNudgeOverdub = (overdub, e) => {
+    overdub.nudge = parseFloat(e.target.value)
+    this.props.actions.nudgeOverdub(overdub)
+  }
+
+  handleGainOverdub = (overdub, e) => {
+    overdub.gain = parseFloat(e.target.value)
+    this.props.actions.gainOverdub(overdub);
+  };
+
+  renderOverdubItem(i){
+    let nodes = this.props.overdubNodes
+    if (this.props.video) {
+      return <video key={i} muted src={this.props.overdubs[i].url} ref={ref => { this.refsArray[i] = ref}} />
+    } else {
+      return <AudioMeter key={i} audioNode={nodes[i] ? nodes[i].source : {}} playing={this.props.playing} audioContext={this.props.audioContext} isAudioUrl={false}/>
     }
   }
 
   renderVideoGrid(){
     const disabled = this.props.disabled ? 'disabled' : ''
     if (this.props.overdubs.length === 0){
+      console.log('NO OVERDUBS')
       return null
     }
     return (
@@ -40,7 +67,7 @@ class VideoGrid extends React.Component {
         return (
           <div className='flex-column video-grid-item-wrapper' key={i}>
             <div className='flex video-grid-item'>
-              <video key={i} muted src={overdub.url} ref={ref => { this.refsArray[i] = ref}} />
+              {this.renderOverdubItem(i)}
               <div className={ `delete-button ${disabled}` } id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
             </div>
             <div className='flex overdub-controls-wrapper'>
@@ -58,35 +85,14 @@ class VideoGrid extends React.Component {
     )
   }
 
-  handleDeleteOverdub = async overdub => {
-    toast.success("Overdub Deleted");
-    try {
-      this.props.actions.deleteOverdub(overdub);
-    } catch (error) {
-      toast.error("Delete Failed " + error.message, { autoClose: false });
-    }
-  };
-
-  handleNudgeOverdub = (overdub, e) => {
-    overdub.nudge = parseFloat(e.target.value)
-    this.props.actions.nudgeOverdub(overdub)
-  }
-
-  configBackingTrack = () => {
-    if(this.props.media.videoSyncSet && this.refsArray.length !== 0){
-      this.props.actions.addVideoSyncChildren(this.refsArray)
-    }
-  }
-
-  handleGainOverdub = (overdub, e) => {
-    overdub.gain = parseFloat(e.target.value)
-    this.props.actions.gainOverdub(overdub);
-  };
-
   render() {
-    if (this.props.overdubs.length === 0) {
+    if (this.props.overdubs.length === 0 || this.props.overdubNodes.length === 0) {
+      console.log('DONT RENDER')
+      console.log(this.props)
       return null
     }
+    console.log('DO RENDER')
+    console.log(this.props)
     return (
       <div className='video-grid-wrapper flex' wrap='true'>
         {this.renderVideoGrid()}
@@ -96,10 +102,13 @@ class VideoGrid extends React.Component {
 }
 
 VideoGrid.propTypes = {
+  overdubNodes: PropTypes.array.isRequired,
   overdubs: PropTypes.array.isRequired,
-  media: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  audioContext: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
+  playing: PropTypes.bool.isRequired,
+  video: PropTypes.bool.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -107,7 +116,6 @@ function mapDispatchToProps(dispatch) {
     actions: {
       deleteOverdub: bindActionCreators(overdubActions.deleteOverdub, dispatch),
       nudgeOverdub: bindActionCreators(overdubActions.nudgeOverdub, dispatch),
-      addVideoSyncChildren: bindActionCreators(mediaActions.addVideoSyncChildren, dispatch),
       gainOverdub: bindActionCreators(overdubActions.gainOverdub, dispatch)
     }
   }

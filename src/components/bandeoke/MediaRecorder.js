@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import * as mediaActions from "../../redux/actions/mediaActions";
 import { bindActionCreators } from "redux";
-import Button from "./Button";
 
 function checkMediaConstraint(mediaConstraint) {
   let mediaType = Object.keys(mediaConstraint)[0];

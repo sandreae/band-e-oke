@@ -92,12 +92,14 @@ async function fetchBlob(blobUrl){
 
 export function processNewOverdub(audioContext, overdub) {
   return function(dispatch) {
-    dispatch(audioActions.processingNewOverdub())
-    processAudio(audioContext, overdub.url).then((buffer) => {
+    dispatch(audioActions.processingNewOverdub(true))
+    const newOverdub = processAudio(audioContext, overdub.url).then((buffer) => {
       overdub.buffer = buffer
       dispatch(setOverdubBuffer(overdub))
-      dispatch(audioActions.processNewOverdubComplete())
+      dispatch(audioActions.processNewOverdubComplete(true))
+      return overdub
     })
+  return newOverdub
   }
 }
 
