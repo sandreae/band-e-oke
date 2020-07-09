@@ -51,6 +51,13 @@ import godsPlanC from '../../public/scores/gods-plan/gods-plan-C.musicxml'
 import godsPlanEbPdf from '../../public/scores/gods-plan/gods-plan-Eb.pdf'
 import godsPlanBbPdf from '../../public/scores/gods-plan/gods-plan-Bb.pdf'
 import godsPlanCPdf from '../../public/scores/gods-plan/gods-plan-C.pdf'
+import odeToJoyTrack from '../../public/scores/ode-to-joy/ode-to-joy.mp3'
+import odeToJoyEb from '../../public/scores/ode-to-joy/ode-to-joy-Eb.musicxml'
+import odeToJoyBb from '../../public/scores/ode-to-joy/ode-to-joy-Bb.musicxml'
+import odeToJoyC from '../../public/scores/ode-to-joy/ode-to-joy-C.musicxml'
+import odeToJoyEbPdf from '../../public/scores/ode-to-joy/ode-to-joy-Eb.pdf'
+import odeToJoyBbPdf from '../../public/scores/ode-to-joy/ode-to-joy-Bb.pdf'
+import odeToJoyCPdf from '../../public/scores/ode-to-joy/ode-to-joy-C.pdf'
 import happierTrack from '../../public/scores/happier/happier.mp3'
 import happierEb from '../../public/scores/happier/happier-Eb.musicxml'
 import happierBb from '../../public/scores/happier/happier-Bb.musicxml'
@@ -178,6 +185,20 @@ const godsPlanScores = [{
     name: 'C',
 }]
 
+const odeToJoyScores = [{
+    score: odeToJoyEb,
+    pdf: odeToJoyEbPdf,
+    name: 'Eb',
+  }, {
+    score: odeToJoyBb,
+    pdf: odeToJoyBbPdf,
+    name: 'Bb',
+  }, {
+    score: odeToJoyC,
+    pdf: odeToJoyCPdf,
+    name: 'C',
+}]
+
 const possessionScores = [{
     score: possessionC,
     pdf: possessionCPdf,
@@ -241,6 +262,11 @@ class App extends Component {
           { this.props.currentUser.currentUser &&
           <Route path="/gods-plan"
             render={(props) => <Bandeoke {...props} track={godsPlanTrack} scores={godsPlanScores} title={'God\'s Plan'} songId={'gods-plan'}/>}
+          />
+          }
+          { this.props.currentUser.currentUser &&
+          <Route path="/ode-to-joy"
+            render={(props) => <Bandeoke {...props} track={odeToJoyTrack} scores={odeToJoyScores} title={'Ode To Joy'} songId={'ode-to-joy'}/>}
           />
           }
           <Route path="/how-to" component={HowToPage} />
