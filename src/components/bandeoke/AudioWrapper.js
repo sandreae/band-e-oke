@@ -67,9 +67,11 @@ class AudioWrapper extends React.Component {
   }
 
   render() {
-    let {newOverdub, playing, overdubs, audioContext, disabled} = this.props
+    let {audio, newOverdub, playing, overdubs, audioContext, disabled} = this.props
+    if (!audio.overdubsProcessing && audio.overdubsComplete && audio.backingTrackComplete){
       console.log('FINISHED!!!!')
       return <GridWrapper overdubs={overdubs} newOverdub={newOverdub} playing={playing} backingTrack={this.state.backingTrackWithBuffer} disabled={disabled} audioContext={audioContext}/>
+    } else {return "loading..."}
   }
 }
 
