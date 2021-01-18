@@ -17,7 +17,7 @@ class AudioWrapper extends React.Component {
     this.state = {
       overdubsWithBuffers: [],
       newOverdubWithBuffer: false,
-      backingTrackWithBuffer: false,
+      backingTrackWithBuffer: {},
     }
   }
 
@@ -26,6 +26,7 @@ class AudioWrapper extends React.Component {
     let {audioContext, overdubs, audio, newOverdub, backingTrack, actions} = this.props
     if (audio.overdubsProcessing && this.state.overdubsWithBuffers.length !== 0){this.setState({overdubsWithBuffers: []})}
     if (overdubs.length !== 0 && !audio.overdubsProcessing && !audio.overdubsComplete){
+      console.log("PROCESS OVERDUBS")
       actions.processOverdubs(audioContext, overdubs).then((overdubsWithBuffers) => {
         console.log(overdubsWithBuffers)
         this.setState({overdubsWithBuffers: overdubsWithBuffers})
@@ -39,6 +40,7 @@ class AudioWrapper extends React.Component {
       })
     }
     if (backingTrack && !audio.backingTrackComplete && !audio.backingTrackProcessing){
+      console.log('PROCESS BACKING TRACK')
       actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
         const backingTrackWithBuffer = Object.assign({}, this.state.backingTrackWithBuffer);
         backingTrackWithBuffer.buffer = buffer
@@ -68,7 +70,8 @@ class AudioWrapper extends React.Component {
 
   render() {
     let {audio, newOverdub, playing, overdubs, audioContext, disabled} = this.props
-    if (!audio.overdubsProcessing && audio.overdubsComplete && audio.backingTrackComplete){
+    if (!audio.overdubsProcessing && audio.overdubsComplete && audio.backingTrackComplete && !audio.backingTrackProcessing){
+      console.log(audio.backingTrackComplete)
       console.log('FINISHED!!!!')
       return <GridWrapper overdubs={overdubs} newOverdub={newOverdub} playing={playing} backingTrack={this.state.backingTrackWithBuffer} disabled={disabled} audioContext={audioContext}/>
     } else {return "loading..."}

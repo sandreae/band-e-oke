@@ -77,14 +77,14 @@ export function loadOverdubs() {
     return overdubApi
       .getOverdubsByTitle(meta.title)
       .then(overdubs => {
+        if (overdubs.length === 0){
+          dispatch(audioActions.overdubsEmpty(true))
+        } else {
+          dispatch(audioActions.processLoadedOverdubs(true))
+        }
         dispatch(loadOverdubsSuccess(overdubs));
         toast.success("Overdubs loaded.");
         dispatch(hideLoading())
-        if (overdubs.length === 0){
-          dispatch(audioActions.processOverdubsComplete(true))
-        } else {
-          dispatch(audioActions.processOverdubsComplete(false))
-        }
         return overdubs
       })
       .catch(error => {
