@@ -14,8 +14,6 @@ class AudioMeter extends Component {
   }
 
   componentDidMount(){
-    console.log('AudioMeter MOUNTED')
-    console.log()
     let meter = webAudioPeakMeter(this.props.audioNode);
     // sourceNode = this.props.audioContext.createBufferSource()
     let sourceNode
@@ -28,7 +26,6 @@ class AudioMeter extends Component {
   }
 
   componentDidUpdate() {
-    console.log('UPDATE')
     if(this.props.isAudioUrl){
       if(this.props.playing){
         this.audioRef.current.play()

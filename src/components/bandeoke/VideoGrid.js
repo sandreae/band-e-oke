@@ -20,14 +20,6 @@ class VideoGrid extends React.Component {
     this.handleGainOverdub = this.handleGainOverdub.bind(this);
   }
 
-  componentDidMount(){
-    console.log('VIDEO GRID MOUNTED')
-  }
-
-  componentDidUpdate(){
-    console.log('VIDEO GRID UPDATE')
-  }
-
   handleDeleteOverdub = async overdub => {
     toast.success("Overdub Deleted");
     try {
@@ -59,7 +51,6 @@ class VideoGrid extends React.Component {
   renderVideoGrid(){
     const disabled = this.props.disabled ? 'disabled' : ''
     if (this.props.overdubs.length === 0){
-      console.log('NO OVERDUBS')
       return null
     }
     return (
@@ -87,12 +78,8 @@ class VideoGrid extends React.Component {
 
   render() {
     if (this.props.overdubs.length === 0 || this.props.overdubNodes.length === 0) {
-      console.log('DONT RENDER')
-      console.log(this.props)
       return null
     }
-    console.log('DO RENDER')
-    console.log(this.props)
     return (
       <div className='video-grid-wrapper flex' wrap='true'>
         {this.renderVideoGrid()}

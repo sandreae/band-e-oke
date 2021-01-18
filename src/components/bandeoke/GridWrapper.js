@@ -24,12 +24,10 @@ class GridPlayer extends React.Component {
   }
 
   componentDidMount(){
-    console.log('GRID PLAYER MOUNTED')
     this.prepareOverdubs()
   }
 
   componentDidUpdate(prevProps) {
-    console.log('GRID PLAYER UPDATE')
     let {playing} = this.props
     if(playing != null && playing !== prevProps.playing){
       this.playMix(this.props.audioContext, playing)
@@ -105,8 +103,6 @@ class GridPlayer extends React.Component {
       overdubNodes.push(overdub)
     })
     this.setState({overdubNodes: overdubNodes})
-    console.log('FINISHED PREPARING OVERDUB NODES')
-    console.log(overdubNodes)
     this.setState({overdubsPrepared: true})
   }
 

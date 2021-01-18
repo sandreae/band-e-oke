@@ -227,7 +227,6 @@ class ReactMediaRecorder extends React.Component {
   };
 
   renderVisuals(){
-    console.log(this.props.video)
     if (this.props.video){
       return <video muted autoPlay ref={this.props.streamRef} />
     } else {

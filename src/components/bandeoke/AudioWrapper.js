@@ -22,25 +22,19 @@ class AudioWrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('COMPONENT DID UPDATE')
     let {audioContext, overdubs, audio, newOverdub, backingTrack, actions} = this.props
     if (audio.overdubsProcessing && this.state.overdubsWithBuffers.length !== 0){this.setState({overdubsWithBuffers: []})}
     if (overdubs.length !== 0 && !audio.overdubsProcessing && !audio.overdubsComplete){
-      console.log("PROCESS OVERDUBS")
       actions.processOverdubs(audioContext, overdubs).then((overdubsWithBuffers) => {
-        console.log(overdubsWithBuffers)
         this.setState({overdubsWithBuffers: overdubsWithBuffers})
       })
     }
     if (newOverdub.url && newOverdub.url !== prevProps.newOverdub.url){
-      console.log('PROCESS NEW OVERDUB')
       actions.processNewOverdub(audioContext, newOverdub).then((newOverdubWithBuffer) => {
-        console.log(newOverdubWithBuffer)
         this.setState({newOverdubWithBuffer: newOverdubWithBuffer})
       })
     }
     if (backingTrack && !audio.backingTrackComplete && !audio.backingTrackProcessing){
-      console.log('PROCESS BACKING TRACK')
       actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
         const backingTrackWithBuffer = Object.assign({}, this.state.backingTrackWithBuffer);
         backingTrackWithBuffer.buffer = buffer
@@ -49,30 +43,11 @@ class AudioWrapper extends React.Component {
         this.setState({backingTrackWithBuffer: backingTrackWithBuffer});
       })
     }
-    // if(playing && playing !== prevProps.playing){
-    //   this.playMix(audioContext, playing)
-    // }
-    // if(!playing && playing !== prevProps.playing){
-    //   this.playMix(audioContext, playing)
-    // }
-    // if(audio.overdubsComplete && !this.state.overdubsPrepared){
-    //   overdubs.map((overdub) => {
-    //     let source  = this.props.audioContext.createBufferSource()
-    //     source.buffer = overdub.buffer
-    //     overdub.current = source
-    //     return overdub
-    //   })
-    //   console.log(overdubs)
-    //   this.setState({overdubBuffers: overdubs})
-    //   this.setState({overdubsPrepared: true})
-    // }
   }
 
   render() {
     let {audio, newOverdub, playing, overdubs, audioContext, disabled} = this.props
     if (!audio.overdubsProcessing && audio.overdubsComplete && audio.backingTrackComplete && !audio.backingTrackProcessing){
-      console.log(audio.backingTrackComplete)
-      console.log('FINISHED!!!!')
       return <GridWrapper overdubs={overdubs} newOverdub={newOverdub} playing={playing} backingTrack={this.state.backingTrackWithBuffer} disabled={disabled} audioContext={audioContext}/>
     } else {return "loading..."}
   }
