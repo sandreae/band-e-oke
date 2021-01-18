@@ -62,7 +62,7 @@ class OverdubVideo extends Component {
   renderVisuals(){
     return (
       <span>
-        <AudioMeter audioUrl={this.props.newOverdub.url} playing={this.props.playing} audioContext={this.props.audioContext} isAudioUrl={true} />
+        <AudioMeter audioUrl={this.props.newOverdub.url} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={true} />
       </span>
     )
   }

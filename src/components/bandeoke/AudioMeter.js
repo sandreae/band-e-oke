@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { PropTypes } from "prop-types"
-import webAudioPeakMeter from '../../scripts/WebAudioPeakMeter';
+import WebAudioPeakMeter from '../../scripts/WebAudioPeakMeter';
 
 class AudioMeter extends Component {
   constructor(props) {
@@ -14,19 +14,16 @@ class AudioMeter extends Component {
   }
 
   componentDidMount(){
-    let meter = webAudioPeakMeter(this.props.audioNode);
-    // sourceNode = this.props.audioContext.createBufferSource()
-    let sourceNode
-    this.props.isAudioUrl ?
-      sourceNode = this.props.audioContext.createMediaElementSource(this.audioRef.current) :
-      sourceNode = this.props.audioNode
-    let meterNode = meter.createMeterNode(sourceNode, this.props.audioContext);
-    meter.createMeter(this.meterRef.current, meterNode, {});
-    this.setState(state => state.meterRendered = true);
+    this.initiateMeter()
   }
 
   componentDidUpdate() {
-    if(this.props.isAudioUrl){
+    this.playAudioBuffer()
+  }
+
+  playAudioBuffer = () => {
+    // if audio is buffer array (ie. a new overdub), play audio element (otherwise it will be played from webaudio-context)
+    if(this.props.isAudioBufferUrl){
       if(this.props.playing){
         this.audioRef.current.play()
       }
@@ -37,8 +34,27 @@ class AudioMeter extends Component {
     }
   }
 
+  initiateMeter = () => {
+    // Create instance of meter class
+    let meter = WebAudioPeakMeter(this.props.audioNode);
+    let sourceNode
+
+    // If audio is buffer url create sourceNode from audio element using Ref
+    this.props.isAudioBufferUrl ?
+      sourceNode = this.props.audioContext.createMediaElementSource(this.audioRef.current) :
+      sourceNode = this.props.audioNode
+
+    // Create meter and attach to DOM using meterRef
+    let meterNode = meter.createMeterNode(sourceNode, this.props.audioContext);
+    meter.createMeter(this.meterRef.current, meterNode, {});
+
+    // Change state
+    this.setState(state => state.meterRendered = true);
+  }
+
   renderAudioElement() {
-    if (this.props.isAudioUrl){
+    // Only render if audio is buffer url
+    if (this.props.isAudioBufferUrl){
       return <audio crossOrigin="anonymous" preload="auto" type="audio/mpeg" src={this.props.audioUrl} ref={this.audioRef} style={{display: "none"}}/>
     }
   }
@@ -58,7 +74,7 @@ AudioMeter.propTypes = {
   audioUrl: PropTypes.string,
   playing: PropTypes.bool.isRequired,
   audioContext: PropTypes.object.isRequired,
-  isAudioUrl: PropTypes.bool.isRequired,
+  isAudioBufferUrl: PropTypes.bool.isRequired,
 }
 
 AudioMeter.defaultProps = {

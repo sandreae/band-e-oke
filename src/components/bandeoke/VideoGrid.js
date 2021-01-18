@@ -44,7 +44,7 @@ class VideoGrid extends React.Component {
     if (this.props.video) {
       return <video key={i} muted src={this.props.overdubs[i].url} ref={ref => { this.refsArray[i] = ref}} />
     } else {
-      return <AudioMeter key={i} audioNode={nodes[i] ? nodes[i].source : {}} playing={this.props.playing} audioContext={this.props.audioContext} isAudioUrl={false}/>
+      return <AudioMeter key={i} audioNode={nodes[i] ? nodes[i].source : {}} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={false}/>
     }
   }
 
