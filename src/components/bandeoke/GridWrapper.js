@@ -16,11 +16,14 @@ class GridPlayer extends React.Component {
     super(props);
 
     this.state = {
-      backingTrackWithBuffer: {},
       overdubsPrepared: false,
       overdubNodes: [],
       newOverdub: null,
-      backingTrack: {},
+      backingTrack: {
+        buffer: null,
+        nudge: 0,
+        gain: 0.5
+      },
       allAudioLoaded: false,
       isReady: false
     }
@@ -128,18 +131,16 @@ class GridPlayer extends React.Component {
     }
     if (this.loadBackingTrack()) {
       actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
-        const backingTrackWithBuffer = Object.assign({}, this.state.backingTrackWithBuffer);
-        backingTrackWithBuffer.buffer = buffer
-        backingTrackWithBuffer.gain = 0.5
-        backingTrackWithBuffer.nudge = 0
-        this.setState({backingTrackWithBuffer: backingTrackWithBuffer});
+        const backingTrack = Object.assign({}, this.state.backingTrack);
+        backingTrack.buffer = buffer
+        this.setState({backingTrack: backingTrack});
       })
     }
   }
 
   playMix = (audioContext, playing) => {
     let count = audioContext.currentTime + 0.5
-    this.toggleSingleAudioBuffer(this.state.backingTrackWithBuffer,'backingTrack', playing, count)
+    this.toggleSingleAudioBuffer(this.state.backingTrack,'backingTrack', playing, count)
     this.toggleAudioBufferArray(this.state.overdubNodes, playing, count)
     this.toggleSingleAudioBuffer(this.props.newOverdub,'newOverdub', playing, count)
   }
