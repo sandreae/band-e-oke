@@ -48,6 +48,7 @@ async function processAudioArray(audioContext, overdub) {
 
 const fetchAudio = async (audioContext, fetchedOverdubs) => {
   const promises = fetchedOverdubs.map(async overdub => {
+    console.log(overdub)
     return processAudioArray(audioContext, overdub)
   })
   const overdubsWithBuffers = await Promise.all(promises)
@@ -72,17 +73,18 @@ export function processOverdubs(audioContext, fetchedOverdubs) {
 export function loadOverdubs() {
   return function(dispatch, getState) {
     const { meta } = getState();
+    dispatch(audioActions.processingOverdubs(true))
     dispatch(beginApiCall());
     dispatch(showLoading())
     return overdubApi
       .getOverdubsByTitle(meta.title)
       .then(overdubs => {
+        dispatch(loadOverdubsSuccess(overdubs));
         if (overdubs.length === 0){
           dispatch(audioActions.overdubsEmpty(true))
         } else {
           dispatch(audioActions.processLoadedOverdubs(true))
         }
-        dispatch(loadOverdubsSuccess(overdubs));
         toast.success("Overdubs loaded.");
         dispatch(hideLoading())
         return overdubs

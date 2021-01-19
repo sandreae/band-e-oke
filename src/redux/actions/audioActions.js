@@ -23,15 +23,15 @@ export function processNewOverdubComplete(result) {
 }
 
 export function processingOverdubs(result) {
-  return { type: types.PROCESS_OVERDUBS, result };
+  return { type: types.PROCESSING_OVERDUBS, result };
 }
 
 export function processingBackingTrack(result) {
-  return { type: types.PROCESS_BACKINGTRACK, result };
+  return { type: types.PROCESSING_BACKINGTRACK, result };
 }
 
 export function processingNewOverdub(result) {
-  return { type: types.PROCESS_NEW_OVERDUB, result };
+  return { type: types.PROCESSING_NEW_OVERDUB, result };
 }
 
 async function processAudio(audioContext, file) {

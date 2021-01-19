@@ -8,7 +8,7 @@ import * as metaActions from "../../redux/actions/metaActions";
 import * as playerActions from "../../redux/actions/playerActions";
 import { bindActionCreators } from "redux";
 import VideoGrid from "./VideoGrid";
-import AudioWrapper from "./AudioWrapper";
+import GridWrapper from "./GridWrapper";
 import BackingTrack from "./BackingTrack";
 import Button from "./Button";
 import OverdubVideo from "./OverdubVideo";
@@ -155,7 +155,6 @@ class Bandeoke extends React.Component {
   }
 
   renderScore(){
-    console.log(this.state.score)
     if (this.state.loadScore){
       return (
         <Score
@@ -205,7 +204,8 @@ class Bandeoke extends React.Component {
               playing={this.props.playing}
               audioContext={audioContext}
             />
-            <AudioWrapper
+            <GridWrapper
+            apiCallsInProgress={this.props.apiCallsInProgress}
             backingTrack={this.props.track}
             overdubs={this.props.overdubs}
             newOverdub={this.props.newOverdub}
@@ -241,6 +241,7 @@ Bandeoke.propTypes = {
   scores: PropTypes.array.isRequired,
   track: PropTypes.string.isRequired,
   songId: PropTypes.string.isRequired,
+  apiCallsInProgress: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 };
 
@@ -248,6 +249,7 @@ function mapStateToProps(state) {
   return {
     loading: state.apiCallsInProgress > 0,
     overdubs: state.overdubs,
+    apiCallsInProgress: state.apiCallsInProgress,
     playing: state.player.playing,
     recording: state.player.recording,
     media: state.media,

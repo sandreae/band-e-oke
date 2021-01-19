@@ -16,36 +16,183 @@ class GridPlayer extends React.Component {
     super(props);
 
     this.state = {
+      backingTrackWithBuffer: {},
       overdubsPrepared: false,
       overdubNodes: [],
-      newOverdub: {},
+      newOverdub: null,
       backingTrack: {},
+      allAudioLoaded: false,
+      isReady: false
     }
   }
 
   componentDidMount(){
-    this.prepareOverdubs()
+    console.log("GRIDWRAPPER MOUNTED")
   }
 
   componentDidUpdate(prevProps) {
+    let {audio, audioContext, newOverdub, backingTrack, actions} = this.props
+    // console.log(audio.loadingOverdubs)
+    // if (audio.loadingOverdubs){
+    //   return
+    // }
+    // if (apiCallsInProgress != 0) {
+    //   console.log("API CALLS != 0")
+    //   return
+    // }
+    if (!this.allAudioLoaded()){
+      console.log("ALL AUDIO NOT LOADED")
+      // console.log("ALL AUDIO NOT LOADED")
+      // if (this.state.overdubsPrepared) {
+      //   console.log("CHANGE STATE OVERDUBSPREPARED TO FALSE")
+      //   this.setState({overdubsPrepared: false})
+      //   return
+      // }
+      this.loadAudio(prevProps)
+      return
+    }
+    if (this.newRecording(prevProps)) {
+      this.setState({overdubsPrepared: false})
+      actions.processNewOverdub(audioContext, newOverdub)
+      return
+    }
+    // if (this.state.overdubsPrepared){
+    if (this.newOverdubToProcess()) {
+      console.log("NEW OVERDUB TO PROCESS")
+      this.setState({overdubsPrepared: false})
+      this.prepareOverdubs()
+      return
+    }
+    if (this.overdubDataChanged(prevProps)){
+      this.setState({overdubsPrepared: false})
+      this.prepareOverdubs()
+      return
+    }
+    // }
+    if (!this.state.overdubsPrepared && this.allAudioLoaded()){
+      console.log("ALL AUDIO NOT PREPARED")
+      this.setState({overdubsPrepared: false})
+      this.prepareOverdubs()
+      return
+    }
+    if (this.state.overdubsPrepared && this.allAudioLoaded()){
+      this.playState(prevProps)
+    }
+  }
+
+  isReady = () => {
+
+  }
+
+  playState = (prevProps) => {
     let {playing} = this.props
     if(playing != null && playing !== prevProps.playing){
       this.playMix(this.props.audioContext, playing)
     }
-    if (!this.state.overdubsPrepared || this.props.overdubs != prevProps.overdubs){
-      this.setState({overdubsPrepared: false})
-      this.prepareOverdubs()
+  }
+
+  newOverdubToProcess = () => {
+    if (this.state.overdubNodes.length != this.props.overdubs.length) {
+      return true
+    }
+    return false
+  }
+
+  overdubDataChanged = (prevProps) => {
+    if (this.props.overdubs.length != 0 && prevProps.overdubs.length != 0){
+      for (var p in this.props.overdubs) {
+        if (this.props.overdubs[p] && prevProps.overdubs[p]) {
+          if (this.props.overdubs[p].gain !== prevProps.overdubs[p].gain) {
+            // this.setState({overdubsPrepared: false})
+            return true
+          }
+          if (this.props.overdubs[p].nudge !== prevProps.overdubs[p].nudge) {
+            // this.setState({overdubsPrepared: false})
+            return true
+          }
+        }
+      }
+    }
+    return false
+  }
+
+  newRecording = (prevProps) => {
+    let {newOverdub} = this.props
+    if (!newOverdub.url){
+      return false
+    }
+    if (newOverdub.url !== prevProps.newOverdub.url) {
+      return true;
+    }
+    return false;
+  }
+
+  allAudioLoaded = () => {
+    let {audio} = this.props
+    if (audio.overdubsComplete && audio.backingTrackComplete && audio.newOverdubComplete){
+      return true
+    }
+    return false
+  }
+
+  loadNewOverdub = (prevProps) => {
+    let {audio, newOverdub} = this.props
+    let alreadyLoaded = (audio.newOverdubComplete || audio.newOverdubProcessing) ? true : false;
+    let newRecording = (newOverdub.url !== prevProps.newOverdub.url) ? true : false;
+    if (alreadyLoaded && !newRecording){
+      return false
+    }
+    return true
+  }
+
+  loadOverdubs = (prevProps) => {
+    let {audio, overdubs} = this.props
+    if (audio.overdubsComplete || audio.overdubsProcessing || overdubs.length === 0 ){
+      return false
+    }
+    if (this.props.overdubs.length !== prevProps.overdubs.length){
+      return true
+    }
+    return true
+  }
+
+  loadBackingTrack = () => {
+    let {audio} = this.props
+    if(audio.backingTrackComplete || audio.backingTrackProcessing){
+      return false
+    }
+    return true
+  }
+
+  loadAudio = (prevProps) => {
+    let {audioContext, newOverdub, backingTrack, actions} = this.props
+    if (this.loadOverdubs(prevProps)){
+      console.log("LOAD OVERDUBS")
+      actions.processOverdubs(audioContext, Object.assign([], this.props.overdubs))
+    }
+    if (this.loadNewOverdub(prevProps)){
+      actions.processNewOverdub(audioContext, newOverdub)
+    }
+    if (this.loadBackingTrack()) {
+      actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
+        const backingTrackWithBuffer = Object.assign({}, this.state.backingTrackWithBuffer);
+        backingTrackWithBuffer.buffer = buffer
+        backingTrackWithBuffer.gain = 0.5
+        backingTrackWithBuffer.nudge = 0
+        this.setState({backingTrackWithBuffer: backingTrackWithBuffer});
+      })
     }
   }
 
   playMix = (audioContext, playing) => {
     let count = audioContext.currentTime + 0.5
-    this.playAudio(this.props.backingTrack,'backingTrack', playing, count)
-    this.props.newOverdub ? this.playAudio(this.props.newOverdub,'newOverdub', playing, count) : null
-    this.playAudioArray(this.state.overdubNodes, playing, count)
+    this.toggleSingleAudioBuffer(this.state.backingTrackWithBuffer,'backingTrack', playing, count)
+    this.toggleAudioBufferArray(this.state.overdubNodes, playing, count)
+    this.toggleSingleAudioBuffer(this.props.newOverdub,'newOverdub', playing, count)
   }
 
-  playBuffer(source, startTime, gain){
+  playAudioBuffer = (source, startTime, gain) => {
+    // Set gain & start time (nudge) and play audio buffer
     var gainNode = this.props.audioContext.createGain();
     gainNode.gain.setValueAtTime(gain, this.props.audioContext.currentTime);
     source.connect(gainNode)
@@ -54,37 +201,40 @@ class GridPlayer extends React.Component {
     return source
   }
 
-  getSource(buffer){
+  getSource = (buffer) => {
     let source  = this.props.audioContext.createBufferSource()
     source.buffer = buffer
     return source
   }
 
-  playAudio = (audio, key, toggle, count) => {
+  toggleSingleAudioBuffer = (audio, key, toggle, count) => {
+    // Toggle single simple audio buffer
     if (toggle === true) {
 
       let source = this.getSource(audio.buffer)
-      this.playBuffer(source, count + audio.nudge, audio.gain)
-
-      const newAudio = Object.assign({}, audio);
-      newAudio.current = source
-      this.setState({[key]: newAudio})
+      this.playAudioBuffer(source, count + audio.nudge, audio.gain)
+      this.setStateSimpleAudioBuffer(audio, key, source)
 
     } else if (toggle === false) {
 
       this.state[key].current.stop()
-
-      const newAudio = Object.assign({}, audio);
-      newAudio.current = {}
-      this.setState({[key]: newAudio})
+      this.setStateSimpleAudioBuffer(audio, key)
     }
   }
 
-  playAudioArray = (overdubs, toggle, count) => {
+  setStateSimpleAudioBuffer = (audio, key, source={}) => {
+    // Set current audio source
+    const newAudio = Object.assign({}, audio);
+    newAudio.current = source
+    this.setState({[key]: newAudio})
+  }
+
+  toggleAudioBufferArray = (overdubs, toggle, count) => {
+    // Toggle play an array of audio buffers
     if (toggle === true) {
       overdubs.forEach((overdub) => {
         let offset = count + overdub.nudge
-        this.playBuffer(overdub.source, offset, overdub.gain)
+        this.playAudioBuffer(overdub.source, offset, overdub.gain)
       })
     } else if (toggle === false) {
       overdubs.forEach((overdub) => {
@@ -96,8 +246,10 @@ class GridPlayer extends React.Component {
   }
 
   prepareOverdubs = () => {
+    // Create array of audio source nodes for overdubs
+    let freshOverdubs = Object.assign([], this.props.overdubs);
     let overdubNodes = []
-    this.props.overdubs.forEach((overdub) => {
+    freshOverdubs.forEach((overdub) => {
       let source = this.getSource(overdub.buffer)
       overdub.source = source
       overdubNodes.push(overdub)
@@ -107,22 +259,29 @@ class GridPlayer extends React.Component {
   }
 
   render() {
-    if (this.state.overdubNodes.length === this.props.overdubs.length) {
+    // When all nodes are prepared render VideoGrid
+    if (this.state.overdubNodes.length != this.props.overdubs.length) {
+      return "still loading"
+    }
+    if (this.state.overdubsPrepared){
       return (
         <VideoGrid disabled={this.props.disabled} playing={this.props.playing} overdubs={this.props.overdubs} overdubNodes={this.state.overdubNodes} video={false} audioContext={this.props.audioContext}/>
       )
     }
-    return null
+    return "loading"
   }
 }
 
 GridPlayer.propTypes = {
   overdubs: PropTypes.array.isRequired,
   newOverdub: PropTypes.object,
-  backingTrack: PropTypes.object.isRequired,
+  audio: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
+  backingTrack: PropTypes.string.isRequired,
   audioContext: PropTypes.object.isRequired,
   playing: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool.isRequired
+  disabled: PropTypes.bool.isRequired,
+  apiCallsInProgress: PropTypes.number.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

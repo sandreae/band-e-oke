@@ -16,14 +16,16 @@ class AudioWrapper extends React.Component {
     super(props);
     this.state = {
       overdubsWithBuffers: [],
-      newOverdubWithBuffer: false,
+      newOverdubWithBuffer: {},
       backingTrackWithBuffer: {},
     }
   }
 
   componentDidUpdate(prevProps) {
     let {audioContext, overdubs, audio, newOverdub, backingTrack, actions} = this.props
-    if (audio.overdubsProcessing && this.state.overdubsWithBuffers.length !== 0){this.setState({overdubsWithBuffers: []})}
+    if (audio.overdubsProcessing && this.state.overdubsWithBuffers.length !== 0){
+      this.setState({overdubsWithBuffers: []})
+    }
     if (overdubs.length !== 0 && !audio.overdubsProcessing && !audio.overdubsComplete){
       actions.processOverdubs(audioContext, overdubs).then((overdubsWithBuffers) => {
         this.setState({overdubsWithBuffers: overdubsWithBuffers})

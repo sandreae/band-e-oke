@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types";
-import webAudioPeakMeter from '../../scripts/WebAudioPeakMeter';
 import { connect } from "react-redux";
-import * as mediaActions from "../../redux/actions/mediaActions";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import { bindActionCreators } from "redux";
 import Button from "./Button";
@@ -24,23 +22,6 @@ class OverdubVideo extends Component {
     };
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if(this.props.newOverdub.url && !this.state.meterRendered || this.props.newOverdub.url != prevProps.newOverdub.url && this.props.newOverdub.url){
-  //     var meter = webAudioPeakMeter();
-  //     var sourceNode = this.props.audioContext.createMediaElementSource(this.newOverdubRef.current);
-  //     var meterNode = meter.createMeterNode(sourceNode, this.props.audioContext);
-  //     meter.createMeter(this.newOverdubMeterRef.current, meterNode, {});
-  //     this.setState(state => state.meterRendered = true);
-  //   }
-  //   if(this.props.newOverdub.url && this.props.playing){
-  //     this.newOverdubRef.current.play()
-  //   }
-  //   if(this.props.newOverdub.url && !this.props.playing){
-  //     this.newOverdubRef.current.pause()
-  //     this.newOverdubRef.current.currentTime = 0
-  //   }
-  // }
-
   handleNudgeOverdub = (overdub, e) => {
     overdub.nudge = parseFloat(e.target.value)
     this.props.actions.nudgeNewOverdub(overdub)
@@ -55,8 +36,9 @@ class OverdubVideo extends Component {
   };
 
   handleGainOverdub = (overdub, e) => {
-    overdub.gain = parseFloat(e.target.value)
-    this.props.actions.gainNewOverdub(overdub);
+    const updatedOverdub = Object.assign({}, overdub);
+    updatedOverdub.gain = parseFloat(e.target.value)
+    this.props.actions.gainNewOverdub(updatedOverdub);
   };
 
   renderVisuals(){

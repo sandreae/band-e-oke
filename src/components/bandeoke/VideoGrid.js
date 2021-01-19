@@ -30,13 +30,15 @@ class VideoGrid extends React.Component {
   };
 
   handleNudgeOverdub = (overdub, e) => {
-    overdub.nudge = parseFloat(e.target.value)
-    this.props.actions.nudgeOverdub(overdub)
+    const updatedOverdub = Object.assign({}, overdub);
+    updatedOverdub.nudge = parseFloat(e.target.value)
+    this.props.actions.nudgeOverdub(updatedOverdub);
   }
 
   handleGainOverdub = (overdub, e) => {
-    overdub.gain = parseFloat(e.target.value)
-    this.props.actions.gainOverdub(overdub);
+    const updatedOverdub = Object.assign({}, overdub);
+    updatedOverdub.gain = parseFloat(e.target.value)
+    this.props.actions.gainOverdub(updatedOverdub);
   };
 
   renderOverdubItem(i){

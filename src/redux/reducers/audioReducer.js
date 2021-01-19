@@ -5,17 +5,17 @@ import initialState from "./initialState";
 
 export default function overdubsAudioReducer(state = initialState.audio, action) {
   switch (action.type) {
-    case types.PROCESS_OVERDUBS:
+    case types.PROCESSING_OVERDUBS:
     return Object.assign({}, state, {
-      overdubsProcessing: true,
       overdubsComplete: false,
+      overdubsProcessing: true,
     })
-    case types.PROCESS_BACKINGTRACK:
+    case types.PROCESSING_BACKINGTRACK:
     return Object.assign({}, state, {
       backingTrackProcessing: true,
       backingTrackComplete: false,
     })
-    case types.PROCESS_NEW_OVERDUB:
+    case types.PROCESSING_NEW_OVERDUB:
     return Object.assign({}, state, {
       newOverdubProcessing: true,
       newOverdubComplete: false,
