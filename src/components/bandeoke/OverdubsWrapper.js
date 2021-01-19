@@ -8,9 +8,9 @@ import * as audioActions from "../../redux/actions/audioActions";
 import * as overdubActions from "../../redux/actions/overdubActions";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import { bindActionCreators } from "redux";
-import VideoGrid from "./VideoGrid";
+import Overdubs from "./Overdubs";
 
-class GridPlayer extends React.Component {
+class OverdubsWrapper extends React.Component {
 
   constructor(props) {
     super(props);
@@ -213,20 +213,20 @@ class GridPlayer extends React.Component {
   }
 
   render() {
-    // When all nodes are prepared render VideoGrid
+    // When all nodes are prepared render Overdubs
     if (this.state.overdubNodes.length != this.props.overdubs.length) {
       return "still loading"
     }
     if (this.state.overdubsPrepared){
       return (
-        <VideoGrid disabled={this.props.disabled} playing={this.props.playing} overdubs={this.props.overdubs} overdubNodes={this.state.overdubNodes} video={false} audioContext={this.props.audioContext}/>
+        <Overdubs disabled={this.props.disabled} playing={this.props.playing} overdubs={this.props.overdubs} overdubNodes={this.state.overdubNodes} video={false} audioContext={this.props.audioContext}/>
       )
     }
     return "loading"
   }
 }
 
-GridPlayer.propTypes = {
+OverdubsWrapper.propTypes = {
   overdubs: PropTypes.array.isRequired,
   newOverdub: PropTypes.object,
   audio: PropTypes.object.isRequired,
@@ -248,4 +248,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(GridPlayer);
+export default connect(null, mapDispatchToProps)(OverdubsWrapper);

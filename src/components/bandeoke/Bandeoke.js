@@ -7,11 +7,11 @@ import * as mediaActions from "../../redux/actions/mediaActions";
 import * as metaActions from "../../redux/actions/metaActions";
 import * as playerActions from "../../redux/actions/playerActions";
 import { bindActionCreators } from "redux";
-import VideoGrid from "./VideoGrid";
-import GridWrapper from "./GridWrapper";
+import Overdubs from "./Overdubs";
+import OverdubsWrapper from "./OverdubsWrapper";
 import BackingTrack from "./BackingTrack";
 import Button from "./Button";
-import OverdubVideo from "./OverdubVideo";
+import NewOverdubItem from "./NewOverdubItem";
 import Score from "./Score";
 import PdfViewer from "./PdfViewer";
 import MediaRecorder from "./MediaRecorder";
@@ -115,12 +115,12 @@ class Bandeoke extends React.Component {
     this.setState(state => state.loadScore = true);
   }
 
-  renderVideoGrid(disabled) {
+  renderOverdubs(disabled) {
     if (this.props.overdubs.length === 0 || true === true) {
       return null
     }
     if (this.props.media.videoSyncSet) {
-      return <VideoGrid disabled={disabled} playing={this.props.playing} overdubs={this.props.overdubs} media={this.props.media} audioContext={audioContext}/>
+      return <Overdubs disabled={disabled} playing={this.props.playing} overdubs={this.props.overdubs} media={this.props.media} audioContext={audioContext}/>
     }
     return null
   }
@@ -199,12 +199,12 @@ class Bandeoke extends React.Component {
                 </div>
               </div>
             </div>
-            <OverdubVideo
+            <NewOverdubItem
               disabled={disabled}
               playing={this.props.playing}
               audioContext={audioContext}
             />
-            <GridWrapper
+            <OverdubsWrapper
             apiCallsInProgress={this.props.apiCallsInProgress}
             backingTrack={this.props.track}
             overdubs={this.props.overdubs}

@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux";
 import { toast } from "react-toastify";
 import AudioMeter from "./AudioMeter";
 
-class VideoGrid extends React.Component {
+class Overdubs extends React.Component {
 
   constructor(props) {
     super(props)
@@ -50,7 +50,7 @@ class VideoGrid extends React.Component {
     }
   }
 
-  renderVideoGrid(){
+  renderOverdubs(){
     const disabled = this.props.disabled ? 'disabled' : ''
     if (this.props.overdubs.length === 0){
       return null
@@ -84,13 +84,13 @@ class VideoGrid extends React.Component {
     }
     return (
       <div className='video-grid-wrapper flex' wrap='true'>
-        {this.renderVideoGrid()}
+        {this.renderOverdubs()}
       </div>
     )
   }
 }
 
-VideoGrid.propTypes = {
+Overdubs.propTypes = {
   overdubNodes: PropTypes.array.isRequired,
   overdubs: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
@@ -110,4 +110,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(VideoGrid);
+export default connect(null, mapDispatchToProps)(Overdubs);

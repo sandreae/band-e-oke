@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import Button from "./Button";
 import AudioMeter from "./AudioMeter";
 
-class OverdubVideo extends Component {
+class NewOverdubItem extends Component {
 
   constructor(props) {
     super(props)
@@ -81,7 +81,7 @@ class OverdubVideo extends Component {
   }
 }
 
-OverdubVideo.propTypes = {
+NewOverdubItem.propTypes = {
   newOverdub: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   playing: PropTypes.bool.isRequired,
@@ -107,4 +107,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OverdubVideo);
+export default connect(mapStateToProps, mapDispatchToProps)(NewOverdubItem);
