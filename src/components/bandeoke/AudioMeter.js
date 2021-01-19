@@ -14,12 +14,10 @@ class AudioMeter extends Component {
   }
 
   componentDidMount(){
-    console.log("MOUNT METER")
     this.initiateMeter()
   }
 
   componentDidUpdate() {
-    console.log("AUDIO METER UPDATE")
     this.playAudioBuffer()
   }
 

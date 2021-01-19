@@ -26,10 +26,6 @@ class GridPlayer extends React.Component {
     }
   }
 
-  componentDidMount(){
-    console.log("GRIDWRAPPER MOUNTED")
-  }
-
   componentDidUpdate(prevProps) {
     let {audioContext, newOverdub, actions} = this.props
     if (!this.allAudioLoaded()){

@@ -48,7 +48,6 @@ async function processAudioArray(audioContext, overdub) {
 
 const fetchAudio = async (audioContext, fetchedOverdubs) => {
   const promises = fetchedOverdubs.map(async overdub => {
-    console.log(overdub)
     return processAudioArray(audioContext, overdub)
   })
   const overdubsWithBuffers = await Promise.all(promises)
