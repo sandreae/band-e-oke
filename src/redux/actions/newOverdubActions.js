@@ -119,6 +119,7 @@ export function uploadSuccess() {
     toast.success("Overdub uploaded.");
     dispatch(removeNewOverdub())
     dispatch(overdubActions.loadOverdubs())
+    dispatch(audioActions.processLoadedOverdubs(true))
     dispatch(hideLoading())
   }
 }

@@ -73,7 +73,6 @@ export function processOverdubs(audioContext, fetchedOverdubs) {
 export function loadOverdubs() {
   return function(dispatch, getState) {
     const { meta } = getState();
-    dispatch(audioActions.processingOverdubs(true))
     dispatch(beginApiCall());
     dispatch(showLoading())
     return overdubApi
@@ -83,7 +82,7 @@ export function loadOverdubs() {
         if (overdubs.length === 0){
           dispatch(audioActions.overdubsEmpty(true))
         } else {
-          dispatch(audioActions.processLoadedOverdubs(true))
+          // dispatch(audioActions.processLoadedOverdubs(true))
         }
         toast.success("Overdubs loaded.");
         dispatch(hideLoading())
