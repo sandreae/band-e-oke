@@ -98,11 +98,12 @@ export function loadOverdubs() {
 export function saveOverdubs(overdubs) {
   // eslint-disable-next-line no-unused-vars
   return function(dispatch, getState) {
-    dispatch(beginApiCall());
     overdubs.forEach((overdub) => {
+      dispatch(beginApiCall());
       overdubApi
       .saveOverdub(overdub)
       .then(savedOverdub => {
+        toast.success("Overdub saved.");
         overdub.id
           ? dispatch(updateOverdubSuccess(savedOverdub))
           : dispatch(createOverdubSuccess(savedOverdub));

@@ -20,18 +20,22 @@ export function getOverdubsByTitle(title) {
 }
 
 export function saveOverdub(overdub) {
+  const token = localStorage.token;
   return fetch(baseUrl + (overdub.id || ""), {
     method: overdub.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json",
+               "x-access-token": token },
     body: JSON.stringify(overdub)
   })
+  .then(handleResponse)
+  .catch(handleError);
 }
 
 export function deleteOverdub(overdubId) {
   const token = localStorage.token;
   return fetch(baseUrl + overdubId, {
     method: "DELETE",
-    headers: { "x-access-token": token },
+    headers: { "x-access-token": token }
  })
     .then(handleResponse)
     .catch(handleError);
