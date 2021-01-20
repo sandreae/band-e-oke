@@ -11,7 +11,6 @@ export function loadOverdubsSuccess(overdubs) {
 }
 
 export function updateOverdubSuccess(overdub) {
-  console.log(overdub)
   return { type: types.UPDATE_OVERDUB_SUCCESS, overdub };
 }
 
@@ -60,13 +59,11 @@ export function processOverdubs(audioContext, fetchedOverdubs) {
     dispatch(audioActions.processingOverdubs(true))
     dispatch(showLoading())
     const overdubsWithBuffers = fetchAudio(audioContext, fetchedOverdubs).then((overdubsWithBuffers) => {
-      console.log(overdubsWithBuffers)
       dispatch(setOverdubBuffers(overdubsWithBuffers))
       dispatch(audioActions.processOverdubsComplete(true))
       dispatch(hideLoading())
       return overdubsWithBuffers
     })
-    console.log(overdubsWithBuffers)
     overdubsWithBuffers.catch(error => {
       toast.error("Processing overdubs failed. " + error.message, { autoClose: false });
       throw error;

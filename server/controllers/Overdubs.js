@@ -54,7 +54,6 @@ const Overdubs = {
    * @returns {object} reflection object
    */
   async getOne(req, res) {
-    console.log("GET ONE OVERDUB")
     const text = 'SELECT * FROM overdubs WHERE id = $1 AND owner_id = $2';
     try {
       const { rows } = await db.query(text, [req.params.id, req.user.id]);
@@ -63,7 +62,6 @@ const Overdubs = {
       }
       return res.status(200).send(rows[0]);
     } catch(error) {
-      console.log("getOne ERROR")
       return res.status(400).send(error)
     }
   },
@@ -89,7 +87,6 @@ const Overdubs = {
    * @returns {object} updated reflection
    */
   async update(req, res) {
-    console.log("UPDATE ONE OVERDUB")
     const findOneQuery = 'SELECT * FROM overdubs WHERE id=$1 AND owner_id = $2';
     const updateOneQuery =`UPDATE overdubs
       SET url=$1,title=$2,nudge=$3,gain=$4,modified_date=$5
@@ -108,7 +105,6 @@ const Overdubs = {
         req.params.id,
         req.user.id
       ];
-      console.log(values)
       const response = await db.query(updateOneQuery, values);
       return res.status(200).send(response.rows[0]);
     } catch(err) {
