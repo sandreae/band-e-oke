@@ -89,7 +89,7 @@ class Bandeoke extends React.Component {
   }
 
   onRecordClick() {
-    let count = 0.5
+    let count = 1
     let time = audioContext.currentTime
     const actions = this.props.actions
 
