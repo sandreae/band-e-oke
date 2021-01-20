@@ -135,18 +135,19 @@ class OverdubsWrapper extends React.Component {
 
   playMix = (audioContext, playing) => {
     let count = audioContext.currentTime + 1
-    this.toggleSingleAudioBuffer(this.state.backingTrack,'backingTrack', playing, count)
-    this.toggleAudioBufferArray(this.state.overdubNodes, playing, count)
-    this.toggleSingleAudioBuffer(this.props.newOverdub,'newOverdub', playing, count)
+    this.playSingleAudioBuffer(this.state.backingTrack,'backingTrack', playing, count)
+    this.playAudioBufferArray(this.state.overdubNodes, playing, count)
+    this.playSingleAudioBuffer(this.props.newOverdub,'newOverdub', playing, count)
   }
 
-  playAudioBuffer = (source, startTime, gain) => {
+  playAudioBuffer = (source, nudge, gain, count=0) => {
     // Set gain & start time (nudge) and play audio buffer
+    let offset = count + nudge
     var gainNode = this.props.audioContext.createGain();
     gainNode.gain.setValueAtTime(gain, this.props.audioContext.currentTime);
     source.connect(gainNode)
     gainNode.connect(this.props.audioContext.destination)
-    source.start(startTime)
+    source.start(offset)
     return source
   }
 
@@ -156,13 +157,13 @@ class OverdubsWrapper extends React.Component {
     return source
   }
 
-  toggleSingleAudioBuffer = (audio, key, toggle, count) => {
+  playSingleAudioBuffer = (audio, key, toggle, count) => {
     // Toggle single simple audio buffer
     if (toggle === true) {
 
       let source = this.getSource(audio.buffer)
-      this.playAudioBuffer(source, count + audio.nudge, audio.gain)
       this.setStateSimpleAudioBuffer(audio, key, source)
+      this.playAudioBuffer(source, audio.nudge, audio.gain, count)
 
     } else if (toggle === false) {
 
@@ -178,12 +179,11 @@ class OverdubsWrapper extends React.Component {
     this.setState({[key]: newAudio})
   }
 
-  toggleAudioBufferArray = (overdubs, toggle, count) => {
+  playAudioBufferArray = (overdubs, toggle, count) => {
     // Toggle play an array of audio buffers
     if (toggle === true) {
       overdubs.forEach((overdub) => {
-        let offset = count + overdub.nudge
-        this.playAudioBuffer(overdub.source, offset, overdub.gain)
+        this.playAudioBuffer(overdub.source, overdub.nudge, overdub.gain, count)
       })
     } else if (toggle === false) {
       overdubs.forEach((overdub) => {
