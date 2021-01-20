@@ -39,8 +39,12 @@ class OverdubsWrapper extends React.Component {
       actions.processNewOverdub(audioContext, newOverdub)
       return
     }
-    if (this.newOverdubToProcess() || this.overdubDataChanged(prevProps) || !this.state.overdubsPrepared) {
+    if (!this.state.overdubsPrepared) {
       this.prepareOverdubs()
+      return
+    }
+    if (this.newOverdubToProcess() || this.overdubDataChanged(prevProps)) {
+      this.setState({overdubsPrepared: false})
       return
     }
     this.playState(prevProps)
