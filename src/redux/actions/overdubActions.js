@@ -11,6 +11,7 @@ export function loadOverdubsSuccess(overdubs) {
 }
 
 export function updateOverdubSuccess(overdub) {
+  console.log(overdub)
   return { type: types.UPDATE_OVERDUB_SUCCESS, overdub };
 }
 
@@ -112,7 +113,7 @@ export function saveOverdubs(overdubs) {
       .then(savedOverdub => {
         toast.success("Overdub saved.");
         overdub.id
-          ? dispatch(updateOverdubSuccess(savedOverdub))
+          ? null
           : dispatch(createOverdubSuccess(savedOverdub));
       })
       .catch(error => {
