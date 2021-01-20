@@ -143,7 +143,7 @@ class OverdubsWrapper extends React.Component {
   }
 
   playMix = (audioContext, playing) => {
-    let count = audioContext.currentTime + 0.5
+    let count = audioContext.currentTime + 1
     this.toggleSingleAudioBuffer(this.state.backingTrack,'backingTrack', playing, count)
     this.toggleAudioBufferArray(this.state.overdubNodes, playing, count)
     this.toggleSingleAudioBuffer(this.props.newOverdub,'newOverdub', playing, count)
