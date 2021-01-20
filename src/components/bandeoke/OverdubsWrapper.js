@@ -43,7 +43,7 @@ class OverdubsWrapper extends React.Component {
       this.prepareOverdubs()
       return
     }
-    if (this.newOverdubToProcess() || this.overdubDataChanged(prevProps)) {
+    if (this.newOverdubToProcess() || this.props.audio.refreshOverdubParams) {
       this.setState({overdubsPrepared: false})
       return
     }
@@ -68,18 +68,6 @@ class OverdubsWrapper extends React.Component {
     if (this.props.audio.refreshOverdubParams){
       return true
     }
-    // if (this.props.overdubs.length != 0 && prevProps.overdubs.length != 0){
-    //   for (var p in this.props.overdubs) {
-    //     if (this.props.overdubs[p] && prevProps.overdubs[p]) {
-    //       if (this.props.overdubs[p].gain !== prevProps.overdubs[p].gain) {
-    //         return true
-    //       }
-    //       if (this.props.overdubs[p].nudge !== prevProps.overdubs[p].nudge) {
-    //         return true
-    //       }
-    //     }
-    //   }
-    // }
     return false
   }
 
@@ -109,7 +97,7 @@ class OverdubsWrapper extends React.Component {
     return true
   }
 
-  loadOverdubs = (prevProps) => {
+  loadOverdubs = () => {
     let {audio, overdubs} = this.props
     if (audio.overdubsComplete || audio.overdubsProcessing || overdubs.length == 0 ){
       return false
@@ -130,7 +118,7 @@ class OverdubsWrapper extends React.Component {
     if (apiCallsInProgress != 0) {
       return
     }
-    if (this.loadOverdubs(prevProps)){
+    if (this.loadOverdubs()){
       actions.processOverdubs(audioContext, Object.assign([], this.props.overdubs))
     }
     if (this.loadNewOverdub(prevProps)){
