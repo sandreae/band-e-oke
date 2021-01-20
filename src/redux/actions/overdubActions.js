@@ -59,11 +59,18 @@ export function processOverdubs(audioContext, fetchedOverdubs) {
     dispatch(audioActions.processingOverdubs(true))
     dispatch(showLoading())
     const overdubsWithBuffers = fetchAudio(audioContext, fetchedOverdubs).then((overdubsWithBuffers) => {
+      console.log(overdubsWithBuffers)
       dispatch(setOverdubBuffers(overdubsWithBuffers))
       dispatch(audioActions.processOverdubsComplete(true))
       dispatch(hideLoading())
       return overdubsWithBuffers
     })
+    console.log(overdubsWithBuffers)
+    overdubsWithBuffers.catch(error => {
+      toast.error("Processing overdubs failed. " + error.message, { autoClose: false });
+      throw error;
+    });
+
   return overdubsWithBuffers
   }
 }
