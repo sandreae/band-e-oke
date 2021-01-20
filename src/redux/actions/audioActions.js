@@ -34,6 +34,10 @@ export function processingNewOverdub(result) {
   return { type: types.PROCESSING_NEW_OVERDUB, result };
 }
 
+export function refreshOverdubParams(result) {
+  return { type: types.REFRESH_OVERDUB_PARAMS, result };
+}
+
 async function processAudio(audioContext, file) {
   const response = await fetch(file)
   const arrayBuffer = await response.arrayBuffer()

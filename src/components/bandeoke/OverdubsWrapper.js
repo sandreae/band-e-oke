@@ -65,18 +65,21 @@ class OverdubsWrapper extends React.Component {
   }
 
   overdubDataChanged = (prevProps) => {
-    if (this.props.overdubs.length != 0 && prevProps.overdubs.length != 0){
-      for (var p in this.props.overdubs) {
-        if (this.props.overdubs[p] && prevProps.overdubs[p]) {
-          if (this.props.overdubs[p].gain !== prevProps.overdubs[p].gain) {
-            return true
-          }
-          if (this.props.overdubs[p].nudge !== prevProps.overdubs[p].nudge) {
-            return true
-          }
-        }
-      }
+    if (this.props.audio.refreshOverdubParams){
+      return true
     }
+    // if (this.props.overdubs.length != 0 && prevProps.overdubs.length != 0){
+    //   for (var p in this.props.overdubs) {
+    //     if (this.props.overdubs[p] && prevProps.overdubs[p]) {
+    //       if (this.props.overdubs[p].gain !== prevProps.overdubs[p].gain) {
+    //         return true
+    //       }
+    //       if (this.props.overdubs[p].nudge !== prevProps.overdubs[p].nudge) {
+    //         return true
+    //       }
+    //     }
+    //   }
+    // }
     return false
   }
 
@@ -212,6 +215,7 @@ class OverdubsWrapper extends React.Component {
       overdub.source = source
       overdubNodes.push(overdub)
     })
+    this.props.actions.refreshOverdubParams(false)
     this.setState({overdubNodes: overdubNodes})
     this.setState({overdubsPrepared: true})
   }
@@ -247,6 +251,7 @@ function mapDispatchToProps(dispatch) {
     actions: {
       processOverdubs: bindActionCreators(overdubActions.processOverdubs, dispatch),
       processBackingTrack: bindActionCreators(audioActions.processBackingTrack, dispatch),
+      refreshOverdubParams: bindActionCreators(audioActions.refreshOverdubParams, dispatch),
       processNewOverdub: bindActionCreators(newOverdubActions.processNewOverdub, dispatch),
     }
   }

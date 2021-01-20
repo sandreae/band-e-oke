@@ -45,6 +45,10 @@ export default function overdubsAudioReducer(state = initialState.audio, action)
       newOverdubComplete: true,
       newOverdubProcessing: false,
     })
+    case types.REFRESH_OVERDUB_PARAMS:
+    return Object.assign({}, state, {
+      refreshOverdubParams: action.result,
+    })
     default:
       return state;
   }

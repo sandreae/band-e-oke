@@ -9,6 +9,7 @@ export default {
   audio: {
     overdubsProcessing: false,
     overdubsComplete: false,
+    refreshOverdubParams: false,
     backingTrackProcessing: false,
     backingTrackComplete: false,
     newOverdubProcessing: false,

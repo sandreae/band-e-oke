@@ -5,6 +5,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import * as overdubActions from "../../redux/actions/overdubActions";
+import * as audioActions from "../../redux/actions/audioActions";
 import { bindActionCreators } from "redux";
 import { toast } from "react-toastify";
 import AudioMeter from "./AudioMeter";
@@ -30,6 +31,10 @@ class Overdubs extends React.Component {
   };
 
   handleNudgeOverdub = (overdub, e) => {
+    if (isNaN(e.target.value)) {
+      console.log("Not a number")
+      return
+    }
     const updatedOverdub = Object.assign({}, overdub);
     updatedOverdub.nudge = parseFloat(e.target.value)
     this.props.actions.nudgeOverdub(updatedOverdub);
@@ -39,6 +44,10 @@ class Overdubs extends React.Component {
     const updatedOverdub = Object.assign({}, overdub);
     updatedOverdub.gain = parseFloat(e.target.value)
     this.props.actions.gainOverdub(updatedOverdub);
+  };
+
+  handleRefresh = (overdub, e) => {
+    this.props.actions.refreshOverdubParams(true);
   };
 
   renderOverdubItem(i){
@@ -65,12 +74,12 @@ class Overdubs extends React.Component {
             </div>
             <div className='flex overdub-controls-wrapper'>
               <div className={ `overdub-controls-item nudge ${disabled}` }>nudge</div>
-              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
-              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-number' type="number" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} /></div>
+              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-range' type="range" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onMouseUp={(e) => this.handleRefresh(overdub, e)}/></div>
+              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-number' type="string" min="-1" max="1" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onBlur={(e) => this.handleRefresh(overdub, e)} /></div>
             </div>
             <div className='flex overdub-controls-wrapper'>
               <div className={ `overdub-controls-item gain ${disabled}` }>gain</div>
-              <div className={ `overdub-controls-item gain ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)} /></div>
+              <div className={ `overdub-controls-item gain ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)} onMouseUp={(e) => this.handleRefresh(overdub, e)} /></div>
             </div>
           </div>
         )
@@ -105,7 +114,8 @@ function mapDispatchToProps(dispatch) {
     actions: {
       deleteOverdub: bindActionCreators(overdubActions.deleteOverdub, dispatch),
       nudgeOverdub: bindActionCreators(overdubActions.nudgeOverdub, dispatch),
-      gainOverdub: bindActionCreators(overdubActions.gainOverdub, dispatch)
+      gainOverdub: bindActionCreators(overdubActions.gainOverdub, dispatch),
+      refreshOverdubParams: bindActionCreators(audioActions.refreshOverdubParams, dispatch)
     }
   }
 }
