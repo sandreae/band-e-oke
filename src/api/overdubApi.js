@@ -75,29 +75,6 @@ export async function createOverdubBufferSources(audioContext, overdubs){
   return overdubs
 }
 
-// async function processAudio(audioContext, file) {
-//   const response = await fetch(file)
-//   const arrayBuffer = await response.arrayBuffer()
-//   const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
-//   return audioBuffer
-// }
-
 export function loadBackingTrack(audioContext, url){
   return createAudioBufferFromUrl(audioContext, url)
 }
-
-// export function processBackingTrack(audioContext, backingTrack) {
-//   return function(dispatch) {
-//     // dispatch(showLoading())
-//     // dispatch(processingBackingTrack(true))
-//     const audioBuffer = processAudio(audioContext, backingTrack)
-//       .then((audioBuffer) => {
-//         // dispatch(processBackingTrackComplete(true))
-//         // toast.success("Backing track audio ready. ");
-//         // dispatch(hideLoading())
-//         return audioBuffer
-//       }
-//     )
-//     return audioBuffer
-//   }
-// }
