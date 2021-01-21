@@ -20,24 +20,22 @@ class OverdubsWrapper extends React.Component {
       overdubsPrepared: false,
       overdubNodes: [],
       newOverdub: null,
-      backingTrack: {
-        buffer: null,
-        nudge: 0,
-        gain: 0.5
-      },
+      // backingTrack: {
+      //   buffer: null,
+      //   nudge: 0,
+      //   gain: 0.5
+      // },
       // allAudioLoaded: false,
-      isReady: false
+      // isReady: false
     }
   }
 
   componentDidMount(){
     console.log("OverdubWrapper Mounted")
-    let {audioContext, backingTrack, actions} = this.props
-    actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
-      const backingTrack = Object.assign({}, this.state.backingTrack);
-      backingTrack.buffer = buffer
-      this.setState({backingTrack: backingTrack});
-    })
+    // let {audioContext, backingTrack, actions} = this.props
+    // overdubApi.loadBackingTrack(audioContext, backingTrack).then((buffer) => {
+    //   console.log("BACKING TRACK BUFFER LOADED")
+    // })
   }
 
   componentDidUpdate(prevProps) {
@@ -119,14 +117,14 @@ class OverdubsWrapper extends React.Component {
     return true
   }
 
-  loadBackingTrack = () => {
-    let {audio} = this.props
-    if(audio.backingTrackComplete || audio.backingTrackProcessing){
-      return false
-    }
-    return true
-  }
-
+  // loadBackingTrack = () => {
+  //   let {audio} = this.props
+  //   if(audio.backingTrackComplete || audio.backingTrackProcessing){
+  //     return false
+  //   }
+  //   return true
+  // }
+  //
   // loadAudio = (prevProps) => {
   //   let {apiCallsInProgress, audioContext, newOverdub, backingTrack, actions} = this.props
     // if (apiCallsInProgress != 0) {
@@ -154,7 +152,7 @@ class OverdubsWrapper extends React.Component {
 
   playMix = (audioContext, playing) => {
     let count = audioContext.currentTime + 1
-    this.playSingleAudioBuffer(this.state.backingTrack,'backingTrack', playing, count)
+    this.playSingleAudioBuffer(this.props.backingTrack,'backingTrack', playing, count)
     this.playAudioBufferArray(this.state.overdubNodes, playing, count)
     this.playSingleAudioBuffer(this.props.newOverdub,'newOverdub', playing, count)
   }
@@ -241,22 +239,34 @@ class OverdubsWrapper extends React.Component {
 }
 
 OverdubsWrapper.propTypes = {
-  overdubs: PropTypes.array,
-  newOverdub: PropTypes.object,
-  audio: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  backingTrack: PropTypes.string.isRequired,
+  audio: PropTypes.object.isRequired,
+  backingTrack: PropTypes.object.isRequired,
   audioContext: PropTypes.object.isRequired,
-  playing: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,
-  apiCallsInProgress: PropTypes.number.isRequired,
+  newOverdub: PropTypes.object,
+  overdubs: PropTypes.array,
+  playing: PropTypes.bool.isRequired,
+  recording: PropTypes.bool.isRequired,
 };
+
+function mapStateToProps(state) {
+  return {
+    audio: state.audio,
+    backingTrack: state.backingTrack,
+    loading: state.apiCallsInProgress > 0,
+    newOverdub: state.newOverdub,
+    overdubs: state.overdubs,
+    playing: state.player.playing,
+    recording: state.player.recording,
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
       // processOverdubs: bindActionCreators(overdubActions.processOverdubs, dispatch),
-      processBackingTrack: bindActionCreators(audioActions.processBackingTrack, dispatch),
+      // processBackingTrack: bindActionCreators(audioActions.processBackingTrack, dispatch),
       // processOverdubsComplete: bindActionCreators(audioActions.processOverdubsComplete, dispatch),
       // reloadOverdubs: bindActionCreators(audioActions.reloadOverdubs, dispatch),
       // processNewOverdub: bindActionCreators(newOverdubActions.processNewOverdub, dispatch),
@@ -264,4 +274,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(OverdubsWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(OverdubsWrapper);

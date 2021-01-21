@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as overdubApi from "../../api/overdubApi";
 import { PropTypes } from "prop-types";
 import * as overdubActions from "../../redux/actions/overdubActions";
+import * as  backingTrackActions from "../../redux/actions/backingTrackActions";
 import * as mediaActions from "../../redux/actions/mediaActions";
 import * as metaActions from "../../redux/actions/metaActions";
 import * as playerActions from "../../redux/actions/playerActions";
@@ -42,9 +43,13 @@ class Bandeoke extends React.Component {
   }
 
   componentDidMount() {
-    const { overdubs, actions, songId } = this.props;
+    const { overdubs, actions, songId, track } = this.props;
     document.addEventListener("keydown", this.keyboardFunction, false);
     actions.setTitle(songId)
+    overdubApi.loadBackingTrack(audioContext, track).then((buffer) => {
+      actions.setBackingTrackBuffer(buffer)
+      console.log("BACKING TRACK BUFFER LOADED")
+    })
     overdubApi.loadOverdubs(audioContext, this.props.songId).then(overdubs=> {
       this.props.actions.loadOverdubsSuccess(overdubs)
       console.log(overdubs)
@@ -169,7 +174,7 @@ class Bandeoke extends React.Component {
 
   render() {
     const disabled = this.props.playing
-    const loading = this.props.media.scoreStatus === 'loading' || !this.props.overdubs || !this.props.audio.backingTrackComplete
+    const loading = this.props.media.scoreStatus === 'loading' || !this.props.overdubs || !this.props.backingTrack.buffer
     return (
       <div width='100%'>
       <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
@@ -197,13 +202,7 @@ class Bandeoke extends React.Component {
               audioContext={audioContext}
             />
             <OverdubsWrapper
-            apiCallsInProgress={this.props.apiCallsInProgress}
-            backingTrack={this.props.track}
-            overdubs={this.props.overdubs}
-            newOverdub={this.props.newOverdub}
-            audio={this.props.audio}
             audioContext={audioContext}
-            playing={this.props.playing}
             disabled={disabled}
             />
           </div>
@@ -235,6 +234,7 @@ Bandeoke.propTypes = {
   songId: PropTypes.string.isRequired,
   apiCallsInProgress: PropTypes.number.isRequired,
   songTitle: PropTypes.string.isRequired,
+  backingTrack: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -250,6 +250,7 @@ function mapStateToProps(state) {
     newOverdub: state.newOverdub,
     audio: state.audio,
     songTitle: state.meta.title,
+    backingTrack: state.backingTrack
   };
 }
 
@@ -257,6 +258,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       loadOverdubsSuccess: bindActionCreators(overdubActions.loadOverdubsSuccess, dispatch),
+      setBackingTrackBuffer: bindActionCreators(backingTrackActions.setBackingTrackBuffer, dispatch),
       // saveOverdubs: bindActionCreators(overdubActions.saveOverdubs, dispatch),
       play: bindActionCreators(playerActions.play, dispatch),
       record: bindActionCreators(playerActions.record, dispatch),

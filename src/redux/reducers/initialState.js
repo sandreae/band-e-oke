@@ -6,6 +6,11 @@ export default {
     gain: 1,
   },
   overdubs: null,
+  backingTrack: {
+    buffer: null,
+    nudge: 0,
+    gain: 0.5
+  },
   audio: {
     overdubsProcessing: false,
     overdubsComplete: false,

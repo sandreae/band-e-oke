@@ -41,8 +41,8 @@ export function deleteOverdub(overdubId) {
     .catch(handleError);
 }
 
-async function createAudioBufferFromUrl(audioContext, overdub) {
-  const response = await fetch(overdub.url)
+async function createAudioBufferFromUrl(audioContext, url) {
+  const response = await fetch(url)
   const arrayBuffer = await response.arrayBuffer()
   const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
   return audioBuffer
@@ -54,7 +54,7 @@ export function loadOverdubs(audioContext, title="none") {
     .then(async (overdubs) => {
       console.log(overdubs)
       const promises = overdubs.map(async overdub => {
-        overdub.buffer = createAudioBufferFromUrl(audioContext, overdub)
+        overdub.buffer = createAudioBufferFromUrl(audioContext, overdub.url)
         return overdub
       })
       const overdubsWithBuffers = await Promise.all(promises)
@@ -75,35 +75,29 @@ export async function createOverdubBufferSources(audioContext, overdubs){
   return overdubs
 }
 
-// export function saveOverdubs(overdubs) {
-//   // eslint-disable-next-line no-unused-vars
-//   return function(dispatch, getState) {
-//     overdubs.forEach((overdub) => {
-//       dispatch(beginApiCall());
-//       overdubApi
-//       .saveOverdub(overdub)
-//       .then(savedOverdub => {
-//         toast.success("Overdub saved.");
-//         overdub.id
-//           ? null
-//           : dispatch(createOverdubSuccess(savedOverdub));
-//       })
-//       .catch(error => {
-//         dispatch(apiCallError(error));
-//         throw error;
-//       });
-//     });
-//   };
+// async function processAudio(audioContext, file) {
+//   const response = await fetch(file)
+//   const arrayBuffer = await response.arrayBuffer()
+//   const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+//   return audioBuffer
 // }
 
-// export function deleteOverdub(overdub) {
+export function loadBackingTrack(audioContext, url){
+  return createAudioBufferFromUrl(audioContext, url)
+}
+
+// export function processBackingTrack(audioContext, backingTrack) {
 //   return function(dispatch) {
-//     // Doing optimistic delete, so not dispatching begin/end api call
-//     // actions, or apiCallError action since we're not showing the loading status for this.
-//     dispatch(deleteOverdubOptimistic(overdub));
-//     return overdubApi.deleteOverdub(overdub.id)
-//       .then(() => {
-//         dispatch(loadOverdubs())
-//       });
-//   };
+//     // dispatch(showLoading())
+//     // dispatch(processingBackingTrack(true))
+//     const audioBuffer = processAudio(audioContext, backingTrack)
+//       .then((audioBuffer) => {
+//         // dispatch(processBackingTrackComplete(true))
+//         // toast.success("Backing track audio ready. ");
+//         // dispatch(hideLoading())
+//         return audioBuffer
+//       }
+//     )
+//     return audioBuffer
+//   }
 // }

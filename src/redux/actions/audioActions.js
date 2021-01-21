@@ -37,26 +37,3 @@ export function processingNewOverdub(result) {
 export function refreshOverdubParams(result) {
   return { type: types.REFRESH_OVERDUB_PARAMS, result };
 }
-
-async function processAudio(audioContext, file) {
-  const response = await fetch(file)
-  const arrayBuffer = await response.arrayBuffer()
-  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
-  return audioBuffer
-}
-
-export function processBackingTrack(audioContext, backingTrack) {
-  return function(dispatch) {
-    dispatch(showLoading())
-    dispatch(processingBackingTrack(true))
-    const audioBuffer = processAudio(audioContext, backingTrack)
-      .then((audioBuffer) => {
-        dispatch(processBackingTrackComplete(true))
-        toast.success("Backing track audio ready. ");
-        dispatch(hideLoading())
-        return audioBuffer
-      }
-    )
-    return audioBuffer
-  }
-}
