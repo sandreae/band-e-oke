@@ -78,30 +78,31 @@ export function uploadOverdub(file, overdub, title) {
     }
   }
 
-async function processAudio(audioContext, file) {
-  const response = await fetch(file)
-  const arrayBuffer = await response.arrayBuffer()
-  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
-  return audioBuffer
-}
-
 async function fetchBlob(blobUrl){
   let blob = await fetch(blobUrl).then(r => r.blob());
   return blob
 }
 
+const processAudio = async (audioContext, overdub) => {
+  return fetch(overdub.url).then(async (fetchedFile)=>{
+    const arrayBuffer = await fetchedFile.arrayBuffer()
+    overdub.buffer = await audioContext.decodeAudioData(arrayBuffer)
+    return overdub
+  })
+}
+
 export function processNewOverdub(audioContext, overdub) {
+  console.log("CALL")
   return function(dispatch) {
     dispatch(audioActions.processingNewOverdub(true))
-    const newOverdub = processAudio(audioContext, overdub.url).then((buffer) => {
-      overdub.buffer = buffer
+    return processAudio(audioContext, overdub).then((overdub => {
       dispatch(setOverdubBuffer(overdub))
       dispatch(audioActions.processNewOverdubComplete(true))
       return overdub
-    })
-  return newOverdub
+    }))
   }
 }
+
 
 export function upload(overdub){
   return function(dispatch, getState){
