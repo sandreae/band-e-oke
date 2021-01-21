@@ -125,7 +125,7 @@ class Bandeoke extends React.Component {
   }
 
   renderButtons(disabled) {
-    const playing = this.props.playing
+    const playing = this.props.player.playing
     return (
       <div className='controls-wrapper flex-column'>
       <BackingTrack playing={playing} track={this.props.track} ref={syncRef} media={this.props.media} />
@@ -146,7 +146,7 @@ class Bandeoke extends React.Component {
         audio
         video={false}
         streamRef={streamRef}
-        recording={this.props.recording}
+        recording={this.props.player.recording}
         muted={false}
         audioContext={audioContext}
       />
@@ -168,14 +168,14 @@ class Bandeoke extends React.Component {
   renderScoreButtons(){
     if (this.props.scores){
       const scoreButtons = this.props.scores.map((item, i) => {
-        return <Button key={i} disabled={this.props.playing} name={item.name} onClick={() => this.onLoadScoreClick(item.score)} />
+        return <Button key={i} disabled={this.props.player.playing} name={item.name} onClick={() => this.onLoadScoreClick(item.score)} />
       });
       return scoreButtons
     }
   }
 
   render() {
-    const disabled = this.props.playing
+    const disabled = this.props.player.playing
     const loading = this.props.media.scoreStatus === 'loading' || !this.props.overdubs || !this.props.backingTrack.buffer
     if (loading) return "loading"
     return (
@@ -201,12 +201,12 @@ class Bandeoke extends React.Component {
             </div>
             <NewOverdubItem
               disabled={disabled}
-              playing={this.props.playing}
+              playing={this.props.player.playing}
               audioContext={audioContext}
             />
             <Overdubs
               disabled={disabled}
-              playing={this.props.playing}
+              playing={this.props.player.playing}
               overdubs={this.props.overdubs}
               audioContext={audioContext}
             />
@@ -225,37 +225,27 @@ class Bandeoke extends React.Component {
 
 Bandeoke.propTypes = {
   actions: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
-  overdubs: PropTypes.array,
-  playing: PropTypes.bool.isRequired,
-  recording: PropTypes.bool.isRequired,
+  audio: PropTypes.object.isRequired,
+  backingTrack: PropTypes.object.isRequired,
   media: PropTypes.object.isRequired,
+  newOverdub: PropTypes.object.isRequired,
+  overdubs: PropTypes.array,
   player: PropTypes.object.isRequired,
   scoreOffset: PropTypes.number.isRequired,
-  newOverdub: PropTypes.object.isRequired,
-  audio: PropTypes.object.isRequired,
   scores: PropTypes.array.isRequired,
-  track: PropTypes.string.isRequired,
   songId: PropTypes.string.isRequired,
-  apiCallsInProgress: PropTypes.number.isRequired,
-  songTitle: PropTypes.string.isRequired,
-  backingTrack: PropTypes.object.isRequired,
+  track: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    loading: state.apiCallsInProgress > 0,
-    overdubs: state.overdubs,
-    apiCallsInProgress: state.apiCallsInProgress,
-    playing: state.player.playing,
-    recording: state.player.recording,
+    audio: state.audio,
+    backingTrack: state.backingTrack,
     media: state.media,
+    newOverdub: state.newOverdub,
+    overdubs: state.overdubs,
     player: state.player,
     scoreOffset: state.media.scoreOffset,
-    newOverdub: state.newOverdub,
-    audio: state.audio,
-    songTitle: state.meta.title,
-    backingTrack: state.backingTrack
   };
 }
 
@@ -263,13 +253,12 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       loadOverdubsSuccess: bindActionCreators(overdubActions.loadOverdubsSuccess, dispatch),
-      setBackingTrackBuffer: bindActionCreators(backingTrackActions.setBackingTrackBuffer, dispatch),
-      // saveOverdubs: bindActionCreators(overdubActions.saveOverdubs, dispatch),
       play: bindActionCreators(playerActions.play, dispatch),
       record: bindActionCreators(playerActions.record, dispatch),
+      setBackingTrackBuffer: bindActionCreators(backingTrackActions.setBackingTrackBuffer, dispatch),
+      setTitle: bindActionCreators(metaActions.setTitle, dispatch),
       setVideoSync: bindActionCreators(mediaActions.setVideoSync, dispatch),
       videoStream: bindActionCreators(mediaActions.videoStream, dispatch),
-      setTitle: bindActionCreators(metaActions.setTitle, dispatch),
     }
   };
 }
