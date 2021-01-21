@@ -1,10 +1,8 @@
 // File holds all of the overdub action creators
 import * as types from "./actionTypes";
 import * as overdubApi from "../../api/overdubApi";
-import * as audioActions from "./audioActions";
 import { beginApiCall, apiCallError } from "./apiStatusActions";
 import { toast } from "react-toastify";
-import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 export function loadOverdubsSuccess(overdubs) {
   return { type: types.LOAD_OVERDUBS_SUCCESS, overdubs };
@@ -32,72 +30,6 @@ export function gainOverdub(overdub) {
 
 export function setOverdubBuffers(overdubs) {
   return { type: types.SET_OVERDUB_BUFFERS, overdubs };
-}
-
-async function processAudioArray(audioContext, overdub) {
-  const mergeOverdub = async (overdub, audioBuffer) => {
-    overdub.buffer = audioBuffer
-    return overdub
-  }
-  const response = await fetch(overdub.url)
-  const arrayBuffer = await response.arrayBuffer()
-  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
-  const overdubs = await mergeOverdub(overdub, audioBuffer)
-  return overdubs
-}
-
-const fetchAudio = async (audioContext, fetchedOverdubs) => {
-  const promises = fetchedOverdubs.map(async overdub => {
-    return processAudioArray(audioContext, overdub)
-  })
-  const overdubsWithBuffers = await Promise.all(promises)
-  return overdubsWithBuffers
-}
-
-export function processOverdubs(audioContext, fetchedOverdubs) {
-  return function(dispatch){
-    dispatch(audioActions.processingOverdubs(true))
-    dispatch(showLoading())
-    const overdubsWithBuffers = fetchAudio(audioContext, fetchedOverdubs).then((overdubsWithBuffers) => {
-      dispatch(setOverdubBuffers(overdubsWithBuffers))
-      dispatch(audioActions.processOverdubsComplete(true))
-      dispatch(hideLoading())
-      return overdubsWithBuffers
-    })
-    overdubsWithBuffers.catch(error => {
-      toast.error("Processing overdubs failed. " + error.message, { autoClose: false });
-      throw error;
-    });
-
-  return overdubsWithBuffers
-  }
-}
-
-//Thunks are defined below.  Used for async calls to the api.
-export function loadOverdubs() {
-  return function(dispatch, getState) {
-    const { meta } = getState();
-    dispatch(beginApiCall());
-    dispatch(showLoading())
-    return overdubApi
-      .getOverdubsByTitle(meta.title)
-      .then(overdubs => {
-        dispatch(loadOverdubsSuccess(overdubs));
-        if (overdubs.length === 0){
-          dispatch(audioActions.overdubsEmpty(true))
-        } else {
-          // dispatch(audioActions.processLoadedOverdubs(true))
-        }
-        toast.success("Overdubs loaded.");
-        dispatch(hideLoading())
-        return overdubs
-      })
-      .catch(error => {
-        dispatch(apiCallError(error));
-        toast.error("Fetching overdubs failed. " + error.message, { autoClose: false });
-        throw error;
-      });
-  };
 }
 
 export function saveOverdubs(overdubs) {
@@ -128,7 +60,7 @@ export function deleteOverdub(overdub) {
     dispatch(deleteOverdubOptimistic(overdub));
     return overdubApi.deleteOverdub(overdub.id)
       .then(() => {
-        dispatch(loadOverdubs())
+        // dispatch(loadOverdubs())
       });
   };
 }

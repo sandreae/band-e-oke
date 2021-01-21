@@ -21,6 +21,10 @@ class Overdubs extends React.Component {
     this.handleGainOverdub = this.handleGainOverdub.bind(this);
   }
 
+  componentDidMount(){
+    console.log("Overdub mounted")
+  }
+
   handleDeleteOverdub = async overdub => {
     toast.success("Overdub Deleted");
     try {

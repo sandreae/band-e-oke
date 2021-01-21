@@ -1,6 +1,7 @@
 // Overdub template page using a class
 import React from "react";
 import { connect } from "react-redux";
+import * as overdubApi from "../../api/overdubApi";
 import { PropTypes } from "prop-types";
 import * as overdubActions from "../../redux/actions/overdubActions";
 import * as mediaActions from "../../redux/actions/mediaActions";
@@ -43,17 +44,18 @@ class Bandeoke extends React.Component {
   componentDidMount() {
     const { overdubs, actions, songId } = this.props;
     document.addEventListener("keydown", this.keyboardFunction, false);
-
     actions.setTitle(songId)
-
-    if (overdubs.length === 0) {
-      actions.loadOverdubs(this.props.songId).catch(error => {
-        alert("Loading overdubs failed: " + error);
-      })
-    }
+    overdubApi.loadOverdubs(audioContext, this.props.songId).then(overdubs=> {
+      this.props.actions.loadOverdubsSuccess(overdubs)
+      console.log(overdubs)
+    })
+    .catch(error => {
+      alert("Loading overdubs failed: " + error);
+    })
   }
 
   componentDidUpdate() {
+    const { overdubs, actions, songId } = this.props;
     if ((this.props.media.videoSyncSet === false) && syncRef.current) {
       this.props.actions.setVideoSync(syncRef.current)
     }
@@ -115,16 +117,6 @@ class Bandeoke extends React.Component {
     this.setState(state => state.loadScore = true);
   }
 
-  renderOverdubs(disabled) {
-    if (this.props.overdubs.length === 0 || true === true) {
-      return null
-    }
-    if (this.props.media.videoSyncSet) {
-      return <Overdubs disabled={disabled} playing={this.props.playing} overdubs={this.props.overdubs} media={this.props.media} audioContext={audioContext}/>
-    }
-    return null
-  }
-
   renderButtons(disabled) {
     const playing = this.props.playing
     return (
@@ -176,8 +168,8 @@ class Bandeoke extends React.Component {
   }
 
   render() {
-    const disabled = this.props.playing || !this.props.audio.overdubsComplete || !this.props.audio.backingTrackComplete
-    const loading = this.props.media.scoreStatus === 'loading' || !this.props.audio.overdubsComplete || !this.props.audio.backingTrackComplete
+    const disabled = this.props.playing
+    const loading = this.props.media.scoreStatus === 'loading' || !this.props.overdubs || !this.props.audio.backingTrackComplete
     return (
       <div width='100%'>
       <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
@@ -230,7 +222,7 @@ class Bandeoke extends React.Component {
 Bandeoke.propTypes = {
   actions: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
-  overdubs: PropTypes.array.isRequired,
+  overdubs: PropTypes.array,
   playing: PropTypes.bool.isRequired,
   recording: PropTypes.bool.isRequired,
   media: PropTypes.object.isRequired,
@@ -242,7 +234,7 @@ Bandeoke.propTypes = {
   track: PropTypes.string.isRequired,
   songId: PropTypes.string.isRequired,
   apiCallsInProgress: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  songTitle: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -257,14 +249,15 @@ function mapStateToProps(state) {
     scoreOffset: state.media.scoreOffset,
     newOverdub: state.newOverdub,
     audio: state.audio,
+    songTitle: state.meta.title,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      loadOverdubs: bindActionCreators(overdubActions.loadOverdubs, dispatch),
-      saveOverdubs: bindActionCreators(overdubActions.saveOverdubs, dispatch),
+      loadOverdubsSuccess: bindActionCreators(overdubActions.loadOverdubsSuccess, dispatch),
+      // saveOverdubs: bindActionCreators(overdubActions.saveOverdubs, dispatch),
       play: bindActionCreators(playerActions.play, dispatch),
       record: bindActionCreators(playerActions.record, dispatch),
       setVideoSync: bindActionCreators(mediaActions.setVideoSync, dispatch),

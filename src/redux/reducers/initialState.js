@@ -5,7 +5,7 @@ export default {
     url: null,
     gain: 1,
   },
-  overdubs: [],
+  overdubs: null,
   audio: {
     overdubsProcessing: false,
     overdubsComplete: false,

@@ -2,6 +2,7 @@
 
 // Overdub template page using a class
 import React from "react";
+import * as overdubApi from "../../api/overdubApi";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import * as audioActions from "../../redux/actions/audioActions";
@@ -24,29 +25,43 @@ class OverdubsWrapper extends React.Component {
         nudge: 0,
         gain: 0.5
       },
-      allAudioLoaded: false,
+      // allAudioLoaded: false,
       isReady: false
     }
   }
 
+  componentDidMount(){
+    console.log("OverdubWrapper Mounted")
+    let {audioContext, backingTrack, actions} = this.props
+    actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
+      const backingTrack = Object.assign({}, this.state.backingTrack);
+      backingTrack.buffer = buffer
+      this.setState({backingTrack: backingTrack});
+    })
+  }
+
   componentDidUpdate(prevProps) {
-    let {audioContext, newOverdub, actions} = this.props
-    if (!this.allAudioLoaded()){
-      this.loadAudio(prevProps)
+    console.log("OverdubWrapper Updated")
+    // if (!this.allAudioLoaded()){
+    //   this.loadAudio(prevProps)
+    //   return
+    // }
+    // if (this.newRecording(prevProps)) {
+    //   actions.processNewOverdub(audioContext, newOverdub)
+    //   return
+    // }
+    if (!this.state.overdubsPrepared && this.props.overdubs) {
+      console.log("PREPARE OVERDUB BUFFERS")
+      overdubApi.createOverdubBufferSources(this.props.audioContext, this.props.overdubs).then((overdubs)=>{
+        this.setState({overdubsPrepared: true})
+        console.log(overdubs)
+      })
       return
     }
-    if (this.newRecording(prevProps)) {
-      actions.processNewOverdub(audioContext, newOverdub)
-      return
-    }
-    if (!this.state.overdubsPrepared) {
-      this.prepareOverdubs()
-      return
-    }
-    if (this.newOverdubToProcess() || this.props.audio.refreshOverdubParams) {
-      this.setState({overdubsPrepared: false})
-      return
-    }
+    // if (this.newOverdubToProcess() || this.props.audio.reloadOverdubs) {
+    //   this.setState({overdubsPrepared: false})
+    //   return
+    // }
     this.playState(prevProps)
   }
 
@@ -57,46 +72,45 @@ class OverdubsWrapper extends React.Component {
     }
   }
 
-  newOverdubToProcess = () => {
-    if (this.state.overdubNodes.length != this.props.overdubs.length) {
-      return true
-    }
-    return false
-  }
+  // newOverdubToProcess = () => {
+  //   if (this.state.overdubNodes.length != this.props.overdubs.length) {
+  //     return true
+  //   }
+  //   return false
+  // }
 
-  overdubDataChanged = (prevProps) => {
-    if (this.props.audio.refreshOverdubParams){
-      return true
-    }
-    return false
-  }
+  // overdubDataChanged = (prevProps) => {
+  //   if (this.props.audio.reloadOverdubs){
+  //     return true
+  //   }
+  //   return false
+  // }
+  //
+  // newRecording = (prevProps) => {
+  //   let {newOverdub} = this.props
+  //   if (!newOverdub.url){
+  //     return false
+  //   }
+  //   if (newOverdub.url !== prevProps.newOverdub.url) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  newRecording = (prevProps) => {
-    let {newOverdub} = this.props
-    if (!newOverdub.url){
-      return false
-    }
-    if (newOverdub.url !== prevProps.newOverdub.url) {
-      return true;
-    }
-    return false;
-  }
-
-  allAudioLoaded = () => {
-    let {audio} = this.props
-    if (audio.overdubsComplete && audio.backingTrackComplete && audio.newOverdubComplete){
-      return true
-    }
-    return false
-  }
-
-  loadNewOverdub = (prevProps) => {
-    let {audio, newOverdub} = this.props
-    if (audio.newOverdubComplete || audio.newOverdubProcessing) return false;
-    if (newOverdub.url !== prevProps.newOverdub.url) return false;
-    return true
-  }
-
+  // allAudioLoaded = () => {
+  //   let {audio} = this.props
+  //   if (audio.overdubsComplete && audio.backingTrackComplete && audio.newOverdubComplete){
+  //     return true
+  //   }
+  //   return false
+  // }
+  //
+  // loadNewOverdub = () => {
+  //   let {audio} = this.props
+  //   if (audio.newOverdubComplete || audio.newOverdubProcessing) return false;
+  //   return true
+  // }
+  //
   loadOverdubs = () => {
     let {audio, overdubs} = this.props
     if (audio.overdubsComplete || audio.overdubsProcessing || overdubs.length == 0 ){
@@ -113,25 +127,30 @@ class OverdubsWrapper extends React.Component {
     return true
   }
 
-  loadAudio = (prevProps) => {
-    let {apiCallsInProgress, audioContext, newOverdub, backingTrack, actions} = this.props
-    if (apiCallsInProgress != 0) {
-      return
-    }
-    if (this.loadOverdubs()){
-      actions.processOverdubs(audioContext, Object.assign([], this.props.overdubs))
-    }
-    if (this.loadNewOverdub(prevProps)){
-      actions.processNewOverdub(audioContext, newOverdub)
-    }
-    if (this.loadBackingTrack()) {
-      actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
-        const backingTrack = Object.assign({}, this.state.backingTrack);
-        backingTrack.buffer = buffer
-        this.setState({backingTrack: backingTrack});
-      })
-    }
-  }
+  // loadAudio = (prevProps) => {
+  //   let {apiCallsInProgress, audioContext, newOverdub, backingTrack, actions} = this.props
+    // if (apiCallsInProgress != 0) {
+    //   return
+    // }
+    // if (this.loadOverdubs() && !this.state.overdubsPrepared){
+    //   actions.processOverdubs(audioContext, Object.assign([], this.props.overdubs)).then((overdubs)=>{
+    //     console.log(overdubs)
+    //     this.setState({overdubsPrepared: true})
+    //   })
+    // }
+    // if (this.loadNewOverdub(prevProps)){
+    //   actions.processNewOverdub(audioContext, newOverdub).then((newOverdub)=>{
+    //     console.log(newOverdub)
+    //   })
+    // }
+  //   if (this.loadBackingTrack()) {
+  //     actions.processBackingTrack(audioContext, backingTrack).then((buffer) => {
+  //       const backingTrack = Object.assign({}, this.state.backingTrack);
+  //       backingTrack.buffer = buffer
+  //       this.setState({backingTrack: backingTrack});
+  //     })
+  //   }
+  // }
 
   playMix = (audioContext, playing) => {
     let count = audioContext.currentTime + 1
@@ -194,26 +213,25 @@ class OverdubsWrapper extends React.Component {
     }
   }
 
-  prepareOverdubs = () => {
-    // Create array of audio source nodes for overdubs
-    let freshOverdubs = Object.assign([], this.props.overdubs);
-    let overdubNodes = []
-    freshOverdubs.forEach((overdub) => {
-      let source = this.getSource(overdub.buffer)
-      overdub.source = source
-      overdubNodes.push(overdub)
-    })
-    this.props.actions.refreshOverdubParams(false)
-    this.setState({overdubNodes: overdubNodes})
-    this.setState({overdubsPrepared: true})
-  }
+  // prepareOverdubs = () => {
+  //   // Create array of audio source nodes for overdubs
+  //   let freshOverdubs = Object.assign([], this.props.overdubs);
+  //   let overdubNodes = []
+  //   freshOverdubs.forEach((overdub) => {
+  //     let source = this.getSource(overdub.buffer)
+  //     overdub.source = source
+  //     overdubNodes.push(overdub)
+  //   })
+  //   // this.props.actions.reloadOverdubs(false)
+  //   this.setState({overdubNodes: overdubNodes})
+  //   this.setState({overdubsPrepared: true})
+  // }
 
   render() {
     // When all nodes are prepared render Overdubs
-    if (this.state.overdubNodes.length != this.props.overdubs.length) {
-      return "still loading"
-    }
     if (this.state.overdubsPrepared){
+      console.log("RENDER OVERDUBS")
+      console.log(this.props)
       return (
         <Overdubs disabled={this.props.disabled} playing={this.props.playing} overdubs={this.props.overdubs} overdubNodes={this.state.overdubNodes} video={false} audioContext={this.props.audioContext}/>
       )
@@ -223,7 +241,7 @@ class OverdubsWrapper extends React.Component {
 }
 
 OverdubsWrapper.propTypes = {
-  overdubs: PropTypes.array.isRequired,
+  overdubs: PropTypes.array,
   newOverdub: PropTypes.object,
   audio: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
@@ -237,10 +255,11 @@ OverdubsWrapper.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      processOverdubs: bindActionCreators(overdubActions.processOverdubs, dispatch),
+      // processOverdubs: bindActionCreators(overdubActions.processOverdubs, dispatch),
       processBackingTrack: bindActionCreators(audioActions.processBackingTrack, dispatch),
-      refreshOverdubParams: bindActionCreators(audioActions.refreshOverdubParams, dispatch),
-      processNewOverdub: bindActionCreators(newOverdubActions.processNewOverdub, dispatch),
+      // processOverdubsComplete: bindActionCreators(audioActions.processOverdubsComplete, dispatch),
+      // reloadOverdubs: bindActionCreators(audioActions.reloadOverdubs, dispatch),
+      // processNewOverdub: bindActionCreators(newOverdubActions.processNewOverdub, dispatch),
     }
   }
 }
