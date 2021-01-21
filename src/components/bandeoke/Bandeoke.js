@@ -51,8 +51,11 @@ class Bandeoke extends React.Component {
       console.log("BACKING TRACK BUFFER LOADED")
     })
     overdubApi.loadOverdubs(audioContext, this.props.songId).then(overdubs=> {
-      this.props.actions.loadOverdubsSuccess(overdubs)
-      console.log(overdubs)
+      console.log("OVERDUBS LOADED")
+      overdubApi.createOverdubBufferSources(audioContext, overdubs).then((overdubs)=>{
+        console.log("OVERDUB BUFFERS SET")
+        actions.loadOverdubsSuccess(overdubs)
+      })
     })
     .catch(error => {
       alert("Loading overdubs failed: " + error);
@@ -175,6 +178,7 @@ class Bandeoke extends React.Component {
   render() {
     const disabled = this.props.playing
     const loading = this.props.media.scoreStatus === 'loading' || !this.props.overdubs || !this.props.backingTrack.buffer
+    if (loading) return "loading"
     return (
       <div width='100%'>
       <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>

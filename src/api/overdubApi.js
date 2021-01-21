@@ -42,8 +42,8 @@ export function deleteOverdub(overdubId) {
 }
 
 async function createAudioBufferFromUrl(audioContext, url) {
-  const response = await fetch(url)
-  const arrayBuffer = await response.arrayBuffer()
+  const file = await fetch(url)
+  const arrayBuffer = await file.arrayBuffer()
   const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
   return audioBuffer
 }
@@ -54,7 +54,10 @@ export function loadOverdubs(audioContext, title="none") {
     .then(async (overdubs) => {
       console.log(overdubs)
       const promises = overdubs.map(async overdub => {
-        overdub.buffer = createAudioBufferFromUrl(audioContext, overdub.url)
+        createAudioBufferFromUrl(audioContext, overdub.url).then((result)=>{
+          overdub.buffer = result
+          return overdub
+        })
         return overdub
       })
       const overdubsWithBuffers = await Promise.all(promises)

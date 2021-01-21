@@ -9,77 +9,102 @@ class AudioMeter extends Component {
     this.meterRef = React.createRef()
 
     this.state = {
-      meterRendered: false,
+      source: null,
+      meterRendered: false
     };
   }
 
   componentDidMount(){
-    this.initiateMeter()
+    console.log("AUDIO METER MOUNTED")
+    this.setState(state => state.source = this.createSource());
   }
 
-  componentDidUpdate() {
-    this.playAudioBuffer()
+  componentDidUpdate(prevProps) {
+    console.log("AUDIO METER UPDATED")
+    console.log(this.state)
+    if (!this.state.source) {
+      this.setState(state => state.source = this.createSource());
+      return
+    } else if (!this.state.meterRendered) {
+      this.initiateMeter()
+      this.setState(state => state.meterRendered = true);
+    }
+    this.play(prevProps)
   }
 
   playAudioBuffer = () => {
-    // if audio is buffer array (ie. a new overdub), play audio element (otherwise it will be played from webaudio-context)
-    if(this.props.isAudioBufferUrl){
-      if(this.props.playing){
-        this.audioRef.current.play()
-      }
-      if(!this.props.playing){
-        this.audioRef.current.pause()
-        this.audioRef.current.currentTime = 0
-      }
+    // Set gain & start time (nudge) and play audio buffer
+    console.log("PLAY AUDIO")
+    console.log("with: ", this.props.overdub)
+
+    let {nudge, gain} = this.props.overdub
+    let source = this.state.source
+    let offset = this.props.count + nudge
+
+    let gainNode = this.props.audioContext.createGain();
+    gainNode.gain.setValueAtTime(gain, this.props.audioContext.currentTime);
+    source.connect(gainNode)
+    gainNode.connect(this.props.audioContext.destination)
+    source.start(offset)
+  }
+
+  play = (prevProps) => {
+    if(this.props.playing){
+      this.playAudioBuffer()
     }
+    if(!this.props.playing && prevProps.playing){
+      console.log(this.state.source)
+      this.state.source.stop()
+      this.setState(state => state.source = null);
+      this.setState(state => state.meterRendered = false);
+    }
+  }
+
+  createSource = () => {
+    let source = this.props.audioContext.createBufferSource()
+    source.buffer = this.props.overdub.buffer
+    console.log(source)
+    return source
   }
 
   initiateMeter = () => {
     // Create instance of meter class
-    let meter = WebAudioPeakMeter(this.props.audioNode);
-    let sourceNode
-
-    // If audio is buffer url create sourceNode from audio element using Ref
-    this.props.isAudioBufferUrl ?
-      sourceNode = this.props.audioContext.createMediaElementSource(this.audioRef.current) :
-      sourceNode = this.props.audioNode
-
-    // Create meter and attach to DOM using meterRef
-    let meterNode = meter.createMeterNode(sourceNode, this.props.audioContext);
+    let meter = WebAudioPeakMeter();
+    let meterNode = meter.createMeterNode(this.state.source, this.props.audioContext);
     meter.createMeter(this.meterRef.current, meterNode, {});
-
-    // Change state
-    this.setState(state => state.meterRendered = true);
   }
-
-  renderAudioElement() {
-    // Only render if audio is buffer url
-    if (this.props.isAudioBufferUrl){
-      return <audio crossOrigin="anonymous" preload="auto" type="audio/mpeg" src={this.props.audioUrl} ref={this.audioRef} style={{display: "none"}}/>
-    }
-  }
+  //
+  // renderAudioElement() {
+  //   // Only render if audio is buffer url
+  //   if (this.props.isAudioBufferUrl){
+  //     return <audio crossOrigin="anonymous" preload="auto" type="audio/mpeg" src={this.props.audioUrl} ref={this.audioRef} style={{display: "none"}}/>
+  //   }
+  // }
 
   render(){
-    return (
-      <span>
-        {this.renderAudioElement()}
+    if (this.state.source){
+      return (
+        <span>
         <div ref={this.meterRef} id="new-overdub-peak-meter" style={{width: "200px", height: "150px"}}></div>
-      </span>
-    )
+        </span>
+      )
+    } else {return "loading"}
   }
 }
 
 AudioMeter.propTypes = {
-  audioNode: PropTypes.object,
-  audioUrl: PropTypes.string,
+  overdub: PropTypes.object.isRequired,
+  count: PropTypes.number,
+  // audioUrl: PropTypes.string,
   playing: PropTypes.bool.isRequired,
   audioContext: PropTypes.object.isRequired,
-  isAudioBufferUrl: PropTypes.bool.isRequired,
+  // isAudioBufferUrl: PropTypes.bool.isRequired,
 }
 
 AudioMeter.defaultProps = {
-  audioNode: {},
-  audioUrl: "",
+  // audioNode: {},
+  // audioUrl: "",
+  count: 1,
 };
 
 export default AudioMeter

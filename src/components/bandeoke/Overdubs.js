@@ -54,12 +54,11 @@ class Overdubs extends React.Component {
     this.props.actions.refreshOverdubParams(true);
   };
 
-  renderOverdubItem(i){
-    let nodes = this.props.overdubNodes
+  renderOverdubItem(overdub, i){
     if (this.props.video) {
-      return <video key={i} muted src={this.props.overdubs[i].url} ref={ref => { this.refsArray[i] = ref}} />
+      return <video key={i} muted src={overdub.url} ref={ref => { this.refsArray[i] = ref}} />
     } else {
-      return <AudioMeter key={i} audioNode={nodes[i] ? nodes[i].source : {}} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={false}/>
+      return <AudioMeter key={i} overdub={overdub} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={false}/>
     }
   }
 
@@ -73,7 +72,7 @@ class Overdubs extends React.Component {
         return (
           <div className='flex-column video-grid-item-wrapper' key={i}>
             <div className='flex video-grid-item'>
-              {this.renderOverdubItem(i)}
+              {this.renderOverdubItem(overdub, i)}
               <div className={ `delete-button ${disabled}` } id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
             </div>
             <div className='flex overdub-controls-wrapper'>
@@ -92,7 +91,7 @@ class Overdubs extends React.Component {
   }
 
   render() {
-    if (this.props.overdubs.length === 0 || this.props.overdubNodes.length === 0) {
+    if (this.props.overdubs.length === 0) {
       return null
     }
     return (
@@ -104,7 +103,7 @@ class Overdubs extends React.Component {
 }
 
 Overdubs.propTypes = {
-  overdubNodes: PropTypes.array.isRequired,
+  // overdubNodes: PropTypes.array.isRequired,
   overdubs: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   audioContext: PropTypes.object.isRequired,

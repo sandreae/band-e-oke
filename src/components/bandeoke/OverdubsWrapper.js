@@ -48,27 +48,27 @@ class OverdubsWrapper extends React.Component {
     //   actions.processNewOverdub(audioContext, newOverdub)
     //   return
     // }
-    if (!this.state.overdubsPrepared && this.props.overdubs) {
-      console.log("PREPARE OVERDUB BUFFERS")
-      overdubApi.createOverdubBufferSources(this.props.audioContext, this.props.overdubs).then((overdubs)=>{
-        this.setState({overdubsPrepared: true})
-        console.log(overdubs)
-      })
-      return
-    }
+    // if (!this.state.overdubsPrepared && this.props.overdubs) {
+    //   console.log("PREPARE OVERDUB BUFFERS")
+    //   overdubApi.createOverdubBufferSources(this.props.audioContext, this.props.overdubs).then((overdubs)=>{
+    //     console.log("OVERDUB BUFFERS SET")
+    //     this.setState({overdubsPrepared: true})
+    //   })
+    //   return
+    // }
     // if (this.newOverdubToProcess() || this.props.audio.reloadOverdubs) {
     //   this.setState({overdubsPrepared: false})
     //   return
     // }
-    this.playState(prevProps)
+    // this.playState(prevProps)
   }
 
-  playState = (prevProps) => {
-    let {playing} = this.props
-    if(playing != null && playing !== prevProps.playing){
-      this.playMix(this.props.audioContext, playing)
-    }
-  }
+  // playState = (prevProps) => {
+  //   let {playing} = this.props
+    // if(playing != null && playing !== prevProps.playing){
+    //   this.playMix(this.props.audioContext, playing)
+    // }
+  // }
 
   // newOverdubToProcess = () => {
   //   if (this.state.overdubNodes.length != this.props.overdubs.length) {
@@ -227,11 +227,9 @@ class OverdubsWrapper extends React.Component {
 
   render() {
     // When all nodes are prepared render Overdubs
-    if (this.state.overdubsPrepared){
-      console.log("RENDER OVERDUBS")
-      console.log(this.props)
+    if (this.props.overdubs){
       return (
-        <Overdubs disabled={this.props.disabled} playing={this.props.playing} overdubs={this.props.overdubs} overdubNodes={this.state.overdubNodes} video={false} audioContext={this.props.audioContext}/>
+        <Overdubs disabled={this.props.disabled} playing={this.props.playing} overdubs={this.props.overdubs} video={false} audioContext={this.props.audioContext}/>
       )
     }
     return "loading"
