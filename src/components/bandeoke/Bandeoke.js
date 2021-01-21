@@ -10,7 +10,6 @@ import * as metaActions from "../../redux/actions/metaActions";
 import * as playerActions from "../../redux/actions/playerActions";
 import { bindActionCreators } from "redux";
 import Overdubs from "./Overdubs";
-import OverdubsWrapper from "./OverdubsWrapper";
 import BackingTrack from "./BackingTrack";
 import Button from "./Button";
 import NewOverdubItem from "./NewOverdubItem";
@@ -205,9 +204,11 @@ class Bandeoke extends React.Component {
               playing={this.props.playing}
               audioContext={audioContext}
             />
-            <OverdubsWrapper
-            audioContext={audioContext}
-            disabled={disabled}
+            <Overdubs
+              disabled={disabled}
+              playing={this.props.playing}
+              overdubs={this.props.overdubs}
+              audioContext={audioContext}
             />
           </div>
           <div className='score-wrapper'>
