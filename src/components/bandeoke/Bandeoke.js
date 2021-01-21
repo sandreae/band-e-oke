@@ -45,7 +45,7 @@ class Bandeoke extends React.Component {
     const { overdubs, actions, songId, track } = this.props;
     document.addEventListener("keydown", this.keyboardFunction, false);
     actions.setTitle(songId)
-    overdubApi.loadBackingTrack(audioContext, track).then((buffer) => {
+    overdubApi.createBufferFromUrl(audioContext, track).then((buffer) => {
       actions.setBackingTrackBuffer(buffer)
       console.log("BACKING TRACK BUFFER LOADED")
     })

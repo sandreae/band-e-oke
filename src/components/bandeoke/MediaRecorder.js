@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import * as mediaActions from "../../redux/actions/mediaActions";
 import { bindActionCreators } from "redux";
+import * as overdubApi from "../../api/overdubApi";
 
 function checkMediaConstraint(mediaConstraint) {
   let mediaType = Object.keys(mediaConstraint)[0];
@@ -162,7 +163,10 @@ class ReactMediaRecorder extends React.Component {
     if (this.props.whenStopped) {
       this.props.whenStopped(blob, url);
     }
-    this.props.actions.setOverdubBlob(url)
+    overdubApi.createBufferFromUrl(this.props.audioContext, url).then((buffer)=>{
+      console.log(buffer)
+      this.props.actions.setOverdubBlob(url, buffer)
+    })
     this.setState({ mediaBlob: blob, mediaUrl: url, status: "stopped" });
   };
 

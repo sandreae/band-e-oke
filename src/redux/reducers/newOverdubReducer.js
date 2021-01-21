@@ -7,7 +7,8 @@ export default function newOverdubReducer(state = initialState.newOverdub, actio
   switch (action.type) {
     case types.SET_OVERDUB_BLOB:
       return Object.assign({}, state, {
-        url: action.url
+        url: action.url,
+        buffer: action.buffer
       })
     case types.NUDGE_NEW_OVERDUB:
       return Object.assign({}, state, {

@@ -10,16 +10,11 @@ class NewOverdubItem extends Component {
 
   constructor(props) {
     super(props)
-    this.newOverdubRef = React.createRef()
-    this.newOverdubMeterRef = React.createRef()
 
     this.handleNudgeOverdub = this.handleNudgeOverdub.bind(this);
     this.handleDeleteOverdub = this.handleDeleteOverdub.bind(this);
     this.handleGainOverdub = this.handleGainOverdub.bind(this);
 
-    this.state = {
-      meterRendered: false,
-    };
   }
 
   handleNudgeOverdub = (overdub, e) => {
@@ -44,7 +39,7 @@ class NewOverdubItem extends Component {
   renderVisuals(){
     return (
       <span>
-        <AudioMeter audioUrl={this.props.newOverdub.url} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={true} />
+        <AudioMeter overdub={this.props.newOverdub} playing={this.props.playing} audioContext={this.props.audioContext}/>
       </span>
     )
   }
@@ -69,7 +64,7 @@ class NewOverdubItem extends Component {
   }
 
   render() {
-    if (this.props.newOverdub.url) {
+    if (this.props.newOverdub.buffer) {
       return (
         <div className='flex-column new-overdub-wrapper'>
         {this.renderVisuals()}

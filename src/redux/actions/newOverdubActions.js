@@ -7,8 +7,8 @@ import axios from 'axios'
 import { toast } from "react-toastify";
 const baseUrl = process.env.API_URL
 
-export function setOverdubBlob(url) {
-  return { type: types.SET_OVERDUB_BLOB, url };
+export function setOverdubBlob(url, buffer) {
+  return { type: types.SET_OVERDUB_BLOB, url, buffer};
 }
 
 export function nudgeNewOverdub(overdub) {

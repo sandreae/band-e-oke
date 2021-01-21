@@ -78,6 +78,6 @@ export async function createOverdubBufferSources(audioContext, overdubs){
   return overdubs
 }
 
-export function loadBackingTrack(audioContext, url){
+export function createBufferFromUrl(audioContext, url){
   return createAudioBufferFromUrl(audioContext, url)
 }
