@@ -94,32 +94,32 @@ class NewOverdubItem extends Component {
 }
 
 NewOverdubItem.propTypes = {
-  newOverdub: PropTypes.object.isRequired,
-  songId: PropTypes.string.isRequired,
   actions: PropTypes.object.isRequired,
-  playing: PropTypes.bool.isRequired,
   audioContext: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
+  newOverdub: PropTypes.object.isRequired,
+  playing: PropTypes.bool.isRequired,
+  songId: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    newOverdub: state.newOverdub,
     actions: state.actions,
-    playing: state.player.playing,
     meta: state.meta,
+    newOverdub: state.newOverdub,
+    playing: state.player.playing,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      setOverdubBlob: bindActionCreators(newOverdubActions.setOverdubBlob, dispatch),
-      nudgeNewOverdub: bindActionCreators(newOverdubActions.nudgeNewOverdub, dispatch),
-      upload: bindActionCreators(newOverdubActions.upload, dispatch),
-      loadOverdubsSuccess: bindActionCreators(overdubActions.loadOverdubsSuccess, dispatch),
-      removeNewOverdub: bindActionCreators(newOverdubActions.removeNewOverdub, dispatch),
       gainNewOverdub: bindActionCreators(newOverdubActions.gainNewOverdub, dispatch),
+      loadOverdubsSuccess: bindActionCreators(overdubActions.loadOverdubsSuccess, dispatch),
+      nudgeNewOverdub: bindActionCreators(newOverdubActions.nudgeNewOverdub, dispatch),
+      removeNewOverdub: bindActionCreators(newOverdubActions.removeNewOverdub, dispatch),
+      setOverdubBlob: bindActionCreators(newOverdubActions.setOverdubBlob, dispatch),
+      upload: bindActionCreators(newOverdubActions.upload, dispatch),
     }
   }
 }

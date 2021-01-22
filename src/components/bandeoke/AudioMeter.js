@@ -33,7 +33,6 @@ class AudioMeter extends Component {
     // Set gain & start time (nudge) and play audio buffer
     let {nudge, gain} = this.props.overdub
     let source = this.state.source
-    console.log("nudge: ", nudge)
     let gainNode = this.props.audioContext.createGain();
     gainNode.gain.setValueAtTime(gain, this.props.audioContext.currentTime);
     source.connect(gainNode)
@@ -85,10 +84,10 @@ class AudioMeter extends Component {
 }
 
 AudioMeter.propTypes = {
-  overdub: PropTypes.object,
-  stream: PropTypes.object,
-  playing: PropTypes.bool.isRequired,
   audioContext: PropTypes.object.isRequired,
+  overdub: PropTypes.object,
+  playing: PropTypes.bool.isRequired,
+  stream: PropTypes.object,
 }
 
 export default AudioMeter

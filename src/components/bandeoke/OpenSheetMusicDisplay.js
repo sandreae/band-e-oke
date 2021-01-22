@@ -18,11 +18,11 @@ class OpenSheetMusicDisplay extends Component {
       this.props.actions.scoreLoading('loading')
       const options = {
         autoResize: false,
-        renderSingleHorizontalStaffline: true,
-        followCursor: false,
-        drawingParameters: 'compact',
         disableCursor: false,
+        drawingParameters: 'compact',
         drawPartNames: false,
+        followCursor: false,
+        renderSingleHorizontalStaffline: true,
       }
       this.osmd = new OSMD(this.divRef.current, options);
 
@@ -88,8 +88,8 @@ class OpenSheetMusicDisplay extends Component {
 
   OpenSheetMusicDisplay.propTypes = {
     actions: PropTypes.object.isRequired,
-    playing: PropTypes.bool.isRequired,
     file: PropTypes.string.isRequired,
+    playing: PropTypes.bool.isRequired,
     tempo: PropTypes.string.isRequired,
   };
 

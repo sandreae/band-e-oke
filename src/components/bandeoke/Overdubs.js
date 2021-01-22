@@ -103,11 +103,10 @@ class Overdubs extends React.Component {
 }
 
 Overdubs.propTypes = {
-  // overdubNodes: PropTypes.array.isRequired,
-  overdubs: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   audioContext: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
+  overdubs: PropTypes.array.isRequired,
   playing: PropTypes.bool.isRequired,
 };
 
@@ -115,8 +114,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       deleteOverdub: bindActionCreators(overdubActions.deleteOverdub, dispatch),
-      nudgeOverdub: bindActionCreators(overdubActions.nudgeOverdub, dispatch),
       gainOverdub: bindActionCreators(overdubActions.gainOverdub, dispatch),
+      nudgeOverdub: bindActionCreators(overdubActions.nudgeOverdub, dispatch),
       refreshOverdubParams: bindActionCreators(audioActions.refreshOverdubParams, dispatch)
     }
   }

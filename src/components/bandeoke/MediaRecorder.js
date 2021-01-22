@@ -249,8 +249,10 @@ class ReactMediaRecorder extends React.Component {
 }
 
 ReactMediaRecorder.propTypes = {
+  actions: PropTypes.object.isRequired,
   audio: ({ audio }) => checkMediaConstraint({ audio }),
-  video: ({ video }) => checkMediaConstraint({ video }, true),
+  audioContext: PropTypes.object.isRequired,
+  blobPropertyBag: PropTypes.object,
   delay: PropTypes.number,
   muted: ({ muted, audio, video }) => {
     if (typeof muted !== "boolean") {
@@ -264,20 +266,18 @@ ReactMediaRecorder.propTypes = {
       );
     }
   },
-  render: PropTypes.func.isRequired,
-  blobPropertyBag: PropTypes.object,
-  whenStopped: PropTypes.func,
-  audioContext: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
-  recording: PropTypes.bool.isRequired,
   playing: PropTypes.bool.isRequired,
+  recording: PropTypes.bool.isRequired,
+  render: PropTypes.func.isRequired,
   streamStatus: PropTypes.string.isRequired,
+  video: ({ video }) => checkMediaConstraint({ video }, true),
+  whenStopped: PropTypes.func,
 };
 
 ReactMediaRecorder.defaultProps = {
   audio: true,
-  muted: false,
   delay: 0,
+  muted: false,
   render: () => null,
   whenStopped: () => null
 };
