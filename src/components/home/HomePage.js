@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Login from "../users/Login";
 import {connect} from 'react-redux';
 import { PropTypes } from "prop-types";
-import Button from '../bandeoke/Button'
 import {getProfileFetch, logoutUser} from '../../redux/actions/userActions';
 
 class HomePage extends Component {

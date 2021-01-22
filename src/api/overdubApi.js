@@ -20,16 +20,11 @@ export function getOverdubsByTitle(title) {
     .catch(handleError);
 }
 
-export function saveOverdub(overdub) {
-  const token = localStorage.token;
-  return fetch(baseUrl + "overdubs/" + (overdub.id || ""), {
-    method: overdub.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
-    headers: { "content-type": "application/json",
-               "x-access-token": token },
-    body: JSON.stringify(overdub)
-  })
-  .then(handleResponse)
-  .catch(handleError);
+export function saveAllOverdubs(overdubs) {
+  overdubs.forEach((overdub) => {
+    saveOverdub(overdub)
+  });
+
 }
 
 export function deleteOverdub(overdubId) {
@@ -89,6 +84,18 @@ function postOverdub(overdub, title, url){
     gain: overdub.gain,
     title: title,
   }, options)
+}
+
+export function saveOverdub(overdub) {
+  const token = localStorage.token;
+  return fetch(baseUrl + "overdubs/" + (overdub.id || ""), {
+    method: overdub.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
+    headers: { "content-type": "application/json",
+               "x-access-token": token },
+    body: JSON.stringify(overdub)
+  })
+  .then(handleResponse)
+  .catch(handleError);
 }
 
 function postAudio(s3sign, file, fileType){

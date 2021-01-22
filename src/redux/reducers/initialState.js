@@ -11,15 +11,6 @@ export default {
     nudge: 0,
     gain: 0.5
   },
-  audio: {
-    overdubsProcessing: false,
-    overdubsComplete: false,
-    refreshOverdubParams: false,
-    backingTrackProcessing: false,
-    backingTrackComplete: false,
-    newOverdubProcessing: false,
-    newOverdubComplete: true,
-  },
   media: {
     videoSyncSet: false,
     scoreOffset: -20,

@@ -64,12 +64,12 @@ class Overdubs extends React.Component {
             </div>
             <div className='flex overdub-controls-wrapper'>
               <div className={ `overdub-controls-item nudge ${disabled}` }>nudge</div>
-              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-range' type="range" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onMouseUp={(e) => this.handleRefresh(overdub, e)}/></div>
+              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-range' type="range" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)}/></div>
               <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-number' type="string" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onBlur={(e) => this.handleRefresh(overdub, e)} /></div>
             </div>
             <div className='flex overdub-controls-wrapper'>
               <div className={ `overdub-controls-item gain ${disabled}` }>gain</div>
-              <div className={ `overdub-controls-item gain ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)} onMouseUp={(e) => this.handleRefresh(overdub, e)} /></div>
+              <div className={ `overdub-controls-item gain ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)}/></div>
             </div>
           </div>
         )

@@ -79,7 +79,7 @@ class Bandeoke extends React.Component {
   }
 
   onSaveClick() {
-    this.props.actions.saveOverdubs(this.props.overdubs)
+    overdubApi.saveAllOverdubs(this.props.overdubs)
   }
 
   onRecordClick() {
@@ -117,7 +117,6 @@ class Bandeoke extends React.Component {
         streamRef={streamRef}
         playing={this.props.player.playing}
         recording={this.props.player.recording}
-        muted={false}
         audioContext={audioContext}
       />
     )
@@ -196,7 +195,6 @@ class Bandeoke extends React.Component {
 
 Bandeoke.propTypes = {
   actions: PropTypes.object.isRequired,
-  audio: PropTypes.object.isRequired,
   backingTrack: PropTypes.object.isRequired,
   media: PropTypes.object.isRequired,
   newOverdub: PropTypes.object.isRequired,
@@ -211,7 +209,6 @@ Bandeoke.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    audio: state.audio,
     backingTrack: state.backingTrack,
     media: state.media,
     newOverdub: state.newOverdub,
