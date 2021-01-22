@@ -49,18 +49,6 @@ class Overdubs extends React.Component {
     this.props.actions.gainOverdub(updatedOverdub);
   };
 
-  handleRefresh = (overdub, e) => {
-    this.props.actions.refreshOverdubParams(true);
-  };
-
-  renderOverdubItem(overdub, i){
-    if (this.props.video) {
-      return <video key={i} muted src={overdub.url} ref={ref => { this.refsArray[i] = ref}} />
-    } else {
-      return <AudioMeter key={i} overdub={overdub} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={false}/>
-    }
-  }
-
   renderOverdubs(){
     const disabled = this.props.disabled ? 'disabled' : ''
     if (this.props.overdubs.length === 0){
@@ -71,7 +59,7 @@ class Overdubs extends React.Component {
         return (
           <div className='flex-column video-grid-item-wrapper' key={i}>
             <div className='flex video-grid-item'>
-              {this.renderOverdubItem(overdub, i)}
+              <AudioMeter key={i} overdub={overdub} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={false}/>
               <div className={ `delete-button ${disabled}` } id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
             </div>
             <div className='flex overdub-controls-wrapper'>

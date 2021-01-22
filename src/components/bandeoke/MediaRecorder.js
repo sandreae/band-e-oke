@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import webAudioPeakMeter from '../../scripts/WebAudioPeakMeter';
 import { connect } from "react-redux";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import * as mediaActions from "../../redux/actions/mediaActions";
