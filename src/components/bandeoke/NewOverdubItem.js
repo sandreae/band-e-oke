@@ -5,6 +5,7 @@ import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import { bindActionCreators } from "redux";
 import Button from "./Button";
 import AudioMeter from "./AudioMeter";
+import * as overdubApi from "../../api/overdubApi";
 
 class NewOverdubItem extends Component {
 
@@ -23,7 +24,10 @@ class NewOverdubItem extends Component {
   }
 
   onUploadClick = () => {
-    this.props.actions.upload(this.props.newOverdub)
+    overdubApi.upload(this.props.newOverdub, this.props.meta.title).then(()=>{
+      console.log("UPLOAD COMPLETE")
+    })
+    // this.props.actions.upload(this.props.newOverdub)
   }
 
   handleDeleteOverdub = (url) => {
@@ -81,6 +85,7 @@ NewOverdubItem.propTypes = {
   actions: PropTypes.object.isRequired,
   playing: PropTypes.bool.isRequired,
   audioContext: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -88,6 +93,7 @@ function mapStateToProps(state) {
     newOverdub: state.newOverdub,
     actions: state.actions,
     playing: state.player.playing,
+    meta: state.meta,
   };
 }
 
