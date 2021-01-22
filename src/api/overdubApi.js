@@ -24,7 +24,18 @@ export function saveAllOverdubs(overdubs) {
   overdubs.forEach((overdub) => {
     saveOverdub(overdub)
   });
+}
 
+export function saveOverdub(overdub) {
+  const token = localStorage.token;
+  return fetch(baseUrl + "overdubs/" + (overdub.id || ""), {
+    method: overdub.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
+    headers: { "content-type": "application/json",
+    "x-access-token": token },
+    body: JSON.stringify(overdub)
+  })
+  .then(handleResponse)
+  .catch(handleError);
 }
 
 export function deleteOverdub(overdubId) {
@@ -35,6 +46,13 @@ export function deleteOverdub(overdubId) {
  })
     .then(handleResponse)
     .catch(handleError);
+}
+
+export async function loadOverdubs(audioContext, title="none") {
+  let overdubs = await getOverdubsByTitle(title)
+  let overdubPromises = getOverdubPromises(audioContext, overdubs)
+  let overdubsWithBuffers = await Promise.all(overdubPromises)
+  return overdubsWithBuffers
 }
 
 async function createAudioBufferFromUrl(audioContext, url) {
@@ -52,15 +70,17 @@ function getOverdubPromises(audioContext, overdubs){
   })
 }
 
-export async function loadOverdubs(audioContext, title="none") {
-  let overdubs = await getOverdubsByTitle(title)
-  let overdubPromises = getOverdubPromises(audioContext, overdubs)
-  let overdubsWithBuffers = await Promise.all(overdubPromises)
-  return overdubsWithBuffers
-}
-
 export function createBufferFromUrl(audioContext, url){
   return createAudioBufferFromUrl(audioContext, url)
+}
+
+export async function upload(overdub, title){
+  console.log("UPLOAD")
+  let fileType = 'webm'
+  let file = await fetch(overdub.url).then(r => r.blob())
+  let s3Data = await getS3cert(fileType).then((r) => {return r.data.data.returnData})
+  await postAudio(s3Data.signedRequest, file, fileType)
+  return await postOverdub(overdub, title, s3Data.url)
 }
 
 function getS3cert(fileType){
@@ -86,18 +106,6 @@ function postOverdub(overdub, title, url){
   }, options)
 }
 
-export function saveOverdub(overdub) {
-  const token = localStorage.token;
-  return fetch(baseUrl + "overdubs/" + (overdub.id || ""), {
-    method: overdub.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
-    headers: { "content-type": "application/json",
-               "x-access-token": token },
-    body: JSON.stringify(overdub)
-  })
-  .then(handleResponse)
-  .catch(handleError);
-}
-
 function postAudio(s3sign, file, fileType){
   let options = {
     headers: {
@@ -105,13 +113,4 @@ function postAudio(s3sign, file, fileType){
     }
   }
   return axios.put(s3sign, file, options)
-}
-
-export async function upload(overdub, title){
-  console.log("UPLOAD")
-  let fileType = 'webm'
-  let file = await fetch(overdub.url).then(r => r.blob())
-  let s3Data = await getS3cert(fileType).then((r) => {return r.data.data.returnData})
-  await postAudio(s3Data.signedRequest, file, fileType)
-  return await postOverdub(overdub, title, s3Data.url)
 }
