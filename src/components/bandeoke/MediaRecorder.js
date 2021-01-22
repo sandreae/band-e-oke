@@ -73,6 +73,7 @@ class ReactMediaRecorder extends React.Component {
   }
 
   componentDidMount = async () => {
+    console.log("MEDIA RECORDER MOUNTED")
     const stream = await this.getMediaStream();
     if (this.props.video) {
       await stream.getVideoTracks()[0].applyConstraints({
@@ -95,6 +96,7 @@ class ReactMediaRecorder extends React.Component {
     }
   };
   componentDidUpdate = prevProps => {
+    console.log("MEDIA RECORDER UPDATED")
     if (prevProps.muted !== this.props.muted) {
       this.stream
         .getAudioTracks()

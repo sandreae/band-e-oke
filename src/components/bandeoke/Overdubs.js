@@ -109,7 +109,6 @@ Overdubs.propTypes = {
   audioContext: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
   playing: PropTypes.bool.isRequired,
-  video: PropTypes.bool.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
