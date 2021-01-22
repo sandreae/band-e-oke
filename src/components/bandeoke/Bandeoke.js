@@ -171,6 +171,7 @@ class Bandeoke extends React.Component {
               </div>
             </div>
             <NewOverdubItem
+              songId={this.props.songId}
               disabled={disabled}
               playing={this.props.player.playing}
               audioContext={audioContext}
@@ -205,6 +206,7 @@ Bandeoke.propTypes = {
   scoreOffset: PropTypes.number.isRequired,
   scores: PropTypes.array.isRequired,
   songId: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   track: PropTypes.string.isRequired,
 };
 

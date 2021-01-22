@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
+import * as overdubActions from "../../redux/actions/overdubActions";
 import { bindActionCreators } from "redux";
 import Button from "./Button";
 import AudioMeter from "./AudioMeter";
@@ -16,6 +17,9 @@ class NewOverdubItem extends Component {
     this.handleDeleteOverdub = this.handleDeleteOverdub.bind(this);
     this.handleGainOverdub = this.handleGainOverdub.bind(this);
 
+    this.state = {
+      uploading: false,
+    };
   }
 
   handleNudgeOverdub = (overdub, e) => {
@@ -24,8 +28,17 @@ class NewOverdubItem extends Component {
   }
 
   onUploadClick = () => {
-    overdubApi.upload(this.props.newOverdub, this.props.meta.title).then(()=>{
-      console.log("UPLOAD COMPLETE")
+    this.setState(state => state.uploading = true)
+    overdubApi.upload(this.props.newOverdub, this.props.meta.title)
+      .then(()=>{
+        console.log("UPLOAD COMPLETE")
+        overdubApi.loadOverdubs(this.props.audioContext, this.props.songId)
+      .then(overdubs=> {
+        console.log("OVERDUBS LOADED")
+        this.props.actions.loadOverdubsSuccess(overdubs)
+        this.props.actions.setOverdubBlob(null, null)
+        this.setState(state => state.uploading = false)
+      })
     })
     // this.props.actions.upload(this.props.newOverdub)
   }
@@ -51,18 +64,18 @@ class NewOverdubItem extends Component {
   renderControls(){
       const disabled = this.props.playing ? 'disabled' : ''
       return (
-        <div className='flex-column'>
+        <div className={ `flex-column overdub-controls-item ${disabled}` }>
           <div className='delete-button' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub(this.props.newOverdub.url)}>x</div>
           <div className='flex overdub-controls-wrapper'>
-            <div className={ `overdub-controls-item ${disabled}` }>nudge</div>
-            <div className={ `overdub-controls-item ${disabled}` }><input className='video-range' type="range" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
-            <div className={ `overdub-controls-item ${disabled}` }><input className='video-number' type="number" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
+            <div>nudge</div>
+            <div><input className='video-range' type="range" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
+            <div><input className='video-number' type="number" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
           </div>
           <div className='flex overdub-controls-wrapper'>
-            <div className={ `overdub-controls-item ${disabled}` }>gain</div>
-            <div className={ `overdub-controls-item ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={this.props.newOverdub.gain} onChange={(e) => this.handleGainOverdub(this.props.newOverdub, e)} /></div>
+            <div>gain</div>
+            <div><input className='video-range' type="range" min="0" max="3" step="0.01" value={this.props.newOverdub.gain} onChange={(e) => this.handleGainOverdub(this.props.newOverdub, e)} /></div>
           </div>
-          <Button disabled={this.props.playing} name={'UPLOAD'} onClick={this.onUploadClick} />
+          <Button disabled={this.state.uploading} name={'UPLOAD'} onClick={this.onUploadClick} />
         </div>
       )
   }
@@ -82,6 +95,7 @@ class NewOverdubItem extends Component {
 
 NewOverdubItem.propTypes = {
   newOverdub: PropTypes.object.isRequired,
+  songId: PropTypes.string.isRequired,
   actions: PropTypes.object.isRequired,
   playing: PropTypes.bool.isRequired,
   audioContext: PropTypes.object.isRequired,
@@ -100,8 +114,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
+      setOverdubBlob: bindActionCreators(newOverdubActions.setOverdubBlob, dispatch),
       nudgeNewOverdub: bindActionCreators(newOverdubActions.nudgeNewOverdub, dispatch),
       upload: bindActionCreators(newOverdubActions.upload, dispatch),
+      loadOverdubsSuccess: bindActionCreators(overdubActions.loadOverdubsSuccess, dispatch),
       removeNewOverdub: bindActionCreators(newOverdubActions.removeNewOverdub, dispatch),
       gainNewOverdub: bindActionCreators(newOverdubActions.gainNewOverdub, dispatch),
     }
