@@ -15,13 +15,10 @@ class AudioMeter extends Component {
   }
 
   componentDidMount(){
-    console.log("AUDIO METER MOUNTED")
     this.setState(state => state.source = this.createSource());
   }
 
   componentDidUpdate(prevProps) {
-    console.log("AUDIO METER UPDATED")
-    console.log(this.state)
     if (!this.state.source) {
       this.setState(state => state.source = this.createSource());
       return
@@ -34,9 +31,6 @@ class AudioMeter extends Component {
 
   playAudioBuffer = () => {
     // Set gain & start time (nudge) and play audio buffer
-    console.log("PLAY AUDIO")
-    console.log("with: ", this.props.overdub)
-
     let {nudge, gain} = this.props.overdub
     let source = this.state.source
     let offset = this.props.count + nudge

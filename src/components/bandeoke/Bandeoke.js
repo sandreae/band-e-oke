@@ -10,7 +10,7 @@ import * as metaActions from "../../redux/actions/metaActions";
 import * as playerActions from "../../redux/actions/playerActions";
 import { bindActionCreators } from "redux";
 import Overdubs from "./Overdubs";
-import BackingTrack from "./BackingTrack";
+import AudioMeter from "./AudioMeter";
 import Button from "./Button";
 import NewOverdubItem from "./NewOverdubItem";
 import Score from "./Score";
@@ -127,12 +127,14 @@ class Bandeoke extends React.Component {
   renderButtons(disabled) {
     const playing = this.props.player.playing
     return (
+      <div className='controls-wrapper flex'>
+      <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
       <div className='controls-wrapper flex-column'>
-      <BackingTrack playing={playing} track={this.props.track} ref={syncRef} media={this.props.media} />
       <Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} />
       <Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} />
       <Button disabled={disabled || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} />
       <Button disabled={disabled} name={'SAVE'} onClick={this.onSaveClick} />
+      </div>
       </div>
     )
   }
