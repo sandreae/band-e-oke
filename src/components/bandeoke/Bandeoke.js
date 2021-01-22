@@ -160,12 +160,6 @@ class Bandeoke extends React.Component {
                   {this.renderButtons(disabled)}
                   {this.renderMediaRecorder()}
                 </div>
-                <div className="flex-column">
-                  <div>load score</div>
-                  <div className="scores flex">
-                    {this.renderScoreButtons()}
-                  </div>
-                </div>
               </div>
             </div>
             <NewOverdubItem
@@ -174,12 +168,20 @@ class Bandeoke extends React.Component {
               playing={this.props.player.playing}
               audioContext={audioContext}
             />
-            <Overdubs
-              disabled={disabled}
-              playing={this.props.player.playing}
-              overdubs={this.props.overdubs}
-              audioContext={audioContext}
-            />
+          </div>
+          <Overdubs
+          disabled={disabled}
+          playing={this.props.player.playing}
+          overdubs={this.props.overdubs}
+          audioContext={audioContext}
+          />
+          <div>
+          <div className="flex-column">
+          <div>load score</div>
+          <div className="scores flex">
+          {this.renderScoreButtons()}
+          </div>
+          </div>
           </div>
           <div className='score-wrapper'>
             {this.renderScore()}

@@ -53,39 +53,22 @@ class NewOverdubItem extends Component {
     this.props.actions.gainNewOverdub(updatedOverdub);
   };
 
-  renderVisuals(){
-    return (
-      <span>
-        <AudioMeter overdub={this.props.newOverdub} playing={this.props.playing} audioContext={this.props.audioContext}/>
-      </span>
-    )
-  }
-
-  renderControls(){
-      const disabled = this.props.playing ? 'disabled' : ''
-      return (
-        <div className={ `flex-column overdub-controls-item ${disabled}` }>
-          <div className='delete-button' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub(this.props.newOverdub.url)}>x</div>
-          <div className='flex overdub-controls-wrapper'>
-            <div>nudge</div>
-            <div><input className='video-range' type="range" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
-            <div><input className='video-number' type="number" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
-          </div>
-          <div className='flex overdub-controls-wrapper'>
-            <div>gain</div>
-            <div><input className='video-range' type="range" min="0" max="3" step="0.01" value={this.props.newOverdub.gain} onChange={(e) => this.handleGainOverdub(this.props.newOverdub, e)} /></div>
-          </div>
-          <Button disabled={this.state.uploading} name={'UPLOAD'} onClick={this.onUploadClick} />
-        </div>
-      )
-  }
-
   render() {
     if (this.props.newOverdub.buffer) {
       return (
-        <div className='flex-column new-overdub-wrapper'>
-        {this.renderVisuals()}
-        {this.renderControls()}
+        <div className='flex-column video-grid-item-wrapper'>
+          <div className='flex video-grid-item'>
+            <AudioMeter overdub={this.props.newOverdub} playing={this.props.playing} audioContext={this.props.audioContext}/>
+            <div className='flex overdub-upper-controls'>
+              <div className={ `button small-button ${this.state.uploading ? 'disabled' : ''}` } onClick={(e) => { this.onUploadClick(e) }}>SAVE</div>
+              <div className='button small-button' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub(this.props.newOverdub.url)}>DELETE</div>
+            </div>
+          </div>
+          <div className='flex overdub-controls-wrapper'>
+            <div><input className='video-number-nudge' type="number" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
+            <div><input className='video-range-nudge' type="range" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} /></div>
+            <div><input className='video-range-gain' type="range" min="0" max="3" step="0.01" orient="vertical" value={this.props.newOverdub.gain} onChange={(e) => this.handleGainOverdub(this.props.newOverdub, e)} /></div>
+          </div>
         </div>
       )
     }

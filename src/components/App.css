@@ -120,6 +120,7 @@ h2 {
 }
 
 .video-grid-item-wrapper {
+  position: relative;
   width: 200px;
 }
 
@@ -144,22 +145,57 @@ h2 {
 }
 
 .overdub-controls-wrapper {
-  width: 200px;
+  position:absolute;
+  bottom: 0;
+  left:0;
+  width: 96%;
+  height: 70%;
+  margin: 2%;
+}
+
+.overdub-upper-controls {
+  justify-content: flex-end;
+  position:absolute;
+  margin-top: 3px;
+  margin-right: 3px;
+  top: 0;
+  width: 100%;
 }
 
 .overdub-controls-item {
   font-family: "Courier New", Courier, monospace;
-  margin-right: 3px;
-  flex-basis: 1;
 }
 
-.video-number {
-  width: 45px;
-  font-family: "Courier New", Courier, monospace;
+.nudge-number {
+
 }
 
-.video-range {
-  width: 100%;
+.video-number-nudge {
+  position:absolute;
+  bottom: 0;
+  left:0;
+  font    : 8px, "handwriting", cursive, sans-serif;
+  border  : none;
+  margin  : 0;
+  width   : 30px;
+  background : none;
+  color: white;
+}
+
+.video-range-nudge {
+  position:absolute;
+  width: 60px;
+  bottom: 0;
+  left:30px;
+  background : none;
+}
+
+.video-range-gain {
+  position:absolute;
+  height: 90px;
+  bottom: 20px;
+  right:0px;
+  background : none;
 }
 
 .new-overdub-wrapper {
@@ -178,8 +214,19 @@ h2 {
 .button {
   cursor: pointer;
   font-size: 2em;
+  padding-left: 2px;
+  padding-right: 2px;
   background-color: yellow;
   font-family: "Courier New", Courier, monospace;
+}
+
+.small-button {
+  /* position:absolute; */
+  /* top: 0px;
+  margin-top: 20px;
+  right:0; */
+  margin-right: 5px;
+  font-size: 1em
 }
 
 .button-small {
@@ -189,15 +236,14 @@ h2 {
 }
 
 .delete-button {
-  position: absolute;
-  top:0;
-  right:0;
-  width: 20px;
+  font-weight: bold;
   height:20px;
+  padding-right: 10px;
   cursor: pointer;
   text-align: center;
   background-color: black;
-  color: white;
+  color: red;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .disabled {

@@ -60,16 +60,14 @@ class Overdubs extends React.Component {
           <div className='flex-column video-grid-item-wrapper' key={i}>
             <div className='flex video-grid-item'>
               <AudioMeter key={i} overdub={overdub} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={false}/>
-              <div className={ `delete-button ${disabled}` } id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
+              <div className='flex overdub-upper-controls'>
+                <div className={ `delete-button ${disabled}` } id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
+              </div>
             </div>
             <div className='flex overdub-controls-wrapper'>
-              <div className={ `overdub-controls-item nudge ${disabled}` }>nudge</div>
-              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-range' type="range" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)}/></div>
-              <div className={ `overdub-controls-item nudge ${disabled}` }><input className='video-number' type="string" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onBlur={(e) => this.handleRefresh(overdub, e)} /></div>
-            </div>
-            <div className='flex overdub-controls-wrapper'>
-              <div className={ `overdub-controls-item gain ${disabled}` }>gain</div>
-              <div className={ `overdub-controls-item gain ${disabled}` }><input className='video-range' type="range" min="0" max="3" step="0.01" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)}/></div>
+              <div className={ `overdub-controls-item ${disabled}` }><input className='video-number-nudge' type="string" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onBlur={(e) => this.handleRefresh(overdub, e)} /></div>
+              <div className={ `overdub-controls-item ${disabled}` }><input className='video-range-nudge' type="range" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onMouseUp={(e) => this.handleRefresh(overdub, e)}/></div>
+              <div className={ `overdub-controls-item ${disabled}` }><input className='video-range-gain' type="range" min="0" max="3" step="0.01" orient="vertical" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)}/></div>
             </div>
           </div>
         )

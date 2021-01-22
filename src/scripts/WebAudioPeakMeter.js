@@ -5,7 +5,7 @@ export default function webAudioPeakMeter () {
   'use strict';
   var options = {
     borderSize: 2,
-    fontSize: 9,
+    fontSize: 0,
     backgroundColor: 'black',
     tickColor: '#ddd',
     labelColor: '#ddd',
