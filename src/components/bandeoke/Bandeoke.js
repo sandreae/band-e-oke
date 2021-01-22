@@ -5,7 +5,6 @@ import * as overdubApi from "../../api/overdubApi";
 import { PropTypes } from "prop-types";
 import * as overdubActions from "../../redux/actions/overdubActions";
 import * as  backingTrackActions from "../../redux/actions/backingTrackActions";
-import * as mediaActions from "../../redux/actions/mediaActions";
 import * as metaActions from "../../redux/actions/metaActions";
 import * as playerActions from "../../redux/actions/playerActions";
 import { bindActionCreators } from "redux";
@@ -41,7 +40,7 @@ class Bandeoke extends React.Component {
   }
 
   componentDidMount() {
-    const { overdubs, actions, songId, track } = this.props;
+    const { actions, songId, track } = this.props;
     document.addEventListener("keydown", this.keyboardFunction, false);
     actions.setTitle(songId)
     overdubApi.createBufferFromUrl(audioContext, track).then((buffer) => {
