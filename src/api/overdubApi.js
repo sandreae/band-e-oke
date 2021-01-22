@@ -1,9 +1,6 @@
 import { handleResponse, handleError } from "./apiUtils";
 const baseUrl = process.env.API_URL;
 import axios from 'axios'
-import { showLoading, hideLoading } from 'react-redux-loading-bar'
-
-let UPLOAD_URL
 
 export function getOverdubs() {
   const token = localStorage.token;
