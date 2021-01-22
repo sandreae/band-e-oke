@@ -56,6 +56,10 @@ class Bandeoke extends React.Component {
     })
   }
 
+  componentDidUpdate(){
+    console.log("COMPONENT DID UPDATE")
+  }
+
   componentWillUnmount(){
     document.removeEventListener("keydown", this.keyboardFunction, false);
   }
@@ -88,9 +92,7 @@ class Bandeoke extends React.Component {
   }
 
   onLoadScoreClick(score) {
-    this.setState(state => state.loadScore = false);
     this.setState(state => state.score = score);
-    this.setState(state => state.loadScore = true);
   }
 
   renderButtons(disabled) {
@@ -123,15 +125,13 @@ class Bandeoke extends React.Component {
   }
 
   renderScore(){
-    if (this.state.loadScore){
-      return (
-        <Score
-        scoreOffset={this.props.scoreOffset}
-        score={this.state.score}
-        tempo={tempo}
-        />
-      )
-    }
+    return (
+      <Score
+      scoreOffset={this.props.scoreOffset}
+      score={this.state.score}
+      tempo={tempo}
+      />
+    )
   }
 
   renderScoreButtons(){
@@ -144,8 +144,8 @@ class Bandeoke extends React.Component {
   }
 
   render() {
-    const disabled = this.props.player.playing
-    const loading = this.props.media.scoreStatus === 'loading' || !this.props.overdubs || !this.props.backingTrack.buffer
+    const disabled = this.props.player.playing || this.props.media.scoreStatus === 'loading'
+    const loading = !this.props.overdubs || !this.props.backingTrack.buffer
     if (loading) return "loading"
     return (
       <div width='100%'>

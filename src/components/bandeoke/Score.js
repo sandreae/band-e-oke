@@ -18,6 +18,9 @@ class Score extends Component {
   }
 
   render() {
+    if (!this.props.score){
+      return <div></div>
+    }
     return (
       <div style={{transition: 'all 3000ms', marginLeft: (0 - this.props.scoreOffset)}}>
         {this.renderMessage()}
