@@ -60,7 +60,6 @@ function getOverdubPromises(audioContext, overdubs){
   })
 }
 
-
 export async function loadOverdubs(audioContext, title="none") {
   let overdubs = await getOverdubsByTitle(title)
   let overdubPromises = getOverdubPromises(audioContext, overdubs)
@@ -71,26 +70,6 @@ export async function loadOverdubs(audioContext, title="none") {
 export function createBufferFromUrl(audioContext, url){
   return createAudioBufferFromUrl(audioContext, url)
 }
-//
-// const processAudio = async (audioContext, overdub) => {
-//   return fetch(overdub.url).then(async (fetchedFile)=>{
-//     const arrayBuffer = await fetchedFile.arrayBuffer()
-//     overdub.buffer = await audioContext.decodeAudioData(arrayBuffer)
-//     return overdub
-//   })
-// }
-//
-// export function processNewOverdub(audioContext, overdub) {
-//   console.log("CALL")
-//   return function(dispatch) {
-//     // dispatch(audioActions.processingNewOverdub(true))
-//     return processAudio(audioContext, overdub).then((overdub => {
-//       // dispatch(setOverdubBuffer(overdub))
-//       // dispatch(audioActions.processNewOverdubComplete(true))
-//       return overdub
-//     }))
-//   }
-// }
 
 function getS3cert(fileType){
   let fileName = new Date()

@@ -119,7 +119,6 @@ function mapDispatchToProps(dispatch) {
       nudgeNewOverdub: bindActionCreators(newOverdubActions.nudgeNewOverdub, dispatch),
       removeNewOverdub: bindActionCreators(newOverdubActions.removeNewOverdub, dispatch),
       setOverdubBlob: bindActionCreators(newOverdubActions.setOverdubBlob, dispatch),
-      upload: bindActionCreators(newOverdubActions.upload, dispatch),
     }
   }
 }

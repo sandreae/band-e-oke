@@ -7,10 +7,6 @@ export default function overdubReducer(state = initialState.overdubs, action) {
   switch (action.type) {
     case types.CREATE_OVERDUB_SUCCESS:
       return [...state, { ...action.overdub }];
-    case types.UPDATE_OVERDUB_SUCCESS:
-      return state.map(overdub =>
-        overdub.id === action.overdub.id ? action.overdub : overdub
-      );
     case types.LOAD_OVERDUBS_SUCCESS:
       return action.overdubs;
     case types.DELETE_OVERDUB_OPTIMISTIC:
@@ -23,8 +19,6 @@ export default function overdubReducer(state = initialState.overdubs, action) {
       return state.map(overdub =>
         overdub.id === action.overdub.id ? action.overdub : overdub
       );
-    case types.SET_OVERDUB_BUFFERS:
-      return action.overdubs
     default:
       return state;
   }

@@ -230,8 +230,6 @@ function mapDispatchToProps(dispatch) {
       record: bindActionCreators(playerActions.record, dispatch),
       setBackingTrackBuffer: bindActionCreators(backingTrackActions.setBackingTrackBuffer, dispatch),
       setTitle: bindActionCreators(metaActions.setTitle, dispatch),
-      setVideoSync: bindActionCreators(mediaActions.setVideoSync, dispatch),
-      videoStream: bindActionCreators(mediaActions.videoStream, dispatch),
     }
   };
 }

@@ -8,10 +8,6 @@ export function loadOverdubsSuccess(overdubs) {
   return { type: types.LOAD_OVERDUBS_SUCCESS, overdubs };
 }
 
-export function updateOverdubSuccess(overdub) {
-  return { type: types.UPDATE_OVERDUB_SUCCESS, overdub };
-}
-
 export function createOverdubSuccess(overdub) {
   return { type: types.CREATE_OVERDUB_SUCCESS, overdub };
 }
@@ -26,10 +22,6 @@ export function nudgeOverdub(overdub) {
 
 export function gainOverdub(overdub) {
   return { type: types.GAIN_OVERDUB, overdub };
-}
-
-export function setOverdubBuffers(overdubs) {
-  return { type: types.SET_OVERDUB_BUFFERS, overdubs };
 }
 
 export function saveOverdubs(overdubs) {

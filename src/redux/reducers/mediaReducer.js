@@ -21,10 +21,6 @@ const addChildren = (syncer, children) => {
 
 export default function mediaReducer(state = initialState.media, action) {
   switch (action.type) {
-    case types.SET_VIDEO_SYNC:
-      return isSyncSet(state, action.syncerEl)
-    case types.ADD_SYNC_CHILDREN:
-      return addChildren(state, action.children)
     case types.OFFSET_SCORE:
       return Object.assign({}, state, {
          scoreOffset: action.scoreOffset
@@ -36,11 +32,6 @@ export default function mediaReducer(state = initialState.media, action) {
     case types.STREAM_STATUS:
       return Object.assign({}, state, {
          streamStatus: action.streamStatus
-      })
-    case types.VIDEO_STREAM:
-      return Object.assign({}, state, {
-         videoStream: action.videoStream,
-         streamStatus: ''
       })
     default:
       return state;

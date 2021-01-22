@@ -5,7 +5,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import * as overdubActions from "../../redux/actions/overdubActions";
-import * as audioActions from "../../redux/actions/audioActions";
 import { bindActionCreators } from "redux";
 import { toast } from "react-toastify";
 import AudioMeter from "./AudioMeter";
@@ -116,7 +115,6 @@ function mapDispatchToProps(dispatch) {
       deleteOverdub: bindActionCreators(overdubActions.deleteOverdub, dispatch),
       gainOverdub: bindActionCreators(overdubActions.gainOverdub, dispatch),
       nudgeOverdub: bindActionCreators(overdubActions.nudgeOverdub, dispatch),
-      refreshOverdubParams: bindActionCreators(audioActions.refreshOverdubParams, dispatch)
     }
   }
 }

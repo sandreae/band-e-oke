@@ -3,7 +3,6 @@ import apiCallsInProgress from "./apiStatusReducer";
 import newOverdub from "./newOverdubReducer";
 import overdubs from "./overdubReducer";
 import backingTrack from "./backingTrackReducer";
-import audio from "./audioReducer";
 import media from "./mediaReducer";
 import currentUser from "./userReducer";
 import player from "./playerReducer";
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
   newOverdub: newOverdub,
   overdubs: overdubs,
   backingTrack: backingTrack,
-  audio: audio,
   currentUser: currentUser,
   media: media,
   player: player,
