@@ -43,7 +43,9 @@ class AudioMeter extends Component {
   }
 
   play = (prevProps) => {
-    if(this.props.playing){
+    if(this.props.stream) return
+
+    if(this.props.playing && !prevProps.playing){
       this.playAudioBuffer()
     }
     if(!this.props.playing && prevProps.playing){
@@ -55,8 +57,13 @@ class AudioMeter extends Component {
   }
 
   createSource = () => {
-    let source = this.props.audioContext.createBufferSource()
-    source.buffer = this.props.overdub.buffer
+    let source
+    if (this.props.stream) {
+      source = this.props.audioContext.createMediaStreamSource(this.props.stream);
+    } else {
+      source = this.props.audioContext.createBufferSource()
+      source.buffer = this.props.overdub.buffer
+    }
     console.log(source)
     return source
   }
@@ -87,7 +94,8 @@ class AudioMeter extends Component {
 }
 
 AudioMeter.propTypes = {
-  overdub: PropTypes.object.isRequired,
+  overdub: PropTypes.object,
+  stream: PropTypes.object,
   count: PropTypes.number,
   // audioUrl: PropTypes.string,
   playing: PropTypes.bool.isRequired,

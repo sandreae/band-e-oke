@@ -36,7 +36,7 @@ class Bandeoke extends React.Component {
     this.onStopClick = this.onStopClick.bind(this);
     this.onRecordClick = this.onRecordClick.bind(this);
     this.onSaveClick = this.onSaveClick.bind(this);
-    this.onChangeStreamClick = this.onChangeStreamClick.bind(this);
+    // this.onChangeStreamClick = this.onChangeStreamClick.bind(this);
     this.keyboardFunction = this.keyboardFunction.bind(this);
     this.onLoadScoreClick = this.onLoadScoreClick.bind(this);
   }
@@ -61,13 +61,6 @@ class Bandeoke extends React.Component {
     })
   }
 
-  componentDidUpdate() {
-    const { overdubs, actions, songId } = this.props;
-    if ((this.props.media.videoSyncSet === false) && syncRef.current) {
-      this.props.actions.setVideoSync(syncRef.current)
-    }
-  }
-
   componentWillUnmount(){
     document.removeEventListener("keydown", this.keyboardFunction, false);
   }
@@ -83,14 +76,11 @@ class Bandeoke extends React.Component {
 
   onPlayClick() {
     this.props.actions.play(true)
-    syncRef.current.play()
   }
 
   onStopClick() {
     this.props.actions.play(false)
     this.props.player.recording ? this.props.actions.record(false) : null
-    syncRef.current.pause()
-    syncRef.current.currentTime = 0
   }
 
   onSaveClick() {
@@ -112,10 +102,6 @@ class Bandeoke extends React.Component {
     }
     scheduler()
     actions.play(true)
-  }
-
-  onChangeStreamClick(){
-    this.props.actions.videoStream(false)
   }
 
   onLoadScoreClick(score) {
@@ -146,8 +132,8 @@ class Bandeoke extends React.Component {
     return (
       <MediaRecorder
         audio
-        video={false}
         streamRef={streamRef}
+        playing={this.props.player.playing}
         recording={this.props.player.recording}
         muted={false}
         audioContext={audioContext}

@@ -6,6 +6,7 @@ import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import * as mediaActions from "../../redux/actions/mediaActions";
 import { bindActionCreators } from "redux";
 import * as overdubApi from "../../api/overdubApi";
+import AudioMeter from "./AudioMeter";
 
 function checkMediaConstraint(mediaConstraint) {
   let mediaType = Object.keys(mediaConstraint)[0];
@@ -83,16 +84,12 @@ class ReactMediaRecorder extends React.Component {
       })
     }
     if (stream) {
+      console.log("STREAM PRESENT")
       stream
         .getAudioTracks()
         .forEach(track => (track.enabled = !this.props.muted));
       this.stream = stream;
-      this.props.streamRef.current.srcObject = stream
-
-      var meter1 = webAudioPeakMeter();
-      var sourceNode = this.props.audioContext.createMediaStreamSource(stream);
-      var meterNode = meter1.createMeterNode(sourceNode, this.props.audioContext);
-      meter1.createMeter(this.meterRef.current, meterNode, {});
+      this.setState(this.state); // Dummy state update.
     }
   };
   componentDidUpdate = prevProps => {
@@ -166,7 +163,6 @@ class ReactMediaRecorder extends React.Component {
       this.props.whenStopped(blob, url);
     }
     overdubApi.createBufferFromUrl(this.props.audioContext, url).then((buffer)=>{
-      console.log(buffer)
       this.props.actions.setOverdubBlob(url, buffer)
     })
     this.setState({ mediaBlob: blob, mediaUrl: url, status: "stopped" });
@@ -233,13 +229,10 @@ class ReactMediaRecorder extends React.Component {
   };
 
   renderVisuals(){
-    if (this.props.video){
-      return <video muted autoPlay ref={this.props.streamRef} />
-    } else {
+    if (this.stream){
       return (
         <span>
-          <video muted autoPlay ref={this.props.streamRef} style={{display: "none"}}/>
-          <div ref={this.meterRef} id="my-peak-meter" style={{width: "200px", height: "150px"}}></div>
+          <AudioMeter stream={this.stream} playing={this.props.playing} audioContext={this.props.audioContext}/>
         </span>
       )
     }
@@ -275,9 +268,9 @@ ReactMediaRecorder.propTypes = {
   blobPropertyBag: PropTypes.object,
   whenStopped: PropTypes.func,
   audioContext: PropTypes.object.isRequired,
-  streamRef: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   recording: PropTypes.bool.isRequired,
+  playing: PropTypes.bool.isRequired,
   streamStatus: PropTypes.string.isRequired,
 };
 
