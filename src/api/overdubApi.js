@@ -52,34 +52,20 @@ async function createAudioBufferFromUrl(audioContext, url) {
   return audioBuffer
 }
 
-export function loadOverdubs(audioContext, title="none") {
-  // extract this later
-  return getOverdubsByTitle(title)
-    .then(async (overdubs) => {
-      console.log(overdubs)
-      const promises = overdubs.map(async overdub => {
-        createAudioBufferFromUrl(audioContext, overdub.url).then((result)=>{
-          overdub.buffer = result
-          return overdub
-        })
-        return overdub
-      })
-      const overdubsWithBuffers = await Promise.all(promises)
-      return overdubsWithBuffers
-    })
-    .catch(error => {
-      throw error;
-    });
-}
-
-export async function createOverdubBufferSources(audioContext, overdubs){
-  // Create array of audio source nodes for overdubs
-  overdubs.map((overdub) => {
-    overdub.source = audioContext.createBufferSource(overdub.buffer)
+function getOverdubPromises(audioContext, overdubs){
+  return overdubs.map(async overdub => {
+    let result = await createAudioBufferFromUrl(audioContext, overdub.url)
+    overdub.buffer = result
     return overdub
   })
-  // this.props.actions.reloadOverdubs(false)
-  return overdubs
+}
+
+
+export async function loadOverdubs(audioContext, title="none") {
+  let overdubs = await getOverdubsByTitle(title)
+  let overdubPromises = getOverdubPromises(audioContext, overdubs)
+  let overdubsWithBuffers = await Promise.all(overdubPromises)
+  return overdubsWithBuffers
 }
 
 export function createBufferFromUrl(audioContext, url){

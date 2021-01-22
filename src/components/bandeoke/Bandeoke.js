@@ -50,10 +50,7 @@ class Bandeoke extends React.Component {
     })
     overdubApi.loadOverdubs(audioContext, this.props.songId).then(overdubs=> {
       console.log("OVERDUBS LOADED")
-      overdubApi.createOverdubBufferSources(audioContext, overdubs).then((overdubs)=>{
-        console.log("OVERDUB BUFFERS SET")
-        actions.loadOverdubsSuccess(overdubs)
-      })
+      actions.loadOverdubsSuccess(overdubs)
     })
     .catch(error => {
       alert("Loading overdubs failed: " + error);
