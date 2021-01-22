@@ -1,0 +1,10 @@
+STYLE
+- move style for AudioMeter out of component
+- vertical meters?
+
+STATE
+- move count into state
+- should bufferNodes be in state?
+
+AUDIO
+- nudge and gain

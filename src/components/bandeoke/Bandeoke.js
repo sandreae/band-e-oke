@@ -19,7 +19,6 @@ import MediaRecorder from "./MediaRecorder";
 import LoadingBar from 'react-redux-loading-bar'
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-const syncRef = React.createRef()
 const streamRef = React.createRef()
 const tempo = '140'
 
@@ -88,20 +87,8 @@ class Bandeoke extends React.Component {
   }
 
   onRecordClick() {
-    let count = 1
-    let time = audioContext.currentTime
-    const actions = this.props.actions
-
-    function scheduler() {
-      if(time + count < audioContext.currentTime) {
-        window.clearTimeout()
-        actions.record(true)
-      } else {
-        window.setTimeout(scheduler, 10.0)
-      }
-    }
-    scheduler()
-    actions.play(true)
+    this.props.actions.record(true)
+    this.props.actions.play(true)
   }
 
   onLoadScoreClick(score) {
@@ -111,7 +98,6 @@ class Bandeoke extends React.Component {
   }
 
   renderButtons(disabled) {
-    const playing = this.props.player.playing
     return (
       <div className='controls-wrapper flex'>
       <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
