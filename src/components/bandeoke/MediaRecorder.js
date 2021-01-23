@@ -230,9 +230,9 @@ class ReactMediaRecorder extends React.Component {
   renderVisuals(){
     if (this.stream){
       return (
-        <span>
+        <div className=''>
           <AudioMeter stream={this.stream} playing={this.props.playing} audioContext={this.props.audioContext}/>
-        </span>
+        </div>
       )
     }
   }
@@ -241,7 +241,6 @@ class ReactMediaRecorder extends React.Component {
     return (
       <div className='flex-column media-stream-wrapper'>
         {this.renderVisuals()}
-        <p>{status}</p>
       </div>
     )
   }

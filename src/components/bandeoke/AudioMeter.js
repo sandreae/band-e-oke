@@ -75,9 +75,7 @@ class AudioMeter extends Component {
   render(){
     if (this.state.source){
       return (
-        <span>
-        <div ref={this.meterRef} id="new-overdub-peak-meter" style={{width: "200px", height: "150px"}}></div>
-        </span>
+        <div ref={this.meterRef} className="audio-meter"></div>
       )
     } else {return "loading"}
   }

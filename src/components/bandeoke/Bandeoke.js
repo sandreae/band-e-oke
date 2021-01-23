@@ -97,14 +97,14 @@ class Bandeoke extends React.Component {
 
   renderButtons(disabled) {
     return (
-      <div className='controls-wrapper flex'>
-      <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
       <div className='controls-wrapper flex-column'>
-      <Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} />
-      <Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} />
-      <Button disabled={disabled || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} />
-      <Button disabled={disabled} name={'SAVE'} onClick={this.onSaveClick} />
-      </div>
+        <div className="controls-item audio-meter">
+          <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
+        </div>
+        <div className="controls-item"><Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} /></div>
+        <div className="controls-item"><Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} /></div>
+        <div className="controls-item"><Button disabled={disabled || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} /></div>
+        <div className="controls-item"><Button disabled={disabled} name={'SAVE'} onClick={this.onSaveClick} /></div>
       </div>
     )
   }
@@ -148,52 +148,36 @@ class Bandeoke extends React.Component {
     const loading = !this.props.overdubs || !this.props.backingTrack.buffer
     if (loading) return "loading"
     return (
-      <div width='100%'>
-      <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
-      <LoadingBar />
-        <div className="flex-column" width='1200px'>
-          <div><h2>{this.props.title}</h2></div>
-          <div className='flex top-panel-wrapper'>
-            <div className='flex-column top-panel-wrapper-left'>
-              <div className="flex-column">
-                <div className='flex'>
-                  {this.renderButtons(disabled)}
-                  {this.renderMediaRecorder()}
-                </div>
-              </div>
-            </div>
+      <div className="app-wrapper" width='100%'>
+        <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
+        <LoadingBar />
+          <div className="left-sidebar flex-column" width=''>
+
+            <div><h2>{this.props.title}</h2></div>
+            {this.renderButtons(disabled)}
+            {this.renderMediaRecorder()}
             <NewOverdubItem
               songId={this.props.songId}
               disabled={disabled}
               playing={this.props.player.playing}
               audioContext={audioContext}
             />
+            <Overdubs
+              disabled={disabled}
+              playing={this.props.player.playing}
+              overdubs={this.props.overdubs}
+              audioContext={audioContext}
+            />
+            {this.renderScoreButtons()}
+            <div className='score-wrapper'>
+              {this.renderScore()}
+            </div>
           </div>
-          <Overdubs
-          disabled={disabled}
-          playing={this.props.player.playing}
-          overdubs={this.props.overdubs}
-          audioContext={audioContext}
-          />
-          <div>
-          <div className="flex-column">
-          <div>load score</div>
-          <div className="scores flex">
-          {this.renderScoreButtons()}
-          </div>
-          </div>
-          </div>
-          <div className='score-wrapper'>
-            {this.renderScore()}
-          </div>
-          <div>
-          </div>
-        </div>
-        <div className="footer flex"><PdfViewer scores={this.props.scores} /></div>
       </div>
     );
   }
 }
+// <div className=''><PdfViewer scores={this.props.scores} /></div>
 
 Bandeoke.propTypes = {
   actions: PropTypes.object.isRequired,
