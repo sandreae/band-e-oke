@@ -35,13 +35,20 @@ div[class*="flex-row"] {
 }
 
 .left-sidebar--flex-column {
+  transition: linear all 1s;
   position: fixed;
-  left: 20px;
+  left: -8rem;
   top: 20px;
   width: var(--sideBarWidth);
   height: 90vh;
   /* just for dev */
   /* background-color: gray; */
+}
+
+.left-sidebar--flex-column:hover {
+  position: fixed;
+  left: 20px;
+  top: 20px;
 }
 
 .title {
