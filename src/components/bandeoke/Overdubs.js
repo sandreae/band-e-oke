@@ -12,9 +12,7 @@ import { bindActionCreators } from "redux";
 class Overdubs extends React.Component {
 
   handleDeleteOverdub = (v, overdub) => {
-		if (!v.state){
-			this.props.actions.deleteOverdub(overdub);
-		}
+		this.props.actions.deleteOverdub(overdub);
   };
 
   handleNudgeOverdub = (v, overdub) => {

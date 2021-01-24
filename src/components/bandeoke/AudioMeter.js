@@ -6,8 +6,6 @@ class AudioMeter extends Component {
   constructor(props) {
     super(props)
 
-    this.handleTabletChange = this.handleTabletChange.bind(this);
-
     this.state = {
       source: null,
       meterRendered: false,
@@ -17,16 +15,9 @@ class AudioMeter extends Component {
   }
 
   componentDidMount(){
-    this.checkScreen()
     let gainNode = this.props.audioContext.createGain();
     let source = this.createSource()
-    let meter
-    if (this.props.type == "meter"){
-      meter = new Nexus.Meter("#meter-" + this.state.id)
-    }
-    if (this.props.type == "oscilloscope"){
-      meter = new Nexus.Oscilloscope("#meter-" + this.state.id)
-    }
+    let meter = this.initMeter()
     meter.colorize("accent", "blue")
     gainNode.gain.setValueAtTime(0, this.props.audioContext.currentTime);
     gainNode.connect(this.props.audioContext.destination)
@@ -36,27 +27,6 @@ class AudioMeter extends Component {
       source: source,
       meter: meter,
     }));
-  }
-
-  handleTabletChange(e) {
-    // Check if the media query is true
-    if (e.matches) {
-      this.setState(() => ({
-        width: this.props.desktop_width,
-        height: this.props.desktop_height,
-      }));
-    } else {
-      this.setState(() => ({
-        width: this.props.mobile_width,
-        height: this.props.mobile_height,
-      }));
-    }
-  }
-
-  checkScreen(){
-    const mediaQuery = window.matchMedia('(min-width: 768px)')
-    this.handleTabletChange(mediaQuery)
-    mediaQuery.addListener(this.handleTabletChange)
   }
 
   componentDidUpdate(prevProps) {
@@ -70,6 +40,17 @@ class AudioMeter extends Component {
       return
     }
     this.play(prevProps)
+  }
+
+  initMeter(){
+    let meter
+    if (this.props.type == "oscilloscope"){
+      meter = new Nexus.Oscilloscope("#meter-" + this.state.id)
+    } else {
+      meter = new Nexus.Meter("#meter-" + this.state.id)
+    }
+    meter.colorize("accent", "blue")
+    return meter
   }
 
   playAudioBuffer = () => {

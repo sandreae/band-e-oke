@@ -51,7 +51,10 @@ class OverdubControls extends Component {
   }
 
 	handleDeleteOverdub = (v) => {
-		this.props.handleDelete(v, this.props.overdub);
+		console.log(v)
+		if (!v){
+			this.props.handleDelete(v, this.props.overdub);
+		}
   };
 
   handleNudgeOverdub = (v) => {
