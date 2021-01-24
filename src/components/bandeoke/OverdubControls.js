@@ -32,7 +32,7 @@ class OverdubControls extends Component {
 			'min': -0.2,
 			'max': 0,
 			'step': 0.01,
-			'value': this.props.overdub.nudge
+			'value': this.props.overdub.nudge * -1
 		})
 		nudge.colorize("accent","blue")
 		nudge.colorize("fill","blue")

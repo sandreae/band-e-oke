@@ -22,7 +22,11 @@ export function getOverdubsByTitle(title) {
 
 export function saveAllOverdubs(overdubs) {
   overdubs.forEach((overdub) => {
-    saveOverdub(overdub)
+    console.log("save overdub with ID, ", overdub.id)
+    saveOverdub(overdub).then((result)=>{
+      console.log("overdub saved")
+      console.log(result)
+    })
   });
 }
 
