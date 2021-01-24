@@ -13,8 +13,6 @@ class AudioMeter extends Component {
       meterRendered: false,
       gainNode: null,
       id: Math.random().toString(36),
-      width: this.props.mobile_width,
-      height: this.props.mobile_height,
     };
   }
 

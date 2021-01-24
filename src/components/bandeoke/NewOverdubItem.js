@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import * as overdubActions from "../../redux/actions/overdubActions";
 import { bindActionCreators } from "redux";
-import Button from "./Button";
-import AudioMeter from "./AudioMeter";
+import OverdubControls from "./OverdubControls";
 import * as overdubApi from "../../api/overdubApi";
+import AudioMeter from "./AudioMeter";
 
 class NewOverdubItem extends Component {
 
@@ -22,9 +22,9 @@ class NewOverdubItem extends Component {
     };
   }
 
-  handleNudgeOverdub = (overdub, e) => {
-    overdub.nudge = parseFloat(e.target.value)
-    this.props.actions.nudgeNewOverdub(overdub)
+  handleNudgeOverdub = (v, newOverdub) => {
+    newOverdub.nudge = parseFloat(v) * -1
+    this.props.actions.nudgeNewOverdub(newOverdub)
   }
 
   onUploadClick = () => {
@@ -43,13 +43,13 @@ class NewOverdubItem extends Component {
     // this.props.actions.upload(this.props.newOverdub)
   }
 
-  handleDeleteOverdub = (url) => {
-    this.props.actions.removeNewOverdub(url);
+  handleDeleteOverdub = (v, newOverdub) => {
+    this.props.actions.removeNewOverdub(newOverdub.url);
   };
 
-  handleGainOverdub = (overdub, e) => {
-    const updatedOverdub = Object.assign({}, overdub);
-    updatedOverdub.gain = parseFloat(e.target.value)
+  handleGainOverdub = (v, newOverdub) => {
+    const updatedOverdub = Object.assign({}, newOverdub);
+    updatedOverdub.gain = parseFloat(v)
     this.props.actions.gainNewOverdub(updatedOverdub);
   };
 
@@ -58,12 +58,20 @@ class NewOverdubItem extends Component {
       return (
         <div className='overdub-wrapper--flex-column'>
           <div className='overdub-item-wrapper--flex-column'>
-            <div className='overdub-item audio-meter'><AudioMeter overdub={this.props.newOverdub} playing={this.props.playing} audioContext={this.props.audioContext}/></div>
-            <div className={ `overdub-item ${this.state.uploading ? 'disabled' : ''}` } onClick={(e) => { this.onUploadClick(e) }}>SAVE</div>
-            <div className='overdub-item' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub(this.props.newOverdub.url)}>DELETE</div>
-            <input className='overdub-item' type="number" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
-            <input className='overdub-item' type="range" min="0" max="0.2" step="0.01" value={this.props.newOverdub.nudge} onChange={(e) => this.handleNudgeOverdub(this.props.newOverdub, e)} />
-            <input className='overdub-item' type="range" min="0" max="3" step="0.01" value={this.props.newOverdub.gain} onChange={(e) => this.handleGainOverdub(this.props.newOverdub, e)} />
+            <AudioMeter
+              overdub={this.props.newOverdub}
+              playing={this.props.playing}
+              audioContext={this.props.audioContext}
+              isAudioBufferUrl={false}
+              type="oscilloscope"
+            />
+            <OverdubControls
+              overdub={this.props.newOverdub}
+              disabled={this.props.disabled}
+              handleNudge={this.handleNudgeOverdub}
+              handleGain={this.handleGainOverdub}
+              handleDelete={this.handleDeleteOverdub}
+            />
           </div>
         </div>
       )

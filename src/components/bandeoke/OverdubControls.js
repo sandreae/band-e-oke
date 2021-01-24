@@ -9,11 +9,15 @@ class OverdubControls extends Component {
 
 	constructor(props) {
     super(props)
+
+		this.state = {
+			id: Math.random().toString(36),
+		};
   }
 
 	componentDidMount(){
     console.log("Overdub mounted")
-		let gain = new Nexus.Dial('#gain' + this.props.overdub.id,{
+		let gain = new Nexus.Dial('#gain' + this.state.id,{
 			'mode': 'relative',
 			'interaction': 'vertical',
 			'min': 0,
@@ -23,7 +27,7 @@ class OverdubControls extends Component {
 		})
 		gain.colorize("accent","blue")
 
-		let nudge = new Nexus.Slider('#nudge' + this.props.overdub.id,{
+		let nudge = new Nexus.Slider('#nudge' + this.state.id,{
 			'mode': 'relative',
 			'min': -0.2,
 			'max': 0,
@@ -33,7 +37,7 @@ class OverdubControls extends Component {
 		nudge.colorize("accent","blue")
 		nudge.colorize("fill","blue")
 
-		var delete_button = new Nexus.TextButton('#delete' + this.props.overdub.id,{
+		var delete_button = new Nexus.TextButton('#delete' + this.state.id,{
 			'size': [20,20],
 			'text': 'X',
 			'mode': 'aftertouch',
@@ -62,10 +66,10 @@ class OverdubControls extends Component {
 		const disabled = this.props.disabled ? 'disabled' : ''
     return (
 			<div className='overdub-controls-wrapper--flex-row'>
-				<div className={ `overdub-controls-item ${disabled}` } id={`gain${this.props.overdub.id}`}></div>
-				<div className={ `overdub-controls-item ${disabled}` } id={`nudge${this.props.overdub.id}`}></div>
+				<div className={ `overdub-controls-item ${disabled}` } id={`gain${this.state.id}`}></div>
+				<div className={ `overdub-controls-item ${disabled}` } id={`nudge${this.state.id}`}></div>
 				<div className={ `overdub-controls-item ${disabled}` }></div>
-				<div className={ `overdub-controls-item ${disabled}` } id={`delete${this.props.overdub.id}`}></div>
+				<div className={ `overdub-controls-item ${disabled}` } id={`delete${this.state.id}`}></div>
 			</div>
     )
   }
