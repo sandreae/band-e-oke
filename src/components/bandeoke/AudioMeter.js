@@ -12,6 +12,7 @@ class AudioMeter extends Component {
       source: null,
       meterRendered: false,
       gainNode: null,
+      id: Math.random().toString(36),
       width: this.props.mobile_width,
       height: this.props.mobile_height,
     };
@@ -21,9 +22,14 @@ class AudioMeter extends Component {
     this.checkScreen()
     let gainNode = this.props.audioContext.createGain();
     let source = this.createSource()
-    let meter = new Nexus.Meter("#meter-" + this.props.id, {
-      size: [this.state.width, this.state.height],
-    })
+    let meter
+    if (this.props.type == "meter"){
+      meter = new Nexus.Meter("#meter-" + this.state.id)
+    }
+    if (this.props.type == "oscilloscope"){
+      meter = new Nexus.Oscilloscope("#meter-" + this.state.id)
+    }
+    meter.colorize("accent", "blue")
     gainNode.gain.setValueAtTime(0, this.props.audioContext.currentTime);
     gainNode.connect(this.props.audioContext.destination)
     meter.connect(gainNode)
@@ -56,8 +62,6 @@ class AudioMeter extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(this.state)
-    this.state.meter.resize(this.state.width, this.state.height)
     if(this.props.stream) {
       this.state.meter.connect(this.state.source)
     }
@@ -104,7 +108,7 @@ class AudioMeter extends Component {
 
   render(){
     return (
-      <div id={`meter-${this.props.id}`} className="audio-meter"></div>
+      <div id={`meter-${this.state.id}`} className="audio-meter"></div>
     )
   }
 }
@@ -115,18 +119,11 @@ AudioMeter.propTypes = {
   playing: PropTypes.bool.isRequired,
   stream: PropTypes.object,
   id: PropTypes.string.isRequired,
-  mobile_width: PropTypes.number,
-  mobile_height: PropTypes.number,
-  desktop_width: PropTypes.number,
-  desktop_height: PropTypes.number,
+  type: PropTypes.string,
 }
 
 AudioMeter.defaultProps = {
-  id: Math.random().toString(36),
-  mobile_width: 100,
-  mobile_height: 100,
-  desktop_width: 200,
-  desktop_height: 200,
+  type: "meter",
 }
 
 export default AudioMeter

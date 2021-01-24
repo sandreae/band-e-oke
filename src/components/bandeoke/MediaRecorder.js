@@ -230,9 +230,7 @@ class ReactMediaRecorder extends React.Component {
   render(){
     if (this.stream){
       return (
-        <div className='media-stream-wrapper'>
-          <AudioMeter stream={this.stream} playing={this.props.playing} audioContext={this.props.audioContext}/>
-        </div>
+        <AudioMeter stream={this.stream} playing={this.props.playing} audioContext={this.props.audioContext}/>
       )
     }
     return "loading"

@@ -95,7 +95,7 @@ class Bandeoke extends React.Component {
     this.setState(state => state.score = score);
   }
 
-  renderButtons(disabled) {
+  renderController(disabled) {
     return (
       <div className='controls-wrapper--flex-column'>
         <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
@@ -103,13 +103,14 @@ class Bandeoke extends React.Component {
         <div className="controls-item"><Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} /></div>
         <div className="controls-item"><Button disabled={disabled || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} /></div>
         <div className="controls-item"><Button disabled={disabled} name={'SAVE'} onClick={this.onSaveClick} /></div>
+        {this.renderMediaRecorder()}
       </div>
     )
   }
 
   renderMediaRecorder(){
     if (this.props.media.streamStatus === "NotFoundError"){
-      return <div className='media-error'>Sorry, could not detect camera, try with just audio? <Button name='YES' onClick={this.onChangeStreamClick} /></div>
+      return <div className='media-error audio-meter'></div>
     }
     return (
       <MediaRecorder
@@ -152,8 +153,8 @@ class Bandeoke extends React.Component {
           <div className="left-sidebar--flex-column" width=''>
 
             <div className="title"><h2>{this.props.title}</h2></div>
-            {this.renderButtons(disabled)}
-            {this.renderMediaRecorder()}
+            {this.renderController(disabled)}
+
             <NewOverdubItem
               songId={this.props.songId}
               disabled={disabled}

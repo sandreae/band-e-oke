@@ -17,26 +17,34 @@ class OverdubControls extends Component {
 
 	componentDidMount(){
     console.log("Overdub mounted")
-		let gain = new Nexus.Slider('#gain' + this.props.overdub.id,{
+		let gain = new Nexus.Dial('#gain' + this.props.overdub.id,{
 			'mode': 'relative',
+			'interaction': 'vertical',
 			'min': 0,
 			'max': 3,
 			'step': 0.1,
 			'value': this.props.overdub.gain
 		})
-		let nudge = new Nexus.Number('#nudge' + this.props.overdub.id,{
+		gain.colorize("accent","blue")
+
+		let nudge = new Nexus.Slider('#nudge' + this.props.overdub.id,{
 			'mode': 'relative',
-			'min': 0,
-			'max': 0.2,
+			'min': -0.2,
+			'max': 0,
 			'step': 0.01,
 			'value': this.props.overdub.nudge
 		})
+		nudge.colorize("accent","blue")
+		nudge.colorize("fill","blue")
+
 		var delete_button = new Nexus.TextButton('#delete' + this.props.overdub.id,{
 			'size': [20,20],
 			'text': 'X',
 			'mode': 'aftertouch',
 			'state': false
 		})
+		delete_button.colorize("fill","red")
+
 		gain.on('change',this.handleGainOverdub)
 		nudge.on('change',this.handleNudgeOverdub)
 		delete_button.on('change',this.handleDeleteOverdub)
@@ -54,7 +62,7 @@ class OverdubControls extends Component {
       return
     }
     const updatedOverdub = Object.assign({}, this.props.overdub);
-    updatedOverdub.nudge = parseFloat(v)
+    updatedOverdub.nudge = parseFloat(v) * -1
     this.props.actions.nudgeOverdub(updatedOverdub);
   }
 
@@ -67,11 +75,11 @@ class OverdubControls extends Component {
   render() {
 		const disabled = this.props.disabled ? 'disabled' : ''
     return (
-			<div className='overdub-controls-wrapper--flex-column'>
+			<div className='overdub-controls-wrapper--flex-row'>
 				<div className={ `overdub-controls-item ${disabled}` } id={`gain${this.props.overdub.id}`}></div>
-				<div className={ `overdub-controls-item ${disabled}` } id={`delete${this.props.overdub.id}`}></div>
-				<div className={ `overdub-controls-item ${disabled}` }></div>
 				<div className={ `overdub-controls-item ${disabled}` } id={`nudge${this.props.overdub.id}`}></div>
+				<div className={ `overdub-controls-item ${disabled}` }></div>
+				<div className={ `overdub-controls-item ${disabled}` } id={`delete${this.props.overdub.id}`}></div>
 			</div>
     )
   }

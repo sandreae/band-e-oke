@@ -23,6 +23,11 @@ div[class*="flex-column"] {
   flex-direction: column;
 }
 
+div[class*="flex-row"] {
+  display: flex;
+  flex-direction: row;
+}
+
 .left-sidebar--flex-column {
   width: 10rem;
   height: 30rem;
@@ -38,35 +43,23 @@ div[class*="flex-column"] {
   flex: 0 0 6rem;
   flex-wrap: wrap;
   align-content: stretch;
-  background-color: red;
+  background-color: yellow;
   max-height: 6rem;
 }
 
 .controls-wrapper--flex-column > .audio-meter {
   height: 6rem;
-  width: 20%;
+  width: 2rem;
 }
 
 .controls-item {
   flex: 0 1 1.5rem;
-  width: 80%;
+  width: 6rem;
 }
 
 .controls-item > .button {
   height: 100%;
   font-size: 1.2rem;
-}
-
-.media-stream-wrapper {
-  flex: 0 0 6rem;
-  width: 10rem;
-  z-index: -1;
-}
-
-.media-stream-wrapper > .audio-meter {
-  background-color: red;
-  height: 6rem;
-  width: 20%;
 }
 
 .overdubs-wrapper--flex-column {
@@ -86,10 +79,10 @@ div[class*="flex-column"] {
   z-index: -1;
 }
 
-.overdub-controls-wrapper--flex-column {
-  flex-wrap: wrap;
+.overdub-controls-wrapper--flex-row {
   align-items: center;
   flex: 0 0 6rem;
+  align-items: flex-end;
   max-height: 6rem;
 }
 
@@ -98,32 +91,30 @@ div[class*="flex-column"] {
   padding: 0px;
 }
 
-.overdub-controls-wrapper--flex-column > .overdub-controls-item:nth-child(1) {
+.overdub-controls-wrapper--flex-row > .overdub-controls-item:nth-child(1) {
   flex: 0 0 auto;
-  align-self: flex-start;
-  width: 1rem;
-  height: 100%;
+  width: 2rem;
+  height: 2rem;
 }
 
-.overdub-controls-wrapper--flex-column > .overdub-controls-item:nth-child(2) {
-  align-self: flex-end;
-  flex: 1 1 auto;
-  width: 10%;
-  height: 10%;
+.overdub-controls-wrapper--flex-row > .overdub-controls-item:nth-child(2) {
+  flex: 0 0 auto;
+  width: 4rem;
+  height: 1rem;
 }
 
-.overdub-controls-wrapper--flex-column > .overdub-controls-item:nth-child(3) {
-  align-self: flex-end;
+.overdub-controls-wrapper--flex-row > .overdub-controls-item:nth-child(3) {
   flex: 2 1 auto;
-  width: 20%;
-  height: 20%;
+  width: 2rem;
+  height: 2rem;
 }
 
-.overdub-controls-wrapper--flex-column > .overdub-controls-item:nth-child(4) {
-  align-self: flex-end;
-  flex: 1 1 auto;
-  width: 25%;
-  height: 15%;
+.overdub-controls-wrapper--flex-row > .overdub-controls-item:nth-child(4) {
+  align-self: flex-start;
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
 }
 
 

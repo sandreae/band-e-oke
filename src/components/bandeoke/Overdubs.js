@@ -16,7 +16,14 @@ class Overdubs extends React.Component {
       this.props.overdubs.map((overdub, i) => {
         return (
           <div className='overdub-item-wrapper--flex-column' key={i}>
-            <AudioMeter key={i} overdub={overdub} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={false}/>
+            <AudioMeter
+              key={i}
+              overdub={overdub}
+              playing={this.props.playing}
+              audioContext={this.props.audioContext}
+              isAudioBufferUrl={false}
+              type="oscilloscope"
+              />
             <OverdubControls overdub={overdub} disabled={this.props.disabled}/>
           </div>
         )
