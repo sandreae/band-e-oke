@@ -1,5 +1,7 @@
 html {
   font-family: "Courier New", Courier, monospace;
+  --sideBarWidth: 12rem;
+  --sidbarItemHeight: 6rem;
 }
 
 .score-wrapper {
@@ -29,14 +31,14 @@ div[class*="flex-row"] {
 }
 
 .left-sidebar--flex-column {
-  width: 10rem;
-  height: 30rem;
+  width: var(--sideBarWidth);
+  height: 90vh;
   /* just for dev */
   /* background-color: gray; */
 }
 
 .title {
-  flex: 0 0 6rem;
+  flex: 0 1 calc(var(--sidbarItemHeight) / 2);
 }
 
 .new-overdub-wrapper--flex-column > .button {
@@ -45,50 +47,58 @@ div[class*="flex-row"] {
 }
 
 .controls-wrapper--flex-column {
-  flex: 0 0 6rem;
+  flex: 0 0 var(--sidbarItemHeight);
   flex-wrap: wrap;
   align-content: stretch;
   background-color: yellow;
-  max-height: 6rem;
+  max-height: var(--sidbarItemHeight);
 }
 
 .controls-wrapper--flex-column > .audio-meter {
-  height: 6rem;
-  width: 2rem;
+  height: var(--sidbarItemHeight);
 }
 
 .controls-item {
-  flex: 0 1 1.5rem;
-  width: 6rem;
+  flex: 1 0 1.5rem;
+  min-width: 6rem;
 }
 
 .controls-item > .button {
   height: 100%;
-  font-size: 1.2rem;
+  font-size: calc(var(--sidbarItemHeight) / 5);
+}
+
+.controls-wrapper--flex-column > .audio-meter:first-child {
+  width: 10%;
+}
+
+.controls-wrapper--flex-column > .audio-meter:last-child {
+  flex: 0 0 auto;
+  width: 30%;
+  align-self: flex-end;
 }
 
 .overdubs-wrapper--flex-column {
   align-self: stretch;
-  flex: 0 0 6rem;
+  flex: 0 0 var(--sidbarItemHeight);
 }
 
 .overdub-item-wrapper--flex-column {
-  flex: 0 0 6rem;
+  flex: 0 0 var(--sidbarItemHeight);
   align-self: stretch;
 }
 
 .overdub-item-wrapper--flex-column > .audio-meter {
   position: absolute;
-  height: 6rem;
-  width: 10rem;
+  height: var(--sidbarItemHeight);
+  width: var(--sideBarWidth);
   z-index: -1;
 }
 
 .overdub-controls-wrapper--flex-row {
   align-items: center;
-  flex: 0 0 6rem;
+  flex: 0 0 var(--sidbarItemHeight);
   align-items: flex-end;
-  max-height: 6rem;
 }
 
 .overdub-controls-item {
