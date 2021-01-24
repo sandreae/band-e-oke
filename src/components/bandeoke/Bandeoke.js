@@ -16,6 +16,7 @@ import Score from "./Score";
 import PdfViewer from "./PdfViewer";
 import MediaRecorder from "./MediaRecorder";
 import LoadingBar from 'react-redux-loading-bar'
+import { useMediaQuery } from 'react-responsive'
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const streamRef = React.createRef()
@@ -97,10 +98,8 @@ class Bandeoke extends React.Component {
 
   renderButtons(disabled) {
     return (
-      <div className='controls-wrapper flex-column'>
-        <div className="controls-item audio-meter">
-          <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
-        </div>
+      <div className='controls-wrapper--flex-column'>
+        <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
         <div className="controls-item"><Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} /></div>
         <div className="controls-item"><Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} /></div>
         <div className="controls-item"><Button disabled={disabled || this.props.newOverdub.url !== null} name={'RECORD'} onClick={this.onRecordClick} /></div>
@@ -151,9 +150,9 @@ class Bandeoke extends React.Component {
       <div className="app-wrapper" width='100%'>
         <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
         <LoadingBar />
-          <div className="left-sidebar flex-column" width=''>
+          <div className="left-sidebar--flex-column" width=''>
 
-            <div><h2>{this.props.title}</h2></div>
+            <div className="title"><h2>{this.props.title}</h2></div>
             {this.renderButtons(disabled)}
             {this.renderMediaRecorder()}
             <NewOverdubItem

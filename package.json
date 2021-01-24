@@ -26,6 +26,7 @@
     "make-runnable": "^1.3.8",
     "media-element-syncer": "^1.1.1",
     "moment": "^2.29.1",
+    "nexusui": "^2.1.6",
     "opensheetmusicdisplay": "^0.7.6",
     "path": "^0.12.7",
     "pg": "^8.5.1",

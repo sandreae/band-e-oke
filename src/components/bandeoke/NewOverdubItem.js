@@ -56,8 +56,8 @@ class NewOverdubItem extends Component {
   render() {
     if (this.props.newOverdub.buffer) {
       return (
-        <div className='overdub-wrapper'>
-          <div className='overdub-item-wrapper'>
+        <div className='overdub-wrapper--flex-column'>
+          <div className='overdub-item-wrapper--flex-column'>
             <div className='overdub-item audio-meter'><AudioMeter overdub={this.props.newOverdub} playing={this.props.playing} audioContext={this.props.audioContext}/></div>
             <div className={ `overdub-item ${this.state.uploading ? 'disabled' : ''}` } onClick={(e) => { this.onUploadClick(e) }}>SAVE</div>
             <div className='overdub-item' type='button' value='DELETE' onClick={() => this.handleDeleteOverdub(this.props.newOverdub.url)}>DELETE</div>

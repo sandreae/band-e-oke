@@ -2,72 +2,31 @@
 
 // Overdub template page using a class
 import React from "react";
-import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
-import * as overdubActions from "../../redux/actions/overdubActions";
-import { bindActionCreators } from "redux";
-import { toast } from "react-toastify";
 import AudioMeter from "./AudioMeter";
+import OverdubControls from "./OverdubControls";
 
 class Overdubs extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.refsArray = []
-
-    this.handleDeleteOverdub = this.handleDeleteOverdub.bind(this);
-    this.handleNudgeOverdub = this.handleNudgeOverdub.bind(this);
-    this.handleGainOverdub = this.handleGainOverdub.bind(this);
-  }
-
-  componentDidMount(){
-    console.log("Overdub mounted")
-  }
-
-  handleDeleteOverdub = async overdub => {
-    toast.success("Overdub Deleted");
-    try {
-      this.props.actions.deleteOverdub(overdub);
-    } catch (error) {
-      toast.error("Delete Failed " + error.message, { autoClose: false });
-    }
-  };
-
-  handleNudgeOverdub = (overdub, e) => {
-    if (isNaN(e.target.value)) {
-      console.log("Not a number")
-      return
-    }
-    const updatedOverdub = Object.assign({}, overdub);
-    updatedOverdub.nudge = parseFloat(e.target.value)
-    this.props.actions.nudgeOverdub(updatedOverdub);
-  }
-
-  handleGainOverdub = (overdub, e) => {
-    const updatedOverdub = Object.assign({}, overdub);
-    updatedOverdub.gain = parseFloat(e.target.value)
-    this.props.actions.gainOverdub(updatedOverdub);
-  };
-
   renderOverdubs(){
-    const disabled = this.props.disabled ? 'disabled' : ''
     if (this.props.overdubs.length === 0){
       return null
     }
     return (
       this.props.overdubs.map((overdub, i) => {
         return (
-          <div className='overdub-item-wrapper' key={i}>
-            <div className='overdub-item audio-meter'><AudioMeter key={i} overdub={overdub} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={false}/></div>
-            <input className={ `overdub-item ${disabled}` } type="range" min="0" max="3" step="0.01" orient="vertical" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)}/>
-            <div className={ `overdub-item delete-button ${disabled}` } id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
-            <input className={ `overdub-item ${disabled}` } type="string" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onBlur={(e) => this.handleRefresh(overdub, e)} />
-            <input className={ `overdub-item ${disabled}` } type="range" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onMouseUp={(e) => this.handleRefresh(overdub, e)}/>
+          <div className='overdub-item-wrapper--flex-column' key={i}>
+            <AudioMeter key={i} overdub={overdub} playing={this.props.playing} audioContext={this.props.audioContext} isAudioBufferUrl={false}/>
+            <OverdubControls overdub={overdub} disabled={this.props.disabled}/>
           </div>
         )
       })
     )
   }
+  // <input className={ `overdub-item ${disabled}` } type="range" min="0" max="3" step="0.01" orient="vertical" value={overdub.gain} onChange={(e) => this.handleGainOverdub(overdub, e)}/>
+  // <div className={ `overdub-item delete-button ${disabled}` } id={overdub.id} value='DELETE' onClick={() => this.handleDeleteOverdub(overdub)}>x</div>
+  // <input className={ `overdub-item ${disabled}` } type="string" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onBlur={(e) => this.handleRefresh(overdub, e)} />
+  // <input className={ `overdub-item ${disabled}` } type="range" min="0" max="0.2" step="0.01" value={overdub.nudge} onChange={(e) => this.handleNudgeOverdub(overdub, e)} onMouseUp={(e) => this.handleRefresh(overdub, e)}/>
 
   render() {
     if (this.props.overdubs.length === 0) {
@@ -89,14 +48,4 @@ Overdubs.propTypes = {
   playing: PropTypes.bool.isRequired,
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: {
-      deleteOverdub: bindActionCreators(overdubActions.deleteOverdub, dispatch),
-      gainOverdub: bindActionCreators(overdubActions.gainOverdub, dispatch),
-      nudgeOverdub: bindActionCreators(overdubActions.nudgeOverdub, dispatch),
-    }
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Overdubs);
+export default Overdubs
