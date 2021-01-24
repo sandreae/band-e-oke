@@ -1,5 +1,6 @@
 // Overdub template page using a class
 import React from "react";
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import { connect } from "react-redux";
 import * as overdubApi from "../../api/overdubApi";
 import { PropTypes } from "prop-types";
@@ -30,6 +31,7 @@ class Bandeoke extends React.Component {
       uploading: false,
       loadScore: false,
       score: '',
+      pdf: this.props.scores[0].pdf,
     };
 
     this.onPlayClick = this.onPlayClick.bind(this);
@@ -56,10 +58,6 @@ class Bandeoke extends React.Component {
     .catch(error => {
       alert("Loading overdubs failed: " + error);
     })
-  }
-
-  componentDidUpdate(){
-    console.log("COMPONENT DID UPDATE")
   }
 
   componentWillUnmount(){
@@ -113,7 +111,7 @@ class Bandeoke extends React.Component {
   }
 
   onLoadScoreClick(score) {
-    this.setState(state => state.score = score);
+    this.setState(state => state.pdf = score.pdf);
   }
 
   renderController(disabled) {
@@ -145,19 +143,20 @@ class Bandeoke extends React.Component {
   }
 
   renderScore(){
-    return (
-      <Score
-      scoreOffset={this.props.scoreOffset}
-      score={this.state.score}
-      tempo={tempo}
-      />
-    )
+    if (this.state.pdf){
+      return (
+        <Document file={this.state.pdf}>
+          <Page pageNumber={1} width={window.innerWidth}/>
+          <Page pageNumber={2} width={window.innerWidth}/>
+        </Document>
+      )
+    }
   }
 
   renderScoreButtons(){
     if (this.props.scores){
       const scoreButtons = this.props.scores.map((item, i) => {
-        return <Button key={i} disabled={this.props.player.playing} name={item.name} onClick={() => this.onLoadScoreClick(item.score)} />
+        return <Button key={i} disabled={this.props.player.playing} name={item.name} onClick={() => this.onLoadScoreClick(item)} />
       });
       return scoreButtons
     }
@@ -173,7 +172,6 @@ class Bandeoke extends React.Component {
         <LoadingBar />
           <div className="left-sidebar--flex-column" width=''>
 
-            <div className="title"><h2>{this.props.title}</h2></div>
             {this.renderController(disabled)}
 
             <NewOverdubItem
@@ -188,10 +186,12 @@ class Bandeoke extends React.Component {
               overdubs={this.props.overdubs}
               audioContext={audioContext}
             />
-            {this.renderScoreButtons()}
-            <div className='score-wrapper'>
-              {this.renderScore()}
+            <div className="score-buttons-wrapper--flex-row">
+              {this.renderScoreButtons()}
             </div>
+          </div>
+          <div className='score-wrapper'>
+            {this.renderScore()}
           </div>
       </div>
     );

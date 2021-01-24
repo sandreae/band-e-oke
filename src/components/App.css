@@ -5,12 +5,16 @@ html {
 }
 
 .score-wrapper {
-  max-width: 100%;
-   overflow: hidden;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  z-index: -1;
 }
 
 .button {
   cursor: pointer;
+  background-color: yellow;
 }
 
 .disabled {
@@ -31,6 +35,9 @@ div[class*="flex-row"] {
 }
 
 .left-sidebar--flex-column {
+  position: fixed;
+  left: 20px;
+  top: 20px;
   width: var(--sideBarWidth);
   height: 90vh;
   /* just for dev */
@@ -86,6 +93,7 @@ div[class*="flex-row"] {
 .overdub-item-wrapper--flex-column {
   flex: 0 0 var(--sidbarItemHeight);
   align-self: stretch;
+  margin-top: 5px;
 }
 
 .overdub-item-wrapper--flex-column > .audio-meter {
@@ -132,7 +140,12 @@ div[class*="flex-row"] {
   font-size: 2rem;
 }
 
+.score-buttons-wrapper--flex-row > .button {
+  flex: 0 1 2rem;
+  margin-top: 3px;
+  margin-right: 3px;
 
+}
 /* ## ELEMENTS ## */
 
 /* AUDIO METERS */
