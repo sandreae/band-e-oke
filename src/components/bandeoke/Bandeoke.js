@@ -16,7 +16,6 @@ import Score from "./Score";
 import PdfViewer from "./PdfViewer";
 import MediaRecorder from "./MediaRecorder";
 import LoadingBar from 'react-redux-loading-bar'
-import { useMediaQuery } from 'react-responsive'
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const streamRef = React.createRef()
