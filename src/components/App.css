@@ -39,6 +39,11 @@ div[class*="flex-row"] {
   flex: 0 0 6rem;
 }
 
+.new-overdub-wrapper--flex-column > .button {
+  position: absolute;
+  z-index: 2
+}
+
 .controls-wrapper--flex-column {
   flex: 0 0 6rem;
   flex-wrap: wrap;

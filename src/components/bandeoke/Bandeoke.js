@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as overdubApi from "../../api/overdubApi";
 import { PropTypes } from "prop-types";
 import * as overdubActions from "../../redux/actions/overdubActions";
+import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import * as  backingTrackActions from "../../redux/actions/backingTrackActions";
 import * as metaActions from "../../redux/actions/metaActions";
 import * as playerActions from "../../redux/actions/playerActions";
@@ -26,6 +27,7 @@ class Bandeoke extends React.Component {
     super(props);
 
     this.state = {
+      uploading: false,
       loadScore: false,
       score: '',
     };
@@ -84,6 +86,25 @@ class Bandeoke extends React.Component {
 
   onSaveClick() {
     overdubApi.saveAllOverdubs(this.props.overdubs)
+    if (this.props.newOverdub.buffer) {
+      this.uploadNewOverdub()
+    }
+  }
+
+  uploadNewOverdub = () => {
+    this.setState(() => ({uploading: true}));
+    overdubApi.upload(this.props.newOverdub, this.props.meta.title)
+      .then(()=>{
+        console.log("UPLOAD COMPLETE")
+        overdubApi.loadOverdubs(audioContext, this.props.songId)
+      .then(overdubs=> {
+        console.log("OVERDUBS LOADED")
+        this.props.actions.loadOverdubsSuccess(overdubs)
+        this.props.actions.removeNewOverdub(this.props.newOverdub.url);
+        this.setState(() => ({uploading: false}));
+      })
+    })
+    // this.props.actions.upload(this.props.newOverdub)
   }
 
   onRecordClick() {
@@ -143,7 +164,7 @@ class Bandeoke extends React.Component {
   }
 
   render() {
-    const disabled = this.props.player.playing || this.props.media.scoreStatus === 'loading'
+    const disabled = this.props.player.playing || this.props.media.scoreStatus === 'loading' || this.state.uploading
     const loading = !this.props.overdubs || !this.props.backingTrack.buffer
     if (loading) return "loading"
     return (
@@ -182,6 +203,7 @@ Bandeoke.propTypes = {
   actions: PropTypes.object.isRequired,
   backingTrack: PropTypes.object.isRequired,
   media: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
   newOverdub: PropTypes.object.isRequired,
   overdubs: PropTypes.array,
   player: PropTypes.object.isRequired,
@@ -200,6 +222,7 @@ function mapStateToProps(state) {
     overdubs: state.overdubs,
     player: state.player,
     scoreOffset: state.media.scoreOffset,
+    meta: state.meta,
   };
 }
 
@@ -211,6 +234,7 @@ function mapDispatchToProps(dispatch) {
       record: bindActionCreators(playerActions.record, dispatch),
       setBackingTrackBuffer: bindActionCreators(backingTrackActions.setBackingTrackBuffer, dispatch),
       setTitle: bindActionCreators(metaActions.setTitle, dispatch),
+      removeNewOverdub: bindActionCreators(newOverdubActions.removeNewOverdub, dispatch),
     }
   };
 }

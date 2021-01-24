@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import OverdubControls from "./OverdubControls";
 import * as overdubApi from "../../api/overdubApi";
 import AudioMeter from "./AudioMeter";
+import Button from "./Button";
 
 class NewOverdubItem extends Component {
 
@@ -27,22 +28,6 @@ class NewOverdubItem extends Component {
     this.props.actions.nudgeNewOverdub(newOverdub)
   }
 
-  onUploadClick = () => {
-    this.setState(state => state.uploading = true)
-    overdubApi.upload(this.props.newOverdub, this.props.meta.title)
-      .then(()=>{
-        console.log("UPLOAD COMPLETE")
-        overdubApi.loadOverdubs(this.props.audioContext, this.props.songId)
-      .then(overdubs=> {
-        console.log("OVERDUBS LOADED")
-        this.props.actions.loadOverdubsSuccess(overdubs)
-        this.props.actions.setOverdubBlob(null, null)
-        this.setState(state => state.uploading = false)
-      })
-    })
-    // this.props.actions.upload(this.props.newOverdub)
-  }
-
   handleDeleteOverdub = (v, newOverdub) => {
     this.props.actions.removeNewOverdub(newOverdub.url);
   };
@@ -56,7 +41,7 @@ class NewOverdubItem extends Component {
   render() {
     if (this.props.newOverdub.buffer) {
       return (
-        <div className='overdub-wrapper--flex-column'>
+        <div className='new-overdub-wrapper--flex-column'>
           <div className='overdub-item-wrapper--flex-column'>
             <AudioMeter
               overdub={this.props.newOverdub}
@@ -71,6 +56,7 @@ class NewOverdubItem extends Component {
               handleNudge={this.handleNudgeOverdub}
               handleGain={this.handleGainOverdub}
               handleDelete={this.handleDeleteOverdub}
+              newOverdub={true}
             />
           </div>
         </div>
