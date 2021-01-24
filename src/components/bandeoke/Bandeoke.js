@@ -68,7 +68,7 @@ class Bandeoke extends React.Component {
     if(event.keyCode === 82) {
       this.props.player.playing ? this.onStopClick() : this.onRecordClick()
     }
-    if(event.keyCode === 32) {
+    if(event.keyCode === 80) {
       this.props.player.playing ? this.onStopClick() : this.onPlayClick()
     }
   }
