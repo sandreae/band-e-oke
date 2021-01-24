@@ -9,10 +9,6 @@ class OverdubControls extends Component {
 
 	constructor(props) {
     super(props)
-
-    this.handleDeleteOverdub = this.handleDeleteOverdub.bind(this);
-    this.handleNudgeOverdub = this.handleNudgeOverdub.bind(this);
-    this.handleGainOverdub = this.handleGainOverdub.bind(this);
   }
 
 	componentDidMount(){
@@ -51,25 +47,15 @@ class OverdubControls extends Component {
   }
 
 	handleDeleteOverdub = (v) => {
-		if (!v.state){
-			this.props.actions.deleteOverdub(this.props.overdub);
-		}
+		this.props.handleDelete(v, this.props.overdub);
   };
 
   handleNudgeOverdub = (v) => {
-    if (isNaN(v)) {
-      console.log("Not a number")
-      return
-    }
-    const updatedOverdub = Object.assign({}, this.props.overdub);
-    updatedOverdub.nudge = parseFloat(v) * -1
-    this.props.actions.nudgeOverdub(updatedOverdub);
+    this.props.handleNudge(v, this.props.overdub);
   }
 
   handleGainOverdub = (v) => {
-    const updatedOverdub = Object.assign({}, this.props.overdub);
-    updatedOverdub.gain = parseFloat(v)
-    this.props.actions.gainOverdub(updatedOverdub);
+		this.props.handleGain(v, this.props.overdub);
   };
 
   render() {
@@ -87,18 +73,10 @@ class OverdubControls extends Component {
 
 OverdubControls.propTypes = {
   disabled: PropTypes.bool,
-  overdub: PropTypes.func.isRequired,
-	actions: PropTypes.object.isRequired,
+  overdub: PropTypes.object.isRequired,
+	handleGain: PropTypes.func.isRequired,
+	handleNudge: PropTypes.func.isRequired,
+	handleDelete: PropTypes.func.isRequired,
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: {
-      deleteOverdub: bindActionCreators(overdubActions.deleteOverdub, dispatch),
-      gainOverdub: bindActionCreators(overdubActions.gainOverdub, dispatch),
-      nudgeOverdub: bindActionCreators(overdubActions.nudgeOverdub, dispatch),
-    }
-  }
-}
-
-export default connect(null, mapDispatchToProps)(OverdubControls);
+export default OverdubControls
