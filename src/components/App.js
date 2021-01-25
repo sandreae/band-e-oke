@@ -219,70 +219,39 @@ const Simple = cssTransition({
   exit: 'exit',
 });
 
+let scores = [{title: "Meme Themes 1", scores: memeThemes1Scores, track: memeThemes1Track, songId:"meme-themes-1", path:"/meme-themes-1"},
+              {title: "I Need You", scores: iNeedYouScores, track: iNeedYouTrack, songId:"i-need-you", path:"/i-need-you"},
+              {title: "Eye Of The Tiger", scores: eyeOfTheTigerScores, track: eyeOfTheTigerTrack, songId:"eye-of-the-tiger", path:"/eye-of-the-tiger"},
+              {title: "Mad World", scores: madWorldScores, track: madWorldTrack, songId:"mad-world", path:"/mad-world"},
+              {title: "Happier", scores: happierScores, track: happierTrack, songId:"happier", path:"/happier"},
+              {title: "Pink Panther", scores: pinkPantherScores, track: pinkPantherTrack, songId:"pink-panther", path:"/pink-panther"},
+              {title: "Filter", scores: filterScores, track: filterTrack, songId:"filter", path:"/filter"},
+              {title: "God's Plan", scores: godsPlanScores, track: godsPlanTrack, songId:"gods-plan", path:"/gods-plan"},
+              {title: "Ode To Joy", scores: odeToJoyScores, track: odeToJoyTrack, songId:"ode-to-joy", path:"/ode-to-joy"},
+              {title: "Possession", scores: possessionScores, track: possessionTrack, songId:"possession", path:"/possession"},
+            ]
+
 class App extends Component {
   componentDidMount = () => {
     this.props.getProfileFetch()
   }
 
+
   render() {
     return (
       <div className="app">
         <Switch>
-          { this.props.currentUser.currentUser &&
-            <Route path="/legal-illegal"
-              render={(props) => <Bandeoke {...props} track={legalIllegalTrack} scores={legalIllegalScores} title={'Legal Illegal - Peggy Seeger & Ewan MacColl'} songId={'legal-illegal'}/>}
+        {scores.map((score, i) => {
+          if (this.props.currentUser.currentUser){
+          return <Route key={i} path={score.path}
+            render={(props) =>
+              <Bandeoke {...props}
+                track={score.track}
+                scores={score.scores}
+                title={score.title}
+                songId={score.title.songId}/>}
             />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/possession"
-            render={(props) => <Bandeoke {...props} track={possessionTrack} scores={possessionScores} title={'Possesion - Les Baxter'} songId={'possession'}/>}
-          />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/meme-themes-1"
-            render={(props) => <Bandeoke {...props} track={memeThemes1Track} scores={memeThemes1Scores} title={'Meme Themes 1'} songId={'meme-themes-1'}/>}
-          />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/i-need-you"
-            render={(props) => <Bandeoke {...props} track={iNeedYouTrack} scores={iNeedYouScores} title={'I Need You - BTS'} songId={'i-need-you'}/>}
-          />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/eye-of-the-tiger"
-            render={(props) => <Bandeoke {...props} track={eyeOfTheTigerTrack} scores={eyeOfTheTigerScores} title={'Eye Of The Tiger'} songId={'eye-of-the-tiger'}/>}
-          />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/mad-world"
-            render={(props) => <Bandeoke {...props} track={madWorldTrack} scores={madWorldScores} title={'Mad World'} songId={'mad-world'}/>}
-          />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/pink-panther"
-            render={(props) => <Bandeoke {...props} track={pinkPantherTrack} scores={pinkPantherScores} title={'Pink Panther'} songId={'pink-panther'}/>}
-          />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/happier"
-            render={(props) => <Bandeoke {...props} track={happierTrack} scores={happierScores} title={'Happier'} songId={'happier'}/>}
-          />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/filter"
-            render={(props) => <Bandeoke {...props} track={filterTrack} scores={filterScores} title={'Filter'} songId={'filter'}/>}
-          />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/gods-plan"
-            render={(props) => <Bandeoke {...props} track={godsPlanTrack} scores={godsPlanScores} title={'God\'s Plan'} songId={'gods-plan'}/>}
-          />
-          }
-          { this.props.currentUser.currentUser &&
-          <Route path="/ode-to-joy"
-            render={(props) => <Bandeoke {...props} track={odeToJoyTrack} scores={odeToJoyScores} title={'Ode To Joy'} songId={'ode-to-joy'}/>}
-          />
-          }
+         }})}
           <Route path="/how-to" component={HowToPage} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
