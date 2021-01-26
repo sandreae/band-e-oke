@@ -4,25 +4,34 @@ html {
   --sidbarItemHeight: 6rem;
 }
 
-.score-wrapper {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  z-index: -1;
-}
-
-.button {
-  cursor: pointer;
-  background-color: yellow;
-}
-
 .disabled {
   pointer-events: none;
   color: gray;
 }
 
 /* ## LAYOUT ## */
+
+/* HOMEPAGE */
+
+.home-page--flex-column {
+
+}
+
+.how-to-link-wrapper {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+}
+
+/* LOGIN */
+
+.login--flex-column {
+  width: 20rem;
+  height: 12rem;
+  justify-content: space-around;
+}
+
+/* BANDEOKE */
 
 div[class*="flex-column"] {
   display: flex;
@@ -153,14 +162,43 @@ div[class*="flex-row"] {
   margin-right: 3px;
 
 }
+
+.score-wrapper {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  z-index: -1;
+}
 /* ## ELEMENTS ## */
 
-/* AUDIO METERS */
+.button {
+  cursor: pointer;
+  background-color: yellow;
+  width: 5rem;
+}
+
+.small-button {
+  cursor: pointer;
+  background-color: yellow;
+}
+
+a {
+  cursor: pointer;
+  background-color: yellow;
+  color: blue;
+  text-decoration: none;
+}
+
+a:visited {
+  color: blue;
+}
 
 .audio-meter {
   width: 100%;
   height: 100%;
 }
+
 
 /* TOASTIFY */
 

@@ -265,7 +265,7 @@ class App extends Component {
           <Route path="/how-to" component={HowToPage} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
-          <Route path="/" component={HomePage} />
+          <Route path="/" render={()=><HomePage songs={scores}/>} />
           <Route component={PageNotFound} />
         </Switch>
         <ToastContainer transition={Simple} hideProgressBar />
