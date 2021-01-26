@@ -3,12 +3,23 @@ import { Link } from "react-router-dom";
 import Login from "../users/Login";
 import {connect} from 'react-redux';
 import { PropTypes } from "prop-types";
-import {getProfileFetch, logoutUser} from '../../redux/actions/userActions';
+import {logoutUser, loginUser} from '../../redux/actions/userActions';
+import * as userApi from "../../api/userApi";
 
 class HomePage extends Component {
 
+  // componentDidMount(){
+  //   const token = localStorage.token;
+  //   if (token) {
+  //     userApi.getProfileFetch(token).then((data)=>{
+  //       this.props.loginUser(data.username)
+  //     })} else {
+  //       this.props.loginUser({})
+  //     }
+  // }
+  //
   renderLogin(){
-    if (this.props.currentUser.currentUser) {
+    if (this.props.currentUser.username) {
       return <div className="button-small" onClick={(e) => { this.handleClick(e) }}>logout</div>
     }
     return <Login/>
@@ -23,6 +34,9 @@ class HomePage extends Component {
   }
 
   render() {
+    if (this.props.currentUser.fetchingUser) {
+      return <div></div>
+    }
     return (
       <div className="flex-column">
       <div className="flex home-page">
@@ -37,17 +51,19 @@ class HomePage extends Component {
 
 HomePage.propTypes = {
   currentUser: PropTypes.object,
-  getProfileFetch: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   currentUser: state.currentUser
 })
 
-const mapDispatchToProps = dispatch => ({
-  getProfileFetch: () => dispatch(getProfileFetch()),
-  logoutUser: () => dispatch(logoutUser())
-})
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutUser: () => dispatch(logoutUser()),
+    loginUser: () => dispatch(loginUser())
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

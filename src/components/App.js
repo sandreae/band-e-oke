@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import { Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {getProfileFetch, logoutUser} from '../redux/actions/userActions';
+import {logoutUser, loginUser, fetchingUser} from '../redux/actions/userActions';
+import * as userApi from "../api/userApi";
 import PageNotFound from "./PageNotFound";
 import Bandeoke from "./bandeoke/Bandeoke";
 import HomePage from "./home/HomePage";
@@ -232,25 +233,34 @@ let scores = [{title: "Meme Themes 1", scores: memeThemes1Scores, track: memeThe
             ]
 
 class App extends Component {
-  componentDidMount = () => {
-    this.props.getProfileFetch()
+
+  componentDidMount(){
+    if (localStorage.token) {
+      userApi.getProfileFetch(localStorage.token).then((data)=>{
+        this.props.loginUser(data.username)
+        this.props.fetchingUser(false)
+      })} else {
+        this.props.fetchingUser(false)
+      }
   }
 
-
   render() {
+    console.log(this.props)
     return (
       <div className="app">
         <Switch>
         {scores.map((score, i) => {
-          if (this.props.currentUser.currentUser){
-          return <Route key={i} path={score.path}
+          if (this.props.currentUser.username){
+          return <Route key={i} path={"/scores" + score.path}
             render={(props) =>
               <Bandeoke {...props}
                 track={score.track}
                 scores={score.scores}
                 title={score.title}
-                songId={score.title.songId}/>}
+                songId={score.songId}/>}
             />
+         } else {
+           return <Route path="/login" component={Login} />
          }})}
           <Route path="/how-to" component={HowToPage} />
           <Route path="/signup" component={Signup} />
@@ -266,17 +276,21 @@ class App extends Component {
 
 App.propTypes = {
   currentUser: PropTypes.object,
-  getProfileFetch: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  fetchingUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  currentUser: state.currentUser
+  currentUser: state.currentUser,
 })
 
-const mapDispatchToProps = dispatch => ({
-  getProfileFetch: () => dispatch(getProfileFetch()),
-  logoutUser: () => dispatch(logoutUser())
-})
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutUser: () => dispatch(logoutUser()),
+    loginUser: (username) => dispatch(loginUser(username)),
+    fetchingUser: (bool) => dispatch(fetchingUser(bool))
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

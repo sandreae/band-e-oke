@@ -44,6 +44,7 @@ class Bandeoke extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     const { actions, songId, track } = this.props;
     document.addEventListener("keydown", this.keyboardFunction, false);
     actions.setTitle(songId)

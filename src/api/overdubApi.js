@@ -53,24 +53,35 @@ export function deleteOverdub(overdubId) {
 }
 
 export async function loadOverdubs(audioContext, title="none") {
+  console.log("loadOverdubs: ", title)
   let overdubs = await getOverdubsByTitle(title)
   let overdubPromises = getOverdubPromises(audioContext, overdubs)
   let overdubsWithBuffers = await Promise.all(overdubPromises)
-  return overdubsWithBuffers
+  let filteredOverdubs = overdubsWithBuffers.filter(function (e) {return e != null;})
+  return filteredOverdubs
 }
 
 async function createAudioBufferFromUrl(audioContext, url) {
+  console.log("createAudioBufferFromUrl: ", url)
   const file = await fetch(url)
+  console.log("get arrayBuffer")
   const arrayBuffer = await file.arrayBuffer()
+  console.log("decodeAudioData")
   const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+  console.log(audioBuffer)
   return audioBuffer
 }
 
 function getOverdubPromises(audioContext, overdubs){
+  console.log("getOverdubPromises: ", overdubs)
   return overdubs.map(async overdub => {
-    let result = await createAudioBufferFromUrl(audioContext, overdub.url)
-    overdub.buffer = result
-    return overdub
+    try {
+      let result = await createAudioBufferFromUrl(audioContext, overdub.url)
+      overdub.buffer = result
+      return overdub
+    } catch {
+      console.error("Could not decode audio for: ", overdub.url)
+    }
   })
 }
 

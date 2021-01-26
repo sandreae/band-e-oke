@@ -97,7 +97,6 @@ AudioMeter.propTypes = {
   overdub: PropTypes.object,
   playing: PropTypes.bool.isRequired,
   stream: PropTypes.object,
-  id: PropTypes.string.isRequired,
   type: PropTypes.string,
 }
 

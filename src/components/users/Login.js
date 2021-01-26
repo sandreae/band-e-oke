@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {userLoginFetch} from "../../redux/actions/userActions";
 import { PropTypes } from "prop-types";
+import {logoutUser, loginUser} from '../../redux/actions/userActions';
+import * as userApi from "../../api/userApi";
 
 class Login extends Component {
   state = {
@@ -17,7 +18,10 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    this.props.userLoginFetch(this.state)
+    userApi.userLoginFetch(this.state).then(data =>{
+      console.log(data)
+      this.props.loginUser(data.username)
+    })
   }
 
   render() {
@@ -49,16 +53,20 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  userLoginFetch: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
 };
-
-const mapDispatchToProps = dispatch => ({
-  userLoginFetch: userInfo => dispatch(userLoginFetch(userInfo))
-})
 
 const mapStateToProps = state => ({
   currentUser: state.currentUser
 })
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutUser: () => dispatch(logoutUser()),
+    loginUser: (username) => dispatch(loginUser(username))
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

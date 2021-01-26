@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {userPostFetch} from "../../redux/actions/userActions";
+import * as userApi from "../../api/userApi";
 import { PropTypes } from "prop-types";
 
 class Signup extends Component {
@@ -17,7 +17,7 @@ class Signup extends Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    this.props.userPostFetch(this.state)
+    userApi.userPostFetch(this.state)
   }
 
   render() {
@@ -50,12 +50,4 @@ class Signup extends Component {
   }
 }
 
-Signup.propTypes = {
-  userPostFetch: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = dispatch => ({
-  userPostFetch: userInfo => dispatch(userPostFetch(userInfo))
-})
-
-export default connect(null, mapDispatchToProps)(Signup);
+export default connect(null, null)(Signup);

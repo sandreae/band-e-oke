@@ -26,6 +26,7 @@ export default {
     title: ''
   },
   currentUser: {
-    currentUser: null
-  }
+    username: null,
+    fetchingUser: true,
+  },
 };
