@@ -21,7 +21,6 @@ import LoadingBar from 'react-redux-loading-bar'
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const streamRef = React.createRef()
-const tempo = '140'
 
 class Bandeoke extends React.Component {
   constructor(props) {
@@ -48,18 +47,20 @@ class Bandeoke extends React.Component {
     const { actions, songId, track } = this.props;
     document.addEventListener("keydown", this.keyboardFunction, false);
     actions.setTitle(songId)
-    overdubApi.createBufferFromUrl(audioContext, track).then((buffer) => {
-      actions.setBackingTrackBuffer(buffer)
-      console.log("BACKING TRACK BUFFER LOADED")
-    })
-    overdubApi.loadOverdubs(audioContext, this.props.songId).then(overdubs=> {
-      console.log("OVERDUBS LOADED")
-      actions.loadOverdubsSuccess(overdubs)
-    })
-    .catch(error => {
-      alert("Loading overdubs failed: " + error);
-    })
-  }
+    if (this.props.backingTrack){
+      overdubApi.createBufferFromUrl(audioContext, track)
+        .then((buffer) => {
+          actions.setBackingTrackBuffer(buffer)
+        })
+    }
+    overdubApi.loadOverdubs(audioContext, this.props.songId)
+      .then(overdubs=> {
+        actions.loadOverdubsSuccess(overdubs)
+      })
+      .catch(error => {
+        console.log("Loading overdubs failed: " + error);
+      })
+    }
 
   componentWillUnmount(){
     document.removeEventListener("keydown", this.keyboardFunction, false);
@@ -90,22 +91,6 @@ class Bandeoke extends React.Component {
     }
   }
 
-  uploadNewOverdub = () => {
-    this.setState(() => ({uploading: true}));
-    overdubApi.upload(this.props.newOverdub, this.props.meta.title)
-      .then(()=>{
-        console.log("UPLOAD COMPLETE")
-        overdubApi.loadOverdubs(audioContext, this.props.songId)
-      .then(overdubs=> {
-        console.log("OVERDUBS LOADED")
-        this.props.actions.loadOverdubsSuccess(overdubs)
-        this.props.actions.removeNewOverdub(this.props.newOverdub.url);
-        this.setState(() => ({uploading: false}));
-      })
-    })
-    // this.props.actions.upload(this.props.newOverdub)
-  }
-
   onRecordClick() {
     this.props.actions.record(true)
     this.props.actions.play(true)
@@ -113,6 +98,20 @@ class Bandeoke extends React.Component {
 
   onLoadScoreClick(score) {
     this.setState(state => state.pdf = score.pdf);
+  }
+
+  uploadNewOverdub = () => {
+    this.setState(() => ({uploading: true}));
+    overdubApi.upload(this.props.newOverdub, this.props.meta.title)
+      .then(()=>{
+        overdubApi.loadOverdubs(audioContext, this.props.songId)
+      .then(overdubs=> {
+        this.props.actions.loadOverdubsSuccess(overdubs)
+        this.props.actions.removeNewOverdub(this.props.newOverdub.url);
+        this.setState(() => ({uploading: false}));
+      })
+    })
+    // this.props.actions.upload(this.props.newOverdub)
   }
 
   renderController(disabled) {
@@ -202,7 +201,7 @@ class Bandeoke extends React.Component {
 
 Bandeoke.propTypes = {
   actions: PropTypes.object.isRequired,
-  backingTrack: PropTypes.object.isRequired,
+  backingTrack: PropTypes.object,
   media: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   newOverdub: PropTypes.object.isRequired,
@@ -214,6 +213,10 @@ Bandeoke.propTypes = {
   title: PropTypes.string.isRequired,
   track: PropTypes.string.isRequired,
 };
+
+Bandeoke.defaultProps = {
+  backingTrack: null,
+}
 
 function mapStateToProps(state) {
   return {

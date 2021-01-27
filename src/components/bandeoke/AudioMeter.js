@@ -7,26 +7,22 @@ class AudioMeter extends Component {
     super(props)
 
     this.state = {
+      meter: null,
       source: null,
-      meterRendered: false,
       gainNode: null,
       id: Math.random().toString(36),
     };
   }
 
   componentDidMount(){
-    let gainNode = this.props.audioContext.createGain();
-    let source = this.createSource()
-    let meter = this.initMeter()
-    meter.colorize("accent", "blue")
-    gainNode.gain.setValueAtTime(0, this.props.audioContext.currentTime);
-    gainNode.connect(this.props.audioContext.destination)
-    meter.connect(gainNode)
-    this.setState(() => ({
-      gainNode: gainNode,
-      source: source,
-      meter: meter,
-    }));
+    let state = {}
+    state.meter = this.createMeter()
+    if (this.props.overdub || this.props.stream) {
+      state.gainNode = this.props.audioContext.createGain();
+      state.source = this.createSource()
+      this.connectAudio(state.gainNode, state.meter)
+    }
+    this.setState(() => ({...state}));
   }
 
   componentDidUpdate(prevProps) {
@@ -42,7 +38,14 @@ class AudioMeter extends Component {
     this.play(prevProps)
   }
 
-  initMeter(){
+  connectAudio(gainNode, meter){
+    meter.colorize("accent", "blue")
+    gainNode.gain.setValueAtTime(0, this.props.audioContext.currentTime);
+    gainNode.connect(this.props.audioContext.destination)
+    meter.connect(gainNode)
+  }
+
+  createMeter(){
     let meter
     if (this.props.type == "oscilloscope"){
       meter = new Nexus.Oscilloscope("#meter-" + this.state.id)
@@ -102,6 +105,7 @@ AudioMeter.propTypes = {
 
 AudioMeter.defaultProps = {
   type: "meter",
+  overdub: null,
 }
 
 export default AudioMeter

@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import { PropTypes } from "prop-types"
-import { connect } from "react-redux";
-import * as overdubActions from "../../redux/actions/overdubActions";
-import { bindActionCreators } from "redux";
 import Nexus from "nexusui"
 
 class OverdubControls extends Component {
