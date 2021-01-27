@@ -164,7 +164,7 @@ class Bandeoke extends React.Component {
 
   render() {
     const disabled = this.props.player.playing || this.props.media.scoreStatus === 'loading' || this.state.uploading
-    const loading = !this.props.overdubs || !this.props.backingTrack.buffer
+    const loading = !this.props.overdubs
     if (loading) return "loading"
     return (
       <div className="app-wrapper" width='100%'>
