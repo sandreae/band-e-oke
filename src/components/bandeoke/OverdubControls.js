@@ -34,9 +34,9 @@ class OverdubControls extends Component {
 		nudge.colorize("accent","blue")
 		nudge.colorize("fill","blue")
 
-		var delete_button = new Nexus.TextButton('#delete' + this.state.id,{
-			'size': [20,20],
-			'text': 'X',
+		var delete_button = new Nexus.Button('#delete' + this.state.id,{
+			'size': [10,10],
+			// 'text': 'X',
 			'mode': 'aftertouch',
 			'state': false
 		})
@@ -48,9 +48,10 @@ class OverdubControls extends Component {
   }
 
 	handleDeleteOverdub = (v) => {
-		console.log(v)
-		if (!v){
-			this.props.handleDelete(v, this.props.overdub);
+		if (!v.state){
+			if (confirm("Are you sure you want to delet this overdub?")) {
+				this.props.handleDelete(v, this.props.overdub);
+			}
 		}
   };
 
@@ -65,7 +66,7 @@ class OverdubControls extends Component {
   render() {
 		const disabled = this.props.disabled ? 'disabled' : ''
     return (
-			<div className={`overdub-controls-wrapper--flex-row button`}>
+			<div className='overdub-controls-wrapper--flex-row'>
 				<div className={ `overdub-controls-item ${disabled}` } id={`gain${this.state.id}`}></div>
 				<div className={ `overdub-controls-item ${disabled}` } id={`nudge${this.state.id}`}></div>
 				<div className={ `overdub-controls-item ${disabled}` }></div>

@@ -79,6 +79,9 @@ import possessionCPdf from '../../public/scores/possession/possession-C.pdf'
 import memeThemes1Track from '../../public/scores/meme-themes-1/meme-themes-1.mp3'
 import memeThemes1Score from '../../public/scores/meme-themes-1/meme-themes-1-score.musicxml'
 import memeThemes1ScorePdf from '../../public/scores/meme-themes-1/meme-themes-1-score.pdf'
+import thereWillNeverEbPdf from '../../public/scores/there-will-never/there-will-never-be-another-you-Eb.pdf'
+import thereWillNeverBbPdf from '../../public/scores/there-will-never/there-will-never-be-another-you-Bb.pdf'
+import thereWillNeverCPdf from '../../public/scores/there-will-never/there-will-never-be-another-you-C.pdf'
 
 const legalIllegalScores = [{
     score: legalIllegalEb,
@@ -215,6 +218,20 @@ const memeThemes1Scores = [{
     name: 'Score'
 }]
 
+const thereWillNeverScores = [{
+    score: null,
+    pdf: thereWillNeverEbPdf,
+    name: 'Eb'
+  }, {
+    score: null,
+    pdf: thereWillNeverBbPdf,
+    name: 'Bb'
+  }, {
+    score: null,
+    pdf: thereWillNeverCPdf,
+    name: 'C'
+}]
+
 const Simple = cssTransition({
   enter: 'enter',
   exit: 'exit',
@@ -230,6 +247,7 @@ let scores = [{title: "Meme Themes 1", scores: memeThemes1Scores, track: memeThe
               {title: "God's Plan", scores: godsPlanScores, track: godsPlanTrack, songId:"gods-plan", path:"/gods-plan"},
               {title: "Ode To Joy", scores: odeToJoyScores, track: odeToJoyTrack, songId:"ode-to-joy", path:"/ode-to-joy"},
               {title: "Possession", scores: possessionScores, track: possessionTrack, songId:"possession", path:"/possession"},
+              {title: "There Will Never Be Another You", scores: thereWillNeverScores, track: null, songId:"there-will-never-be-another-you", path:"/there-will-never-be-another-you"},
             ]
 
 class App extends Component {
