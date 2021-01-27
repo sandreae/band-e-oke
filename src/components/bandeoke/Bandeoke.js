@@ -30,6 +30,7 @@ class Bandeoke extends React.Component {
       loadScore: false,
       score: '',
       pdf: this.props.scores[0].pdf,
+      backingTrackProcessed: false,
     };
 
     this.onPlayClick = this.onPlayClick.bind(this);
@@ -47,11 +48,14 @@ class Bandeoke extends React.Component {
     const { actions, songId, track } = this.props;
     document.addEventListener("keydown", this.keyboardFunction, false);
     actions.setTitle(songId)
-    if (this.props.backingTrack){
+    if (this.props.track){
       overdubApi.createBufferFromUrl(audioContext, track)
         .then((buffer) => {
           actions.setBackingTrackBuffer(buffer)
+          this.setState(()=> ({backingTrackProcessed: true}))
         })
+    } else {
+      this.setState(()=> ({backingTrackProcessed: true}))
     }
     overdubApi.loadOverdubs(audioContext, this.props.songId)
       .then(overdubs=> {
@@ -175,7 +179,7 @@ class Bandeoke extends React.Component {
 
   render() {
     const disabled = this.props.player.playing || this.props.media.scoreStatus === 'loading' || this.state.uploading
-    const loading = !this.props.overdubs
+    const loading = !this.props.overdubs || !this.state.backingTrackProcessed
     if (loading) return "loading"
     return (
       <div className="app-wrapper">
