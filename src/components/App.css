@@ -1,7 +1,23 @@
 html {
+  padding: 0px;
   font-family: "Courier New", Courier, monospace;
   --sideBarWidth: 12rem;
   --sidbarItemHeight: 6rem;
+  --meterWidth: 40px;
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    --meterWidth: 20px;
+  }
+}
+
+body {
+  padding: 0px;
+}
+
+.app-wrapper {
+  width: 100vw;
 }
 
 .disabled {
@@ -62,9 +78,10 @@ div[class*="flex-row"] {
 
 .left-sidebar--flex-column {
   overflow-y: scroll;
+  overflow-x: hidden;
   transition: linear all 1s;
   position: fixed;
-  left: -10.5rem;
+  left: calc(0rem - var(--sideBarWidth) +  var(--meterWidth));
   top: 20px;
   width: var(--sideBarWidth);
   height: 90vh;
@@ -112,12 +129,12 @@ div[class*="flex-row"] {
 }
 
 .controls-wrapper--flex-column > .audio-meter:first-child {
-  width: 1.5rem;
+  width: var(--meterWidth);
 }
 
 .controls-wrapper--flex-column > .audio-meter:last-child {
   flex: 0 0 auto;
-  width: 1.5rem;
+  width: var(--meterWidth);
   align-self: flex-end;
 }
 

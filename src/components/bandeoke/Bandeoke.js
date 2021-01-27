@@ -178,7 +178,7 @@ class Bandeoke extends React.Component {
     const loading = !this.props.overdubs
     if (loading) return "loading"
     return (
-      <div className="app-wrapper" width='100%'>
+      <div className="app-wrapper">
         <LoadingBar />
           <div
             className={`left-sidebar--flex-column ${this.props.sidebarActive ? 'active' : ''}`}
