@@ -14,10 +14,9 @@ import Overdubs from "./Overdubs";
 import AudioMeter from "./AudioMeter";
 import Button from "./Button";
 import NewOverdubItem from "./NewOverdubItem";
-import Score from "./Score";
-import PdfViewer from "./PdfViewer";
 import MediaRecorder from "./MediaRecorder";
 import LoadingBar from 'react-redux-loading-bar'
+import PdfDownloadLinks from './PdfDownloadLinks'
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const streamRef = React.createRef()
@@ -76,14 +75,12 @@ class Bandeoke extends React.Component {
     }
   }
 
-  handleMouseEnter = (e) => {
-		console.log("Mouse Enter")
+  handleMouseEnter = () => {
     this.props.actions.sidebarActive(true)
 
   };
 
-  handleMouseLeave = (e) => {
-		console.log("Mouse Leave")
+  handleMouseLeave = () => {
     this.props.actions.sidebarActive(false)
   };
 
@@ -209,11 +206,13 @@ class Bandeoke extends React.Component {
           <div className='score-wrapper' onTouchStart={(e) => { this.handleMouseLeave(e) }}>
             {this.renderScore()}
           </div>
+          <footer>
+            <PdfDownloadLinks scores={this.props.scores}/>
+          </footer>
       </div>
     );
   }
 }
-// <div className=''><PdfViewer scores={this.props.scores} /></div>
 
 Bandeoke.propTypes = {
   actions: PropTypes.object.isRequired,
@@ -228,6 +227,7 @@ Bandeoke.propTypes = {
   songId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   track: PropTypes.string.isRequired,
+  sidebarActive: PropTypes.bool,
 };
 
 Bandeoke.defaultProps = {

@@ -5,9 +5,7 @@ import * as newOverdubActions from "../../redux/actions/newOverdubActions";
 import * as overdubActions from "../../redux/actions/overdubActions";
 import { bindActionCreators } from "redux";
 import OverdubControls from "./OverdubControls";
-import * as overdubApi from "../../api/overdubApi";
 import AudioMeter from "./AudioMeter";
-import Button from "./Button";
 
 class NewOverdubItem extends Component {
 
@@ -73,6 +71,7 @@ NewOverdubItem.propTypes = {
   newOverdub: PropTypes.object.isRequired,
   playing: PropTypes.bool.isRequired,
   songId: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
