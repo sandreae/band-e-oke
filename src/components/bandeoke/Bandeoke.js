@@ -78,10 +78,13 @@ class Bandeoke extends React.Component {
 
   handleMouseEnter = (e) => {
 		console.log("Mouse Enter")
+    this.props.actions.sidebarActive(true)
+
   };
 
   handleMouseLeave = (e) => {
 		console.log("Mouse Leave")
+    this.props.actions.sidebarActive(false)
   };
 
   onPlayClick() {
@@ -125,9 +128,7 @@ class Bandeoke extends React.Component {
 
   renderController(disabled) {
     return (
-      <div className='controls-wrapper--flex-column'
-        onMouseEnter={(e) => { this.handleMouseEnter(e) }}
-        onMouseLeave={(e) => { this.handleMouseLeave(e) }}
+      <div className="controls-wrapper--flex-column"
       >
         <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
         <div className="controls-item"><Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} /></div>
@@ -182,7 +183,11 @@ class Bandeoke extends React.Component {
       <div className="app-wrapper" width='100%'>
         <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
         <LoadingBar />
-          <div className="left-sidebar--flex-column" width=''>
+          <div
+            className={`left-sidebar--flex-column ${this.props.sidebarActive ? 'active' : ''}`}
+            onMouseEnter={(e) => { this.handleMouseEnter(e) }}
+            onMouseLeave={(e) => { this.handleMouseLeave(e) }}
+          >
 
             {this.renderController(disabled)}
 
@@ -239,6 +244,7 @@ function mapStateToProps(state) {
     player: state.player,
     scoreOffset: state.media.scoreOffset,
     meta: state.meta,
+    sidebarActive: state.player.sidebarActive,
   };
 }
 
@@ -248,6 +254,7 @@ function mapDispatchToProps(dispatch) {
       loadOverdubsSuccess: bindActionCreators(overdubActions.loadOverdubsSuccess, dispatch),
       play: bindActionCreators(playerActions.play, dispatch),
       record: bindActionCreators(playerActions.record, dispatch),
+      sidebarActive: bindActionCreators(playerActions.sidebarActive, dispatch),
       setBackingTrackBuffer: bindActionCreators(backingTrackActions.setBackingTrackBuffer, dispatch),
       setTitle: bindActionCreators(metaActions.setTitle, dispatch),
       removeNewOverdub: bindActionCreators(newOverdubActions.removeNewOverdub, dispatch),

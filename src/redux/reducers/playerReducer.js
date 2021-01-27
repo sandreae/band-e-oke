@@ -13,6 +13,10 @@ export default function playerReducer(state = initialState.player, action) {
     return Object.assign({}, state, {
        recording: action.result
     })
+    case types.SIDEBAR_ACTIVE:
+    return Object.assign({}, state, {
+       sidebarActive: action.result
+    })
     default:
       return state;
   }

@@ -6,3 +6,6 @@ export function play(result) {
 export function record(result) {
   return { type: types.RECORD_OVERDUB, result };
 }
+export function sidebarActive(result) {
+  return { type: types.SIDEBAR_ACTIVE, result };
+}

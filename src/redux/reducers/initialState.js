@@ -21,6 +21,7 @@ export default {
   player: {
     playing: false,
     recording: false,
+    sidebarActive: false,
   },
   meta:{
     title: ''

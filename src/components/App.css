@@ -54,7 +54,7 @@ div[class*="flex-row"] {
   /* background-color: gray; */
 }
 
-.left-sidebar--flex-column:hover {
+.left-sidebar--flex-column.active {
   position: fixed;
   left: 20px;
   top: 20px;
