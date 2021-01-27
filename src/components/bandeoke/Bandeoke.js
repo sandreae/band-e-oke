@@ -128,8 +128,7 @@ class Bandeoke extends React.Component {
 
   renderController(disabled) {
     return (
-      <div className="controls-wrapper--flex-column"
-      >
+      <div className="controls-wrapper--flex-column">
         <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
         <div className="controls-item"><Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} /></div>
         <div className="controls-item"><Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} /></div>
@@ -181,12 +180,12 @@ class Bandeoke extends React.Component {
     if (loading) return "loading"
     return (
       <div className="app-wrapper" width='100%'>
-        <div id='score-loading-overlay' style={{display: loading ? 'block' : 'none'}}></div>
         <LoadingBar />
           <div
             className={`left-sidebar--flex-column ${this.props.sidebarActive ? 'active' : ''}`}
             onMouseEnter={(e) => { this.handleMouseEnter(e) }}
             onMouseLeave={(e) => { this.handleMouseLeave(e) }}
+            onTouchStart={(e) => { this.handleMouseEnter(e) }}
           >
 
             {this.renderController(disabled)}
@@ -207,7 +206,7 @@ class Bandeoke extends React.Component {
               {this.renderScoreButtons()}
             </div>
           </div>
-          <div className='score-wrapper'>
+          <div className='score-wrapper' onTouchStart={(e) => { this.handleMouseLeave(e) }}>
             {this.renderScore()}
           </div>
       </div>
