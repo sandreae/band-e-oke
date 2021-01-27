@@ -46,7 +46,7 @@ div[class*="flex-row"] {
 .left-sidebar--flex-column {
   transition: linear all 1s;
   position: fixed;
-  left: -8rem;
+  left: -10.5rem;
   top: 20px;
   width: var(--sideBarWidth);
   height: 90vh;
@@ -92,12 +92,12 @@ div[class*="flex-row"] {
 }
 
 .controls-wrapper--flex-column > .audio-meter:first-child {
-  width: 10%;
+  width: 1.5rem;
 }
 
 .controls-wrapper--flex-column > .audio-meter:last-child {
   flex: 0 0 auto;
-  width: 30%;
+  width: 1.5rem;
   align-self: flex-end;
 }
 
