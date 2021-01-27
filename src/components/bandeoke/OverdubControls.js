@@ -65,7 +65,7 @@ class OverdubControls extends Component {
   render() {
 		const disabled = this.props.disabled ? 'disabled' : ''
     return (
-			<div className='overdub-controls-wrapper--flex-row'>
+			<div className={`overdub-controls-wrapper--flex-row button`}>
 				<div className={ `overdub-controls-item ${disabled}` } id={`gain${this.state.id}`}></div>
 				<div className={ `overdub-controls-item ${disabled}` } id={`nudge${this.state.id}`}></div>
 				<div className={ `overdub-controls-item ${disabled}` }></div>

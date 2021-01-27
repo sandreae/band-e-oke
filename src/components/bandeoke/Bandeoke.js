@@ -37,7 +37,8 @@ class Bandeoke extends React.Component {
     this.onStopClick = this.onStopClick.bind(this);
     this.onRecordClick = this.onRecordClick.bind(this);
     this.onSaveClick = this.onSaveClick.bind(this);
-    // this.onChangeStreamClick = this.onChangeStreamClick.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+		this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.keyboardFunction = this.keyboardFunction.bind(this);
     this.onLoadScoreClick = this.onLoadScoreClick.bind(this);
   }
@@ -74,6 +75,14 @@ class Bandeoke extends React.Component {
       this.props.player.playing ? this.onStopClick() : this.onPlayClick()
     }
   }
+
+  handleMouseEnter = (e) => {
+		console.log("Mouse Enter")
+  };
+
+  handleMouseLeave = (e) => {
+		console.log("Mouse Leave")
+  };
 
   onPlayClick() {
     this.props.actions.play(true)
@@ -116,7 +125,10 @@ class Bandeoke extends React.Component {
 
   renderController(disabled) {
     return (
-      <div className='controls-wrapper--flex-column'>
+      <div className='controls-wrapper--flex-column'
+        onMouseEnter={(e) => { this.handleMouseEnter(e) }}
+        onMouseLeave={(e) => { this.handleMouseLeave(e) }}
+      >
         <AudioMeter overdub={this.props.backingTrack} playing={this.props.player.playing} audioContext={audioContext}/>
         <div className="controls-item"><Button disabled={disabled} name={'PLAY'} onClick={this.onPlayClick} /></div>
         <div className="controls-item"><Button disabled={!disabled} name={'STOP'} onClick={this.onStopClick} /></div>
