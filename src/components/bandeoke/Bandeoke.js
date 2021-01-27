@@ -155,8 +155,10 @@ class Bandeoke extends React.Component {
     if (this.state.pdf){
       return (
         <Document file={this.state.pdf}>
-          <Page pageNumber={1} width={window.innerWidth}/>
-          <Page pageNumber={2} width={window.innerWidth}/>
+          <Page  error="" pageNumber={1} width={window.innerWidth}/>
+          <Page  error="" pageNumber={2} width={window.innerWidth}/>
+          <Page  error="" pageNumber={3} width={window.innerWidth}/>
+          <Page  error="" pageNumber={4} width={window.innerWidth}/>
         </Document>
       )
     }
