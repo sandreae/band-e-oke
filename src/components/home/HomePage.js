@@ -44,7 +44,6 @@ class HomePage extends Component {
     }
     return (
       <div className="home-page--flex-column">
-        <div className="how-to-link-wrapper"><Link to="/how-to">How to...</Link></div>
         <div><h1>Band-e-oke</h1></div>
         {this.renderSongs()}
         {this.renderLogin()}
