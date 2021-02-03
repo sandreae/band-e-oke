@@ -1,6 +1,6 @@
 // Overdub template page using a class
 import React from "react";
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
+import { PDFObject } from 'react-pdfobject'
 import { connect } from "react-redux";
 import * as overdubApi from "../../api/overdubApi";
 import { PropTypes } from "prop-types";
@@ -158,16 +158,8 @@ class Bandeoke extends React.Component {
 
   renderScore(){
     if (this.state.pdf){
-      return (
-        <Document file={this.state.pdf}>
-          <Page  error="" pageNumber={1} width={window.innerWidth}/>
-          <Page  error="" pageNumber={2} width={window.innerWidth}/>
-          <Page  error="" pageNumber={3} width={window.innerWidth}/>
-          <Page  error="" pageNumber={4} width={window.innerWidth}/>
-          <Page  error="" pageNumber={5} width={window.innerWidth}/>
-          <Page  error="" pageNumber={6} width={window.innerWidth}/>
-        </Document>
-      )
+      console.log(this.state.pdf)
+      return <PDFObject height="100rem" url={this.state.pdf} />
     }
   }
 
@@ -216,7 +208,7 @@ class Bandeoke extends React.Component {
             {this.renderScore()}
           </div>
           <footer>
-            <PdfDownloadLinks scores={this.props.scores}/>
+            <PdfDownloadLinks height="100%" scores={this.props.scores}/>
           </footer>
       </div>
     );

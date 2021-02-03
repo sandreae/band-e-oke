@@ -27,6 +27,7 @@ body {
 
 /* ## LAYOUT ## */
 
+
 /* HOMEPAGE */
 
 .home-page--flex-column {
@@ -82,7 +83,7 @@ div[class*="flex-row"] {
   transition: linear all 1s;
   position: fixed;
   left: calc(0rem - var(--sideBarWidth) +  var(--meterWidth));
-  top: 20px;
+  top: 4rem;
   width: var(--sideBarWidth);
   height: 90vh;
   z-index: 3;
@@ -93,7 +94,6 @@ div[class*="flex-row"] {
 .left-sidebar--flex-column.active {
   position: fixed;
   left: 20px;
-  top: 20px;
 }
 
 .title {

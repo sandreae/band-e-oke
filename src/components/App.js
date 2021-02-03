@@ -38,7 +38,6 @@ import godsPlanEbPdf from '../../public/scores/gods-plan/gods-plan-Eb.pdf'
 import godsPlanBbPdf from '../../public/scores/gods-plan/gods-plan-Bb.pdf'
 import godsPlanCPdf from '../../public/scores/gods-plan/gods-plan-C.pdf'
 import odeToJoyTrack from '../../public/scores/ode-to-joy/ode-to-joy.mp3'
-import odeToJoyC from '../../public/scores/ode-to-joy/ode-to-joy-C.musicxml'
 import odeToJoyEbPdf from '../../public/scores/ode-to-joy/ode-to-joy-Eb.pdf'
 import odeToJoyBbPdf from '../../public/scores/ode-to-joy/ode-to-joy-Bb.pdf'
 import odeToJoyCPdf from '../../public/scores/ode-to-joy/ode-to-joy-C.pdf'
@@ -262,10 +261,10 @@ let scores = [{title: "Meme Themes 1", scores: memeThemes1Scores, track: memeThe
               {title: "There Will Never Be Another You", scores: thereWillNeverScores, track: null, songId:"there-will-never-be-another-you", path:"/there-will-never-be-another-you"},
               {title: "I Wish I Knew How It Would Feel To Be Free ", scores: iWishIKnewScores, track: null, songId:"i-wish-i-knew", path:"/i-wish-i-knew"},
               {title: "Bags And Trane ", scores: bagsAndTraneScores, track: null, songId:"bags-and-trane", path:"/bags-and-trane"},
-              {title: "Off The Wall ", scores: offTheWallScores, track: null, songId:"off-the-wall", path:"off-the-wall"},
-              {title: "Nine To Five ", scores: nineToFiveScores, track: nineToFiveTrack, songId:"nine-to-five", path:"nine-to-five"},
-              {title: "Legal Illegal ", scores: legalIllegalScores, track: legalIllegalTrack, songId:"legal-illegal", path:"legal-illegal"},
-              {title: "Song For Che ", scores: songForCheScores, track: songForCheTrack, songId:"song-for-che", path:"song-for-che"},
+              {title: "Off The Wall ", scores: offTheWallScores, track: null, songId:"off-the-wall", path:"/off-the-wall"},
+              {title: "Nine To Five ", scores: nineToFiveScores, track: nineToFiveTrack, songId:"nine-to-five", path:"/nine-to-five"},
+              {title: "Legal Illegal ", scores: legalIllegalScores, track: legalIllegalTrack, songId:"legal-illegal", path:"/legal-illegal"},
+              {title: "Song For Che ", scores: songForCheScores, track: songForCheTrack, songId:"song-for-che", path:"/song-for-che"},
             ]
 
 class App extends Component {

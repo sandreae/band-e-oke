@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as userApi from "../../api/userApi";
-import { PropTypes } from "prop-types";
 
 class Signup extends Component {
   state = {

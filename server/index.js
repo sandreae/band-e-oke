@@ -14,6 +14,7 @@ require('dotenv').config()
 const isProduction = process.env.NODE_ENV === 'production'
 const app = express()
 
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(cors())
@@ -43,6 +44,7 @@ app.delete('/users/delete', Auth.verifyToken, Users.delete);
 app.get('/users/get', Auth.verifyToken, Users.get);
 
 if (isProduction) {
+  console.log("is production")
   app.use(express.static(path.join(__dirname, '../build')))
   app.get('/*', function (req, res) {
    res.sendFile(path.join(__dirname, '../build', 'index.html'));

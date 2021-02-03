@@ -4,7 +4,6 @@ import Login from "../users/Login";
 import {connect} from 'react-redux';
 import { PropTypes } from "prop-types";
 import {logoutUser, loginUser} from '../../redux/actions/userActions';
-import * as userApi from "../../api/userApi";
 import Button from "../bandeoke/Button"
 
 class HomePage extends Component {
