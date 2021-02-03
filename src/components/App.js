@@ -82,6 +82,13 @@ import memeThemes1ScorePdf from '../../public/scores/meme-themes-1/meme-themes-1
 import thereWillNeverEbPdf from '../../public/scores/there-will-never/there-will-never-be-another-you-Eb.pdf'
 import thereWillNeverBbPdf from '../../public/scores/there-will-never/there-will-never-be-another-you-Bb.pdf'
 import thereWillNeverCPdf from '../../public/scores/there-will-never/there-will-never-be-another-you-C.pdf'
+import iWishIKnewScorePdf from '../../public/scores/i-wish-i-knew/i-wish-i-knew-score.pdf'
+import bagsAndTraneEbPdf from '../../public/scores/bags-and-trane/bags-and-trane-Eb.pdf'
+import bagsAndTraneCPdf from '../../public/scores/bags-and-trane/bags-and-trane-C.pdf'
+import offTheWallEbPdf from '../../public/scores/off-the-wall/off-the-wall-Eb.pdf'
+import offTheWallCPdf from '../../public/scores/off-the-wall/off-the-wall-C.pdf'
+import offTheWallBbPdf from '../../public/scores/off-the-wall/off-the-wall-Bb.pdf'
+import offTheWallMixedPdf from '../../public/scores/off-the-wall/off-the-wall-mixed.pdf'
 
 const legalIllegalScores = [{
     score: legalIllegalEb,
@@ -232,6 +239,40 @@ const thereWillNeverScores = [{
     name: 'C'
 }]
 
+const iWishIKnewScores = [{
+    score: null,
+    pdf: iWishIKnewScorePdf,
+    name: 'Score'
+  }]
+
+const bagsAndTraneScores = [{
+    score: null,
+    pdf: bagsAndTraneCPdf,
+    name: 'C'
+  },{
+    score: null,
+    pdf: bagsAndTraneEbPdf,
+    name: 'Eb'
+  }]
+
+  const offTheWallScores = [{
+    score: null,
+    pdf: offTheWallEbPdf,
+    name: 'Eb'
+  }, {
+    score: null,
+    pdf: offTheWallBbPdf,
+    name: 'Bb'
+  }, {
+    score: null,
+    pdf: offTheWallCPdf,
+    name: 'C'
+  },{
+  score: null,
+  pdf: offTheWallMixedPdf,
+  name: 'mixed'
+}]
+
 const Simple = cssTransition({
   enter: 'enter',
   exit: 'exit',
@@ -248,6 +289,9 @@ let scores = [{title: "Meme Themes 1", scores: memeThemes1Scores, track: memeThe
               {title: "Ode To Joy", scores: odeToJoyScores, track: odeToJoyTrack, songId:"ode-to-joy", path:"/ode-to-joy"},
               {title: "Possession", scores: possessionScores, track: possessionTrack, songId:"possession", path:"/possession"},
               {title: "There Will Never Be Another You", scores: thereWillNeverScores, track: null, songId:"there-will-never-be-another-you", path:"/there-will-never-be-another-you"},
+              {title: "I Wish I Knew How It Would Feel To Be Free ", scores: iWishIKnewScores, track: null, songId:"i-wish-i-knew", path:"/i-wish-i-knew"},
+              {title: "Bags And Trane ", scores: bagsAndTraneScores, track: null, songId:"bags-and-trane", path:"/bags-and-trane"},
+              {title: "Off The Wall ", scores: offTheWallScores, track: null, songId:"off-the-wall", path:"off-the-wall"},
             ]
 
 class App extends Component {
