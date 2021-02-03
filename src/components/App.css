@@ -3,7 +3,7 @@ html {
   font-family: "Courier New", Courier, monospace;
   --sideBarWidth: 12rem;
   --sidbarItemHeight: 6rem;
-  --meterWidth: 40px;
+  --meterWidth: 1rem;
 }
 
 @media only screen and (max-width: 600px) {
@@ -82,13 +82,12 @@ div[class*="flex-row"] {
   overflow-x: hidden;
   transition: linear all 1s;
   position: fixed;
-  left: calc(0rem - var(--sideBarWidth) +  var(--meterWidth));
+  left: calc(0rem - var(--sideBarWidth) +  var(--meterWidth) * 2);
   top: 4rem;
   width: var(--sideBarWidth);
   height: 90vh;
   z-index: 3;
   /* just for dev */
-  /* background-color: gray; */
 }
 
 .left-sidebar--flex-column.active {
@@ -106,6 +105,7 @@ div[class*="flex-row"] {
 }
 
 .controls-wrapper--flex-column {
+  padding: 1rem;
   z-index: -1;
   flex: 0 0 var(--sidbarItemHeight);
   flex-wrap: wrap;
