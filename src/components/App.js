@@ -263,7 +263,7 @@ let scores = [{title: "Meme Themes 1", scores: memeThemes1Scores, track: memeThe
               {title: "I Wish I Knew How It Would Feel To Be Free ", scores: iWishIKnewScores, track: null, songId:"i-wish-i-knew", path:"/i-wish-i-knew"},
               {title: "Bags And Trane ", scores: bagsAndTraneScores, track: null, songId:"bags-and-trane", path:"/bags-and-trane"},
               {title: "Off The Wall ", scores: offTheWallScores, track: null, songId:"off-the-wall", path:"off-the-wall"},
-              {title: "Nine To Five ", scores: nineToFiveScores, track: nineToFiveTrack, songId:"off-the-wall", path:"off-the-wall"},
+              {title: "Nine To Five ", scores: nineToFiveScores, track: nineToFiveTrack, songId:"nine-to-five", path:"nine-to-five"},
               {title: "Legal Illegal ", scores: legalIllegalScores, track: legalIllegalTrack, songId:"legal-illegal", path:"legal-illegal"},
               {title: "Song For Che ", scores: songForCheScores, track: songForCheTrack, songId:"song-for-che", path:"song-for-che"},
             ]
