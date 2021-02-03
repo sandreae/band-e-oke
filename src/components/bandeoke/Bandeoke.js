@@ -163,6 +163,8 @@ class Bandeoke extends React.Component {
           <Page  error="" pageNumber={2} width={window.innerWidth}/>
           <Page  error="" pageNumber={3} width={window.innerWidth}/>
           <Page  error="" pageNumber={4} width={window.innerWidth}/>
+          <Page  error="" pageNumber={5} width={window.innerWidth}/>
+          <Page  error="" pageNumber={6} width={window.innerWidth}/>
         </Document>
       )
     }
