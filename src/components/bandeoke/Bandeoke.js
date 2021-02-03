@@ -55,6 +55,7 @@ class Bandeoke extends React.Component {
           this.setState(()=> ({backingTrackProcessed: true}))
         })
     } else {
+      actions.setBackingTrackBuffer(null)
       this.setState(()=> ({backingTrackProcessed: true}))
     }
     overdubApi.loadOverdubs(audioContext, this.props.songId)
