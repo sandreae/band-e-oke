@@ -1,6 +1,5 @@
 // File holds all of the item action creators
 import * as types from "./actionTypes";
-import { toast } from "react-toastify";
 
 export function offsetScore(scoreOffset) {
   return { type: types.OFFSET_SCORE, scoreOffset };

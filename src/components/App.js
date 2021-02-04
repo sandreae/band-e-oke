@@ -10,12 +10,12 @@ import HomePage from "./home/HomePage";
 import HowToPage from "./howto/HowToPage";
 import Signup from "./users/Signup";
 import Login from "./users/Login";
-import { ToastContainer, cssTransition } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 const baseUrl = process.env.BASE_URL
 const scoresBaseUrl = baseUrl + 'downloads/scores/'
+
+// files must be labelled correctly and placed in named folders public/scores/score-name/score-name-C.pdf
 
 const generate_score_paths = (name, parts) => {
   const scoreObject = parts.map((part) => {
