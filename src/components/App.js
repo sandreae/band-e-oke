@@ -37,11 +37,6 @@ const generateScoreProps = (title, filename, parts) => {
   }
 }
 
-const Simple = cssTransition({
-  enter: 'enter',
-  exit: 'exit',
-});
-
 let scores = [
               generateScoreProps('Meme Themes 1', 'meme-themes-1', ['score']),
               generateScoreProps('I Need You', 'i-need-you', ['Eb', 'Bb', 'C']),
@@ -98,7 +93,6 @@ class App extends Component {
           <Route path="/" render={()=><HomePage songs={scores}/>} />
           <Route component={PageNotFound} />
         </Switch>
-        <ToastContainer transition={Simple} hideProgressBar />
       </div>
     );
   }

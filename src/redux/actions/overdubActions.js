@@ -31,7 +31,6 @@ export function saveOverdubs(overdubs) {
       overdubApi
       .saveOverdub(overdub)
       .then(savedOverdub => {
-        toast.success("Overdub saved.");
         overdub.id
           ? null
           : dispatch(createOverdubSuccess(savedOverdub));
