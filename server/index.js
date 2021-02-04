@@ -14,7 +14,6 @@ require('dotenv').config()
 const isProduction = process.env.NODE_ENV === 'production'
 const app = express()
 
-// app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(cors())
@@ -32,6 +31,7 @@ if(!isProduction) {
 
 app.use('/sign_s3', sign_s3.sign_s3)
 
+app.use('/downloads', express.static(path.join(__dirname, '../public')));
 app.post('/overdubs', Auth.verifyToken, Overdubs.create);
 app.get('/overdubs', Auth.verifyToken, Overdubs.getAll);
 app.get('/overdubs/:id', Auth.verifyToken, Overdubs.getOne);
@@ -47,7 +47,7 @@ if (isProduction) {
   console.log("is production")
   app.use(express.static(path.join(__dirname, '../build')))
   app.get('/*', function (req, res) {
-   res.sendFile(path.join(__dirname, '../build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
  });
 }
 
