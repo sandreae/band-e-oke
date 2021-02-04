@@ -158,8 +158,8 @@ class Bandeoke extends React.Component {
 
   renderScore(){
     if (this.state.pdf){
-      console.log(this.state.pdf)
-      return <PDFObject height="100rem" url={this.state.pdf} />
+      var fallbackLink = "<div id='fallback-message'>Sorry, your device doesn't support embedded pdf files, please <a href='[url]' target='_blank'>download</a> the score and read locally or try another device</div>"
+      return <PDFObject height="100rem" url={this.state.pdf} fallbackLink={fallbackLink}/>
     }
   }
 

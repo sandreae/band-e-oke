@@ -7,7 +7,7 @@ class PdfViewer extends Component {
       const scoreButtons = this.props.scores.map((score, i) => {
         return (
           <div key={i}>
-            <a href={score.pdf} rel="noopener noreferrer" download >
+            <a href={score.pdf} target="_blank" rel="noopener noreferrer" download >
               {score.name}
             </a>
           </div>

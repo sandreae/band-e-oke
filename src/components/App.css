@@ -206,6 +206,11 @@ div[class*="flex-row"] {
   width: 100vw;
   z-index: -1;
 }
+
+#fallback-message {
+  padding: 3px;
+}
+
 /* ## ELEMENTS ## */
 
 .button {
