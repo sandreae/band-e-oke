@@ -59,6 +59,7 @@ let scores = [
               generateScoreProps('Song For Che', 'song-for-che', ['Eb', 'Bb', 'C']),
               generateScoreProps('Legal Illegal', 'legal-illegal', ['Eb', 'Bb', 'C']),
               generateScoreProps('Nine To Five', 'nine-to-five', ['Eb', 'Bb', 'C']),
+              generateScoreProps('St Thomas', 'st-thomas', ['Bb'], false),
             ]
 
 class App extends Component {
