@@ -27,11 +27,15 @@ const generate_score_paths = (name, parts) => {
   return Array.from(scoreObject)
 }
 
-const generateScoreProps = (title, filename, parts) => {
+const generateScoreProps = (title, filename, parts, isTrack) => {
+  let track = null
+  if (isTrack){
+    track = `${scoresBaseUrl}${filename}/${filename}.mp3`
+  }
   return {
     title: title,
     scores: generate_score_paths(filename, parts),
-    track: `${scoresBaseUrl}${filename}/${filename}.mp3`,
+    track: track,
     songId: filename,
     path: "/" + filename
   }
@@ -48,9 +52,9 @@ let scores = [
               generateScoreProps("God's Plan", 'gods-plan', ['Eb', 'Bb', 'C']),
               generateScoreProps('Ode To Joy', 'ode-to-joy', ['Eb', 'Bb', 'C']),
               generateScoreProps('Possession', 'possession', ['C']),
-              generateScoreProps('There Will Never Be Another You', 'there-will-never-be-another-you', ['Eb', 'Bb', 'C']),
+              generateScoreProps('There Will Never Be Another You', 'there-will-never-be-another-you', ['Eb', 'Bb', 'C'], false),
               generateScoreProps('I Wish I Knew How It Would Feel To Be Free', 'i-wish-i-knew', ['score']),
-              generateScoreProps('Bags And Trane', 'bags-and-trane', ['Eb', 'Bb', 'C']),
+              generateScoreProps('Bags And Trane', 'bags-and-trane', ['Eb', 'Bb', 'C'], false),
               generateScoreProps('Off The Wall', 'off-the-wall', ['Eb', 'Bb', 'C', 'mixed']),
               generateScoreProps('Song For Che', 'song-for-che', ['Eb', 'Bb', 'C']),
               generateScoreProps('Legal Illegal', 'legal-illegal', ['Eb', 'Bb', 'C']),
