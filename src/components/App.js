@@ -27,7 +27,7 @@ const generate_score_paths = (name, parts) => {
   return Array.from(scoreObject)
 }
 
-const generateScoreProps = (title, filename, parts, isTrack) => {
+const generateScoreProps = (title, filename, parts, isTrack=true) => {
   let track = null
   if (isTrack){
     track = `${scoresBaseUrl}${filename}/${filename}.mp3`
