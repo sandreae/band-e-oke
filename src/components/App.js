@@ -56,7 +56,7 @@ let scores = [
               generateScoreProps('I Wish I Knew How It Would Feel To Be Free', 'i-wish-i-knew', ['score'], false),
               generateScoreProps('Bags And Trane', 'bags-and-trane', ['Eb', 'Bb', 'C'], false),
               generateScoreProps('Off The Wall', 'off-the-wall', ['Eb', 'Bb', 'C', 'mixed'], false),
-              generateScoreProps('Song For Che', 'song-for-che', ['Eb', 'Bb', 'C'], false),
+              generateScoreProps('Song For Che', 'song-for-che', ['Eb', 'Bb', 'C']),
               generateScoreProps('Legal Illegal', 'legal-illegal', ['Eb', 'Bb', 'C'], false),
               generateScoreProps('Nine To Five', 'nine-to-five', ['Eb', 'Bb', 'C']),
               generateScoreProps('St Thomas', 'st-thomas', ['Bb'], false),
