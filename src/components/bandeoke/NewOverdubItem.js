@@ -40,7 +40,7 @@ class NewOverdubItem extends Component {
     if (this.props.newOverdub.buffer) {
       return (
         <div className='new-overdub-wrapper--flex-column'>
-          <div className='overdub-item-wrapper--flex-column'>
+          <div className='overdub-item-wrapper--flex-column new-overdub'>
             <AudioMeter
               overdub={this.props.newOverdub}
               playing={this.props.playing}

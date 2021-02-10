@@ -98,9 +98,13 @@ div[class*="flex-row"] {
   flex: 0 1 calc(var(--sidbarItemHeight) / 2);
 }
 
+.new-overdub {
+  border: solid 2px red;
+}
+
 .new-overdub-wrapper--flex-column > .button {
   position: absolute;
-  z-index: 2
+  z-index: 2;
 }
 
 .controls-wrapper--flex-column {
